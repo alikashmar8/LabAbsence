@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,18 +50,29 @@ public class MainActivity extends AppCompatActivity {
 
                                     if(document.get("password").equals(password.getText().toString())){
                                         Log.d("TAG", document.getId() + " => " + document.getData());
+                                        Log.d("TAG", document.getId() + " => " + document.get("email").toString());
+
                                         firebaseAuth.signInWithEmailAndPassword(document.get("email").toString(),document.get("password").toString()).addOnCompleteListener(MainActivity.this,new OnCompleteListener<AuthResult>() {
                                             @Override
                                             public void onComplete( Task<AuthResult> task) {
                                                 if(task.isSuccessful()) {
+                                                    Log.d("TAGlogin", "task success");
+
                                                     Intent i = new Intent(MainActivity.this,StudentMain.class);
                                                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                     startActivity(i);
                                                     finish();
+                                                }else {
+                                                    Toast.makeText(getApplicationContext(),"not logged in",Toast.LENGTH_LONG).show();
+                                                    Log.d("TAGlogin", "login failed");
+
                                                 }
-                                                Toast.makeText(getApplicationContext(),"logged in",Toast.LENGTH_LONG).show();
                                             }
-                                        });
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.d("TAGlogin", e.getMessage());
+                                            }});
 
                             }
                         } }
