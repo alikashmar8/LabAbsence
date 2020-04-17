@@ -17,6 +17,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -46,37 +49,69 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                if(document.getId().equals(username.getText().toString())){
-
+                                Log.d("TAG", document.getId() + "  for   => " + document.getData());
+                                if(document.get("username").equals(username.getText().toString())){
                                     if(document.get("password").equals(password.getText().toString())){
-                                        Log.d("TAG", document.getId() + " => " + document.getData());
-                                        Log.d("TAG", document.getId() + " => " + document.get("email").toString());
-
-                                        firebaseAuth.signInWithEmailAndPassword(document.get("email").toString(),document.get("password").toString()).addOnCompleteListener(MainActivity.this,new OnCompleteListener<AuthResult>() {
+                                        Log.d("TAG", document.getId() + " ifpass  => " + document.getData());
+                                        firebaseAuth.signInWithEmailAndPassword(document.get("email").toString(),"111111").addOnCompleteListener(MainActivity.this,new OnCompleteListener<AuthResult>() {
                                             @Override
                                             public void onComplete( Task<AuthResult> task) {
-                                                if(task.isSuccessful()) {
-                                                    Log.d("TAGlogin", "task success");
+                                                if(task.isSuccessful()){
 
                                                     Intent i = new Intent(MainActivity.this,StudentMain.class);
                                                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                     startActivity(i);
                                                     finish();
-                                                }else {
-                                                    Toast.makeText(getApplicationContext(),"not logged in",Toast.LENGTH_LONG).show();
-                                                    Log.d("TAGlogin", "login failed");
-
                                                 }
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                Log.d("TAGlogin", e.getMessage());
-                                            }});
+                                                Log.d("TAGERROR",e.getMessage());
 
+                                                }
+                                            });
+                                    }
+                                }
                             }
-                        } }
 
+                        }else {
+                            Log.d("TAG", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+                db.collection("users").document("doctors")
+                        .collection("data")
+                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("TAG", document.getId() + "  for   => " + document.getData());
+                                if(document.get("username").equals(username.getText().toString())){
+                                    if(document.get("password").equals(password.getText().toString())){
+                                        Log.d("TAG", document.getId() + " ifpass  => " + document.getData());
+                                        firebaseAuth.signInWithEmailAndPassword(document.get("email").toString(),document.get("password").toString()).addOnCompleteListener(MainActivity.this,new OnCompleteListener<AuthResult>() {
+                                            @Override
+                                            public void onComplete( Task<AuthResult> task) {
+                                                if(task.isSuccessful()){
+
+                                                    Intent i = new Intent(MainActivity.this,DoctorMain.class);
+                                                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                    startActivity(i);
+                                                    finish();
+                                                }
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.d("TAGERROR",e.getMessage());
+
+                                            }
+                                        });
+                                    }
+                                }
+                            }
 
                         }else {
                             Log.d("TAG", "Error getting documents: ", task.getException());
