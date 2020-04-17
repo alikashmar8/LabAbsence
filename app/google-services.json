@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "939821673490",
+    "firebase_url": "https://lababsence-59288.firebaseio.com",
+    "project_id": "lababsence-59288",
+    "storage_bucket": "lababsence-59288.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:939821673490:android:4c5a5303cdee615fc13ccb",
+        "android_client_info": {
+          "package_name": "com.example.lababsencesystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "939821673490-k27g33769b582jjbprlle082av8pu7hr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_l6MUBZeX65yrHCuSdkfBXkY2MRqXoik"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "939821673490-k27g33769b582jjbprlle082av8pu7hr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
