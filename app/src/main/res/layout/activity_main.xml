@@ -6,28 +6,48 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:orientation="vertical"
+    android:gravity="center"
+    android:padding="20dp"
+    android:background="@drawable/main_backgroud"
     >
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        app:srcCompat="@drawable/uni_logo"
+        android:layout_marginBottom="50dp"/>
+
     <EditText
+        android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/username"
+        android:layout_margin="20dp"
         android:hint="USERNAME"
-        />
+        android:textColor="#705757"
+        android:backgroundTint="#705757"
+        android:textColorHint="#705757" />
 
     <EditText
         android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
         android:ems="10"
-        android:inputType="textPassword"
         android:hint="PASSWORD"
-
-        />
+        android:textColor="#705757"
+        android:inputType="textPassword"
+        android:textColorHint="#705757"
+        android:backgroundTint="#705757"/>
 
     <Button
         android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="login"
+        android:layout_marginHorizontal="120dp"
+        android:background="@drawable/main_button"
+        android:layout_marginTop="30dp"
+
         />
 </LinearLayout>
