@@ -10,23 +10,26 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#333333"
     >
-    <TextView
-        android:id="@+id/studetWelcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Student Main" />
+
+    <LinearLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"></LinearLayout>
 </LinearLayout>
     <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigationMenuStudent"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="#ffffff"
         app:headerLayout="@layout/menu_header"
         app:menu="@menu/menu_student"
         android:layout_gravity="start"
-        app:itemTextColor="#000000"
-        android:backgroundTint="#ffcd8f"
-        app:itemIconTint="#000000"
+        app:itemTextColor="#ffffff"
+        android:backgroundTint="#5e5e5e"
+        app:itemIconTint="#ffffff"
         />
 
 

@@ -1,10 +1,13 @@
 package com.example.lababsencesystem;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,6 +23,8 @@ public class DoctorMain extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     TextView doctorWelcome;
     Doctor doctor;
+    DrawerLayout dr;
+    ActionBarDrawerToggle mToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +35,11 @@ public class DoctorMain extends AppCompatActivity {
         final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
         doctorWelcome = findViewById(R.id.doctorWelcome);
-
+        dr = findViewById(R.id.doctorDrawer);
+        mToggle = new ActionBarDrawerToggle(this,dr,R.string.open,R.string.close);
+        dr.addDrawerListener(mToggle);
+        mToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
 
@@ -59,5 +68,10 @@ public class DoctorMain extends AppCompatActivity {
                 }
             }
         });
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(mToggle.onOptionsItemSelected(item)) return true;
+        return super.onOptionsItemSelected(item);
     }
 }
