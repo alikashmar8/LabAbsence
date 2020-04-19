@@ -3,7 +3,9 @@ package com.example.lababsencesystem;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     TextView loginError;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth firebaseAuth;
+    Button showPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
         spinner = findViewById(R.id.progressBar1);
         loginError = findViewById(R.id.loginError);
+        showPass=findViewById(R.id.showPass);
         login.setOnClickListener(new View.OnClickListener() {
             private int found = 0;
 
@@ -149,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
                                             spinner.setVisibility(View.GONE);
                                         }
                                     } else {
-                                        Log.d("TAG", "Error getting documents: ", task.getException());
+                                         Log.d("TAG", "Error getting documents: " , task.getException());
                                     }
                                 }
                             });
@@ -160,6 +164,23 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
+        showPass.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+
+                switch ( event.getAction() ) {
+                    case MotionEvent.ACTION_DOWN:
+                        password.setInputType(InputType.TYPE_CLASS_TEXT);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        break;
+                }
+                return true;
+            }
+        });
+
     }
 
 }
