@@ -1,15 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".StudentMain"
+    android:id="@+id/studentDrawer"
     android:gravity="center">
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
     <TextView
         android:id="@+id/studetWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Student Main" />
 </LinearLayout>
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        app:headerLayout="@layout/menu_header"
+        app:menu="@menu/menu_student"
+        android:layout_gravity="start"
+        app:itemTextColor="#000000"
+        android:backgroundTint="#ffcd8f"
+        app:itemIconTint="#000000"
+        />
+
+
+</androidx.drawerlayout.widget.DrawerLayout>
