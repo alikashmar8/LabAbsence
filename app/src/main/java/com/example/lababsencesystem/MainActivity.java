@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
                                             spinner.setVisibility(View.GONE);
                                         }
                                     } else {
-                                         Log.d("TAG", "Error getting documents: ", task.getException());
+                                         Log.d("TAG", "Error getting documents: " , task.getException());
                                     }
                                 }
                             });
