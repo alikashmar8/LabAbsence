@@ -29,7 +29,7 @@ public class StudentMain extends AppCompatActivity implements NavigationView.OnN
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     TextView studentWelcome;
-    Student student;
+    public static Student student;
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
     Toolbar toolbar;
@@ -122,14 +122,16 @@ public class StudentMain extends AppCompatActivity implements NavigationView.OnN
                 selectedFragment = new StudentProfileFragment();
                 break;
             case R.id.menuStudentLogout:
-                Intent intent=new Intent(StudentMain.this,MainActivity.class);
-                preference.removePreferences(StudentMain.this);
-                startActivity(intent);
-                logout=1;
+                logout =1;
+                FirebaseAuth.getInstance().signOut();
+                Intent i = new Intent(this, MainActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                finish();
                 break;
         }
         if (logout==0)
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
         return true;
     }
 }

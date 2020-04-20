@@ -1,15 +1,16 @@
 package com.example.lababsencesystem;
 
 public class User {
-    private String name,email,username,password;
+    private String name,email,username,password,type;
     private int fileNumber;
 
-    public User(String name, String email, String username, String password, int fileNumber) {
+    public User(String name, String email, String username, String password, int fileNumber,String type) {
         this.name = name;
         this.email = email;
         this.username = username;
         this.password = password;
         this.fileNumber = fileNumber;
+        this.type=type;
     }
 
     public User() {
@@ -54,6 +55,14 @@ public class User {
 
     public void setFileNumber(int fileNumber) {
         this.fileNumber = fileNumber;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override
