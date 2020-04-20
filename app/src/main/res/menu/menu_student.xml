@@ -11,5 +11,9 @@
         android:id="@+id/menuStudentProfile"
         android:icon="@drawable/ic_account_circle_black_24dp"
         />
+    <item android:title="Logout"
+        android:id="@+id/menuStudentLogout"
+        android:icon="@drawable/icons8_logout_rounded_left_50"
+        />
 
 </menu>

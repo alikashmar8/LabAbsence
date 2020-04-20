@@ -8,7 +8,10 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class Preference {
 
-    public static boolean saveAcc(String email, String pass,Context context,String type){
+    public Preference() {
+    }
+
+    public static boolean saveAcc(String email, String pass, Context context, String type){
         SharedPreferences  Prefs=PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor prefsEditor=Prefs.edit();
         prefsEditor.putString("Email",email);
@@ -29,6 +32,13 @@ public class Preference {
     public  static String getType(Context context){
         SharedPreferences preferences=PreferenceManager.getDefaultSharedPreferences(context);
         return preferences.getString("type",null);
+    }
+
+    public  static void removePreferences(Context context){
+        SharedPreferences preferences=PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor pref=preferences.edit();
+        pref.clear();
+        pref.commit();
     }
 
 }

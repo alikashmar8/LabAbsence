@@ -1,10 +1,12 @@
 package com.example.lababsencesystem;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
@@ -32,7 +34,7 @@ public class StudentMain extends AppCompatActivity implements NavigationView.OnN
     ActionBarDrawerToggle actionBarDrawerToggle;
     Toolbar toolbar;
     NavigationView navigationView;
-
+    Preference preference=new Preference();
 
 
     @Override
@@ -109,6 +111,7 @@ public class StudentMain extends AppCompatActivity implements NavigationView.OnN
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int logout =0;
         Fragment selectedFragment = null;
         drawerLayout.closeDrawer(GravityCompat.START);
         switch (menuItem.getItemId()) {
@@ -118,8 +121,15 @@ public class StudentMain extends AppCompatActivity implements NavigationView.OnN
             case R.id.menuStudentProfile:
                 selectedFragment = new StudentProfileFragment();
                 break;
+            case R.id.menuStudentLogout:
+                Intent intent=new Intent(StudentMain.this,MainActivity.class);
+                preference.removePreferences(StudentMain.this);
+                startActivity(intent);
+                logout=1;
+                break;
         }
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+        if (logout==0)
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
         return true;
     }
 }
