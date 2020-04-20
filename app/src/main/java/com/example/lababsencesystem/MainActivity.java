@@ -2,6 +2,7 @@ package com.example.lababsencesystem;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -9,9 +10,11 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,7 +41,8 @@ public class MainActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth firebaseAuth;
     Button showPass;
-
+    CheckBox rememberMe;
+    Preference preference=new Preference();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,11 +54,30 @@ public class MainActivity extends AppCompatActivity {
         spinner = findViewById(R.id.progressBar1);
         loginError = findViewById(R.id.loginError);
         showPass=findViewById(R.id.showPass);
+        rememberMe=findViewById(R.id.rememberMe);
+
+        if ((preference.getEmail(MainActivity.this) !=null) && (preference.getPass(MainActivity.this)!=null)){
+            if(preference.getType(MainActivity.this).equalsIgnoreCase("student")){
+                Intent i = new Intent(MainActivity.this, StudentMain.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                finish();
+            }
+            else{
+                Intent i = new Intent(MainActivity.this, DoctorMain.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                finish();
+            }
+        }
         login.setOnClickListener(new View.OnClickListener() {
             private int found = 0;
-
+            private int checked=0;
             @Override
             public void onClick(View v) {
+
+                if(rememberMe.isChecked())
+                    checked=1;
                 loginError.setVisibility(View.GONE);
                 spinner.setVisibility(View.VISIBLE);
                 final String e = username.getText().toString();
@@ -90,6 +113,9 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void onComplete(Task<AuthResult> task) {
                                                         if (task.isSuccessful()) {
+                                                            if (checked ==1){
+                                                                preference.saveAcc(username.getText().toString(),password.getText().toString(),MainActivity.this,"student");
+                                                            }
                                                             Intent i = new Intent(MainActivity.this, StudentMain.class);
                                                             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                             startActivity(i);
@@ -133,6 +159,9 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void onComplete(Task<AuthResult> task) {
                                                         if (task.isSuccessful()) {
+                                                            if (checked ==1){
+                                                                preference.saveAcc(username.getText().toString(),password.getText().toString(),MainActivity.this,"doctor");
+                                                            }
                                                             Intent i = new Intent(MainActivity.this, DoctorMain.class);
                                                             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                             startActivity(i);
@@ -162,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             });
                         }
+
                         }
                     }
                 }
