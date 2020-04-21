@@ -3,9 +3,12 @@
     <item android:title="Home"
         android:id="@+id/menuDoctorHome"
         android:icon="@drawable/ic_home_black_24dp"/>
-    <item android:title="Labs"
+    <item android:title="My Courses"
+        android:id="@+id/menuDoctorCourses"
+        android:icon="@drawable/ic_view_headline_black_24dp"/>
+    <item android:title="My Labs"
         android:id="@+id/menuDoctorLabs"
-        android:icon="@drawable/ic_work_black_24dp"/>
+        android:icon="@drawable/ic_computer_black_24dp"/>
     <item android:title="My Profile"
         android:id="@+id/menuDoctorProfile"
         android:icon="@drawable/ic_account_circle_black_24dp"

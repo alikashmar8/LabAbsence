@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -35,6 +36,8 @@ public class StudentMain extends AppCompatActivity implements NavigationView.OnN
     Toolbar toolbar;
     NavigationView navigationView;
     Preference preference=new Preference();
+    TextView headerName,headerEmail;
+
 
 
     @Override
@@ -57,48 +60,40 @@ public class StudentMain extends AppCompatActivity implements NavigationView.OnN
 //        navigationView.setOnNavigationItemSelectedListener(navListener);
         navigationView.setNavigationItemSelectedListener(this);
 
-        db.collection("users").document("students")
-                .collection("data")
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
+        View headView = navigationView.getHeaderView(0);
+        headerName = headView.findViewById(R.id.headerName);
+        headerEmail = headView.findViewById(R.id.headerEmail);
 
-                    for (QueryDocumentSnapshot document : task.getResult()) {
+        if(student==null) {
+            db.collection("users").document("students")
+                    .collection("data")
+                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
 
-                        Log.d("TAG", document.getId() + "  for   => " + document.getData());
-                        if (document.get("email").equals(firebaseUser.getEmail())) {
-                            Log.d("TAG", "entered iff");
+                        for (QueryDocumentSnapshot document : task.getResult()) {
 
-                            student = document.toObject(Student.class);
-//                            studentWelcome.setText("Welcome  "+student.toString());
+                            Log.d("TAG", document.getId() + "  for   => " + document.getData());
+                            if (document.get("email").equals(firebaseUser.getEmail())) {
 
-                            break;
+                                student = document.toObject(Student.class);
+                                headerEmail.setText(student.getEmail());
+                                headerName.setText(student.getName());
+
+                                break;
+                            }
                         }
-                    }
 
-                } else {
-                    Log.d("TAG", "Error getting documents: ", task.getException());
+                    } else {
+                        Log.d("TAG", "Error getting documents: ", task.getException());
+                    }
                 }
-            }
-        });
-//        NavigationView.OnNavigationItemSelectedListener navListener =
-//                new NavigationView.OnNavigationItemSelectedListener() {
-//                    @Override
-//                    public boolean onNavigationItemSelected (MenuItem menuItem){
-//                        Fragment selectedFragment = null;
-//                        switch (menuItem.getItemId()) {
-//                            case R.id.menuStudentHome:
-//                                selectedFragment = new StudentHomeFragment();
-//                                break;
-//                            case R.id.menuStudentProfile:
-//                                selectedFragment = new StudentProfileFragment();
-//                                break;
-//                        }
-//                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
-//                        return true;
-//                    }
-//                };
+            });
+        }else{
+            headerEmail.setText(student.getEmail());
+            headerName.setText(student.getName());
+        }
 
 
     }
@@ -118,12 +113,22 @@ public class StudentMain extends AppCompatActivity implements NavigationView.OnN
             case R.id.menuStudentHome:
                 selectedFragment = new StudentHomeFragment();
                 break;
+            case R.id.menuStudentCourses:
+                selectedFragment = new StudentCoursesFragment();
+                break;
+            case R.id.menuStudentLabs:
+                selectedFragment = new StudentLabsFragment();
+                break;
+            case R.id.menuStudentTakeAttendance:
+                selectedFragment = new StudentAttendanceFragment();
+                break;
             case R.id.menuStudentProfile:
                 selectedFragment = new StudentProfileFragment();
                 break;
             case R.id.menuStudentLogout:
                 logout =1;
                 FirebaseAuth.getInstance().signOut();
+                student=null;
                 Intent i = new Intent(this, MainActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);

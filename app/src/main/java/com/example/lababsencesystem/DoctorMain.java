@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
@@ -31,6 +32,8 @@ public class DoctorMain extends AppCompatActivity implements NavigationView.OnNa
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
     NavigationView navigationView;
+    TextView headerName,headerEmail;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,9 @@ public class DoctorMain extends AppCompatActivity implements NavigationView.OnNa
         final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
 //        doctorWelcome = findViewById(R.id.doctorWelcome);
+
+//        headerEmail.setText("ashdbj");
+
         drawerLayout = findViewById(R.id.doctorDrawer);
         navigationView = findViewById(R.id.navigationMenuDoctor);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
@@ -50,6 +56,12 @@ public class DoctorMain extends AppCompatActivity implements NavigationView.OnNa
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportFragmentManager().beginTransaction().add(R.id.doctor_fragment_container, new DoctorHomeFragment()).commit();
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headView = navigationView.getHeaderView(0);
+        headerName = headView.findViewById(R.id.headerName);
+        headerEmail = headView.findViewById(R.id.headerEmail);
+
+
 
 
         if (doctor == null) {
@@ -67,8 +79,9 @@ public class DoctorMain extends AppCompatActivity implements NavigationView.OnNa
                                 Log.d("TAG", "entered iff");
 
                                 doctor = document.toObject(Doctor.class);
-//                            doctorWelcome.setText("Welcome  "+doctor.toString());
 
+                                headerEmail.setText(doctor.getEmail());
+                                headerName.setText(doctor.getName());
                                 break;
                             }
                         }
@@ -78,6 +91,11 @@ public class DoctorMain extends AppCompatActivity implements NavigationView.OnNa
                     }
                 }
             });
+        }else{
+            Log.d("TAG", "doctor else "+ doctor);
+            headerEmail.setText(doctor.getEmail());
+            headerName.setText(doctor.getName());
+
         }
     }
     @Override
@@ -94,12 +112,19 @@ public class DoctorMain extends AppCompatActivity implements NavigationView.OnNa
             case R.id.menuDoctorHome:
                 selectedFragment = new DoctorHomeFragment();
                 break;
+            case R.id.menuDoctorCourses:
+                selectedFragment = new DoctorCoursesFragment();
+                break;
+            case R.id.menuDoctorLabs:
+                selectedFragment = new DoctorLabsFragment();
+                break;
             case R.id.menuDoctorProfile:
                 selectedFragment = new StudentProfileFragment();
                 break;
             case R.id.menuDoctorLogout:
                 logout =1;
                 FirebaseAuth.getInstance().signOut();
+                doctor=null;
                 Intent i = new Intent(this, MainActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
