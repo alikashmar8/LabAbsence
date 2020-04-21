@@ -54,7 +54,6 @@ public class DoctorMain extends AppCompatActivity implements NavigationView.OnNa
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
         actionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportFragmentManager().beginTransaction().add(R.id.doctor_fragment_container, new DoctorHomeFragment()).commit();
         navigationView.setNavigationItemSelectedListener(this);
 
         View headView = navigationView.getHeaderView(0);
@@ -97,6 +96,8 @@ public class DoctorMain extends AppCompatActivity implements NavigationView.OnNa
             headerName.setText(doctor.getName());
 
         }
+        getSupportFragmentManager().beginTransaction().add(R.id.doctor_fragment_container, new DoctorHomeFragment()).commit();
+
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

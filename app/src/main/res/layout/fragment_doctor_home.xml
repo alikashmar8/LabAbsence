@@ -1,14 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/grdnt"
+    android:layout_gravity="center"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="20dp"
     tools:context=".DoctorHomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello Dr. "
+        android:id="@+id/helloDr"
+        android:textSize="30dp"
+        android:textStyle="bold|italic"
+        android:textColor="@color/colorAccent"
+        android:layout_margin="50dp"/>
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="3dp"
+        android:background="@color/colorAccent"
+        android:layout_marginHorizontal="20dp"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Today Events: "
+        android:textSize="20dp"
+        android:textColor="@color/colorAccent"
+        android:layout_margin="15dp"
+        android:textStyle="bold"
+        />
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Doctor home fragg" />
+        android:id="@+id/doctorTodayEventsRecycler"
+        />
 
-</FrameLayout>
+
+</LinearLayout>
