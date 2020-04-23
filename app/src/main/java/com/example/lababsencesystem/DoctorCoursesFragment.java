@@ -34,8 +34,7 @@ public class DoctorCoursesFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_doctor_courses, container, false);
         final TextView courseDr = view.findViewById(R.id.courseDr);
@@ -53,7 +52,7 @@ public class DoctorCoursesFragment extends Fragment {
                     for (QueryDocumentSnapshot document : task.getResult()){
                         Course course =document.toObject(Course.class);
                         courses.add(course);
-//                        courseDr.setText(course.toString());
+                     //  courseDr.setText(course.toString());
                     }
                     RecyclerView.Adapter a = new DoctorCourseAdapter(courses);
                     rv.setAdapter(a);

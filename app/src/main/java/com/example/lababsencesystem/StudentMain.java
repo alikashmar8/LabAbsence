@@ -120,7 +120,8 @@ public class StudentMain extends AppCompatActivity implements NavigationView.OnN
                 selectedFragment = new StudentLabsFragment();
                 break;
             case R.id.menuStudentTakeAttendance:
-                selectedFragment = new StudentAttendanceFragment();
+               Intent iii=new Intent(this,StudentAttendance.class);
+               startActivity(iii);
                 break;
             case R.id.menuStudentProfile:
                 selectedFragment = new StudentProfileFragment();

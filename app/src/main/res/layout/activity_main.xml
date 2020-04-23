@@ -126,14 +126,15 @@
             android:layout_marginHorizontal="70dp"
             android:textColor="#FFFFFF"
             android:textStyle="bold|italic" />
+
     <TextView
         android:id="@+id/loginError"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:gravity="center"
         android:textColor="#ff0000"
-        android:textSize="16sp"
-        android:layout_margin="10dp"/>
+        android:textSize="16sp" />
 
 
 
