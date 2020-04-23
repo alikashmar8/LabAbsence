@@ -47,8 +47,8 @@ public class StudentMain extends AppCompatActivity implements NavigationView.OnN
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-//        studentWelcome = findViewById(R.id.studetWelcome);
-//        toolbar = findViewById(R.id.toolbar);
+//       studentWelcome = findViewById(R.id.studetWelcome);
+//       toolbar = findViewById(R.id.toolbar);
         drawerLayout = findViewById(R.id.studentDrawer);
         navigationView = findViewById(R.id.navigationMenuStudent);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout,R.string.open,R.string.close);
