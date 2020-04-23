@@ -3,23 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".DoctorLabsFragment"
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:background="@drawable/grdnt">
 
-    <TextView
-        android:id="@+id/tt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Your Fragments"
-        android:textColor="@color/colorAccent"
-        android:textSize="30dp" />
 
-    <Button
-        android:id="@+id/chooseFile"
+    <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        app:tabGravity="fill"
+        app:tabMode="fixed"
+        android:id="@+id/tabLayout"
+        app:tabTextColor="@color/colorAccent"
+        ></com.google.android.material.tabs.TabLayout>
+        <androidx.viewpager.widget.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/viewPagerId"
+            ></androidx.viewpager.widget.ViewPager>
+
 
 </LinearLayout>
