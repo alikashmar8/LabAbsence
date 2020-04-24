@@ -14,10 +14,12 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,7 +55,7 @@ public class TodayLabsFragment extends Fragment {
         String todayDate = sdf.format(new Date());
 //        helloDr.setText(todayDate);
 
-        db.collection("labs").whereEqualTo("date",todayDate).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("labs").whereEqualTo("date", todayDate).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){

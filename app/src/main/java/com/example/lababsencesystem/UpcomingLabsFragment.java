@@ -14,10 +14,12 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,18 +50,36 @@ public class UpcomingLabsFragment extends Fragment {
         RecyclerView.LayoutManager lm = new LinearLayoutManager(getContext());
         rv.setLayoutManager(lm);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String todayDate = sdf.format(new Date());
 //        helloDr.setText(todayDate);
 
-        db.collection("labs").whereGreaterThan("date",todayDate).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+        Date today = null;
+        try {
+            today = sdf.parse(todayDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        final Date finalToday = today;
+        db.collection("labs").whereEqualTo("doctor", doctor.getFileNumber()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
                     labs.clear();
                     for (DocumentSnapshot document : task.getResult()) {
                         Lab lab = document.toObject(Lab.class);
-                        if (doctor.getFileNumber() == lab.getDoctor()) labs.add(lab);
+                        Date labDate = null;
+                        try {
+                            labDate = sdf.parse(lab.getDate());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        if (finalToday.compareTo(labDate) < 0) {
+                            labs.add(lab);
+                        }
                     }
                     if (labs.size()>0) {
                         rv.setVisibility(View.VISIBLE);

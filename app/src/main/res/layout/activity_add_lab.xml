@@ -5,62 +5,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddLab"
-    android:orientation="vertical">
-
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+    android:background="@drawable/grdnt"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="20dp">
 
     <TextView
-        android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="Choose Course:"
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp" />
 
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="match_parent"
+    <Spinner
+        android:id="@+id/courseSpinner"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:popupBackground="#242424" />
 
-    <EditText
-        android:id="@+id/editText3"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/chooseDate"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:text="Choose lab date " />
 
-    <EditText
-        android:id="@+id/editText4"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/dateShow"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPassword" />
+        android:layout_marginBottom="28dp"
+        android:text="date"
+        android:textColor="@color/colorAccent"
+        android:textSize="30sp" />
 
-    <EditText
-        android:id="@+id/editText5"
-        android:layout_width="match_parent"
+
+    <Button
+        android:id="@+id/chooseTime"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:text="choose lab time" />
 
-    <CalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/showTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="time"
+        android:textColor="@color/colorAccent"
+        android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/createLab"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_margin="50dp"
+        android:text="Create Lab" />
+
+    <ProgressBar
+        android:id="@+id/creatingProgressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="37dp"
+        android:layout_height="28dp"
+        android:gravity="center"
+        android:visibility="gone" />
 </LinearLayout>
