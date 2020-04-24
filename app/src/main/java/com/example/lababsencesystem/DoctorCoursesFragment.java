@@ -26,7 +26,7 @@ import java.util.ArrayList;
  */
 public class DoctorCoursesFragment extends Fragment {
     Doctor doctor = DoctorMain.doctor;
-    ArrayList<Course> courses = new ArrayList<>();
+    ArrayList<Course> courses = DoctorMain.courses;
 
     public DoctorCoursesFragment() {
         // Required empty public constructor
@@ -45,22 +45,8 @@ public class DoctorCoursesFragment extends Fragment {
         RecyclerView.LayoutManager lm = new LinearLayoutManager(getContext());
         rv.setLayoutManager(lm);
 
-        db.collection("courses").whereEqualTo("doctor",doctor.getFileNumber()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    for (QueryDocumentSnapshot document : task.getResult()){
-                        Course course =document.toObject(Course.class);
-                        courses.add(course);
-                     //  courseDr.setText(course.toString());
-                    }
-                    RecyclerView.Adapter a = new DoctorCourseAdapter(courses);
-                    rv.setAdapter(a);
-
-
-                }
-            }
-        });
+        RecyclerView.Adapter a = new DoctorCourseAdapter(courses);
+        rv.setAdapter(a);
 
 
 

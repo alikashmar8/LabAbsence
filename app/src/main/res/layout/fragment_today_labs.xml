@@ -4,13 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TodayLabsFragment"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Today labs frag"
-        android:textColor="@color/colorAccent"/>
+        android:id="@+id/todayLabsRV"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Labs For Today"
+        android:textSize="30dp"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        android:id="@+id/noTodayLabs"
+        android:visibility="gone"
+        />
+
 
 </LinearLayout>

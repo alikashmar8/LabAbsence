@@ -11,8 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
@@ -38,6 +40,7 @@ public class DoctorLabsFragment extends Fragment {
     TabLayout tabLayout;
     AppBarLayout appBarLayout;
     ViewPager viewPager;
+    FloatingActionButton addLab;
 
     public DoctorLabsFragment() {
         // Required empty public constructor
@@ -52,11 +55,21 @@ public class DoctorLabsFragment extends Fragment {
         tabLayout = view.findViewById(R.id.tabLayout);
 //        appBarLayout = view.findViewById(R.id.appBarLayout);
         viewPager = view.findViewById(R.id.viewPagerId);
+        addLab = view.findViewById(R.id.addLab);
+
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
         viewPagerAdapter.addFragment(new OldLabsFragment(),"Old Labs");
         viewPagerAdapter.addFragment(new TodayLabsFragment(),"Today Labs");
         viewPagerAdapter.addFragment(new UpcomingLabsFragment(),"Upcoming Labs");
 
+        addLab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"pressed",Toast.LENGTH_LONG).show();
+                startActivity(new Intent((getActivity()),AddLab.class));
+
+            }
+        });
 
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);

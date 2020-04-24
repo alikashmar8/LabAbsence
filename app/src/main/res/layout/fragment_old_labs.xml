@@ -4,13 +4,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".OldLabsFragment"
+    android:orientation="vertical"
     android:gravity="center"
-
-    >    <!-- TODO: Update blank fragment layout -->
+    >
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/oldLabs"
+        android:visibility="visible"
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="old labs frag"
-        android:textColor="@color/colorAccent"/>
+        android:text="No Labs To Show"
+        android:textSize="30dp"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        android:id="@+id/noOldLabs"
+        android:visibility="gone"
+        />
+
 
 </LinearLayout>

@@ -4,6 +4,7 @@ public class Lab {
     String course,date,time;
     int doctor;
 
+
     public Lab(String course, String date, String time, int doctor) {
         this.course = course;
         this.date = date;

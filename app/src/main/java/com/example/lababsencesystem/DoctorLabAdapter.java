@@ -38,7 +38,7 @@ public class DoctorLabAdapter extends RecyclerView.Adapter<DoctorLabAdapter.Doct
     public void onBindViewHolder(@NonNull final DoctorLabAdapter.DoctorLabViewHolder holder, int i) {
         holder.labCourse.setText("Course: "+ labs.get(i).getCourse());
 //        holder.labDoctor.setText("Title: "+ labs.get(i).doctor);
-        holder.labDate.setText("Date: "+ labs.get(i).getDate());
+        holder.labDate.setText("Date: "+ labs.get(i).date.toString());
         holder.labTime.setText("Time: "+ labs.get(i).getTime());
 
     }

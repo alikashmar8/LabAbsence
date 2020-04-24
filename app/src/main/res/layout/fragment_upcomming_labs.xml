@@ -6,12 +6,19 @@
     tools:context=".UpcomingLabsFragment"
     android:gravity="center">
 
-    <!-- TODO: Update blank fragment layout -->
+\    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/upcomingLabsRV"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Upcoming labs"
+        android:text="No Upcoming Labs"
+        android:textSize="30dp"
         android:textColor="@color/colorAccent"
-        android:textSize="30dp"/>
+        android:textStyle="bold"
+        android:id="@+id/noupcomingLabs"
+        android:visibility="gone"
+        />
 
 </LinearLayout>

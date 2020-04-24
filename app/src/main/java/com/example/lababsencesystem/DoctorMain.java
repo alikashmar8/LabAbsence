@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,8 +25,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+
 public class DoctorMain extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
+    public static ArrayList<Course> courses = new ArrayList<>();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     TextView doctorWelcome;
     public static Doctor doctor = null;
@@ -96,6 +100,22 @@ public class DoctorMain extends AppCompatActivity implements NavigationView.OnNa
             headerName.setText(doctor.getName());
 
         }
+        db.collection("courses").whereEqualTo("doctor",doctor.getFileNumber()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    courses.clear();
+                    for (QueryDocumentSnapshot document : task.getResult()){
+                        Course course =document.toObject(Course.class);
+                        courses.add(course);
+                        //  courseDr.setText(course.toString());
+                    }
+
+
+
+                }
+            }
+        });
         getSupportFragmentManager().beginTransaction().add(R.id.doctor_fragment_container, new DoctorHomeFragment()).commit();
 
     }

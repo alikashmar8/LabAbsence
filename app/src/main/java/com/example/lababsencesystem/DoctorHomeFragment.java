@@ -42,6 +42,7 @@ public class DoctorHomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_doctor_home, container, false);
+
         helloDr = view.findViewById(R.id.helloDr);
         helloDr.setText("Hello Dr. "+doctor.getName());
         final RecyclerView rv = view.findViewById(R.id.doctorTodayEventsRecycler);
@@ -53,7 +54,7 @@ public class DoctorHomeFragment extends Fragment {
         String todayDate = sdf.format(new Date());
 //        helloDr.setText(todayDate);
 
-        db.collection("labs").whereEqualTo("date",todayDate).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("labs").whereEqualTo("date",todayDate).whereEqualTo("doctor",doctor.getFileNumber()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
