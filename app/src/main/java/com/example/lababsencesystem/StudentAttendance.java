@@ -22,6 +22,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toolbar;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
@@ -37,13 +39,15 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.cert.CertificateException;
+import java.util.ArrayList;
+
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
 
-public class StudentAttendance extends AppCompatActivity {
+public class StudentAttendance extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     TextView mHeadingLabel;
     ImageView mFingerprintImage;
     TextView Labell;
@@ -53,6 +57,15 @@ public class StudentAttendance extends AppCompatActivity {
     Cipher cipher;
     String KEY_NAME = "AndroidKey";
 
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public static Student student;
+    DrawerLayout drawerLayout;
+    ActionBarDrawerToggle actionBarDrawerToggle;
+    Toolbar toolbar;
+    NavigationView navigationView;
+    Preference preference=new Preference();
+
+    TextView headerName,headerEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +77,25 @@ public class StudentAttendance extends AppCompatActivity {
         mHeadingLabel = findViewById(R.id.headingLabel);
         mFingerprintImage = findViewById(R.id.fingerprintImage);
         Labell = findViewById(R.id.Label1);
+        drawerLayout = findViewById(R.id.studentDrawer);
+        navigationView = findViewById(R.id.navigationMenuStudent);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout,R.string.open,R.string.close);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+        actionBarDrawerToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        navigationView.setOnNavigationItemSelectedListener(navListener);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        View headView = navigationView.getHeaderView(0);
+        headerName = headView.findViewById(R.id.headerName);
+        headerEmail = headView.findViewById(R.id.headerEmail);
+
+
+
+
+
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
@@ -104,9 +136,52 @@ public class StudentAttendance extends AppCompatActivity {
         }
 
     }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(actionBarDrawerToggle.onOptionsItemSelected(item)) return true;
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int logout =0;
+        Fragment selectedFragment = null;
+        drawerLayout.closeDrawer(GravityCompat.START);
+        switch (menuItem.getItemId()) {
+            case R.id.menuStudentHome:
+                selectedFragment = new StudentHomeFragment();
+                break;
+            case R.id.menuStudentCourses:
+                selectedFragment = new StudentCoursesFragment();
+                break;
+            case R.id.menuStudentLabs:
+                selectedFragment = new StudentLabsFragment();
+                break;
+            case R.id.menuStudentTakeAttendance:
+                Intent intent = new Intent(this, QRCodeScanner.class);
+                startActivity(intent);
+                break;
+            case R.id.menuStudentProfile:
+                selectedFragment = new StudentProfileFragment();
+                break;
+            case R.id.menuStudentLogout:
+                logout =1;
+                FirebaseAuth.getInstance().signOut();
+                student=null;
+                Intent i = new Intent(this, MainActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                finish();
+                break;
+        }
+        if (logout==0)
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+        return true;
+    }
+
 
     @TargetApi(Build.VERSION_CODES.M)
-    public boolean cipherInit () {
+    public boolean cipherInit() {
         try {
             cipher = Cipher.getInstance(KeyProperties.KEY_ALGORITHM_AES + "/" + KeyProperties.BLOCK_MODE_CBC + "/" + KeyProperties.ENCRYPTION_PADDING_PKCS7);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
@@ -128,36 +203,42 @@ public class StudentAttendance extends AppCompatActivity {
             throw new RuntimeException("Failed to init Cipher", e);
         }
     }
-        @TargetApi(Build.VERSION_CODES.M)
-        private void generateKey () {
 
-            try {
+    @TargetApi(Build.VERSION_CODES.M)
+    private void generateKey() {
 
-                keyStore = KeyStore.getInstance("AndroidKeyStore");
-                KeyGenerator keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore");
+        try {
 
-                keyStore.load(null);
-                keyGenerator.init(new
-                        KeyGenParameterSpec.Builder(KEY_NAME,
-                        KeyProperties.PURPOSE_ENCRYPT |
-                                KeyProperties.PURPOSE_DECRYPT)
-                        .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
-                        .setUserAuthenticationRequired(true)
-                        .setEncryptionPaddings(
-                                KeyProperties.ENCRYPTION_PADDING_PKCS7)
-                        .build());
-                keyGenerator.generateKey();
+            keyStore = KeyStore.getInstance("AndroidKeyStore");
+            KeyGenerator keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore");
 
-            } catch (KeyStoreException | IOException | CertificateException
-                    | NoSuchAlgorithmException | InvalidAlgorithmParameterException
-                    | NoSuchProviderException e) {
+            keyStore.load(null);
+            keyGenerator.init(new
+                    KeyGenParameterSpec.Builder(KEY_NAME,
+                    KeyProperties.PURPOSE_ENCRYPT |
+                            KeyProperties.PURPOSE_DECRYPT)
+                    .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
+                    .setUserAuthenticationRequired(true)
+                    .setEncryptionPaddings(
+                            KeyProperties.ENCRYPTION_PADDING_PKCS7)
+                    .build());
+            keyGenerator.generateKey();
 
-                e.printStackTrace();
+        } catch (KeyStoreException | IOException | CertificateException
+                | NoSuchAlgorithmException | InvalidAlgorithmParameterException
+                | NoSuchProviderException e) {
 
-            }
+            e.printStackTrace();
 
         }
+
     }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+}
 
 
 

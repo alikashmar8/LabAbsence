@@ -168,8 +168,7 @@ public class StudentMain extends AppCompatActivity implements NavigationView.OnN
                 finish();
                 break;
         }
-        if (logout==0)
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+
         return true;
     }
 }
