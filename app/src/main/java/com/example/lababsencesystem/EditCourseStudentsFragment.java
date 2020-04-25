@@ -28,7 +28,7 @@ import jxl.read.biff.BiffException;
 
 import static android.app.Activity.RESULT_OK;
 
-public class EditStudentFragment extends Fragment  {
+public class EditCourseStudentsFragment extends Fragment {
 
 
     TextView textImport,textShow;
@@ -39,7 +39,7 @@ public class EditStudentFragment extends Fragment  {
     List<String> id;
     Workbook workbook;
 
-    public EditStudentFragment() {
+    public EditCourseStudentsFragment() {
         // Required empty public constructor
     }
 

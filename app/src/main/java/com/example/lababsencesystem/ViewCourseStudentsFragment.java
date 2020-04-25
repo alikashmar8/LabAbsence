@@ -12,9 +12,9 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ViewStudentFragment extends Fragment {
+public class ViewCourseStudentsFragment extends Fragment {
 
-    public ViewStudentFragment() {
+    public ViewCourseStudentsFragment() {
         // Required empty public constructor
     }
 

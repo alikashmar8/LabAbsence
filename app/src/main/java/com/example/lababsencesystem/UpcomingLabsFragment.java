@@ -63,35 +63,72 @@ public class UpcomingLabsFragment extends Fragment {
 
 
         final Date finalToday = today;
-        db.collection("labs").whereEqualTo("doctor", doctor.getFileNumber()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    labs.clear();
-                    for (DocumentSnapshot document : task.getResult()) {
-                        Lab lab = document.toObject(Lab.class);
-                        Date labDate = null;
-                        try {
-                            labDate = sdf.parse(lab.getDate());
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+        if (doctor != null) {
+            db.collection("labs").whereEqualTo("doctor", doctor.getFileNumber()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        labs.clear();
+                        for (DocumentSnapshot document : task.getResult()) {
+                            Lab lab = document.toObject(Lab.class);
+                            Date labDate = null;
+                            try {
+                                labDate = sdf.parse(lab.getDate());
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            if (finalToday.compareTo(labDate) < 0) {
+                                labs.add(lab);
+                            }
                         }
-                        if (finalToday.compareTo(labDate) < 0) {
-                            labs.add(lab);
+                        if (labs.size() > 0) {
+                            rv.setVisibility(View.VISIBLE);
+                            text.setVisibility(View.GONE);
+                            RecyclerView.Adapter a = new DoctorLabAdapter(labs);
+                            rv.setAdapter(a);
+                        } else {
+                            rv.setVisibility(View.GONE);
+                            text.setVisibility(View.VISIBLE);
                         }
-                    }
-                    if (labs.size()>0) {
-                        rv.setVisibility(View.VISIBLE);
-                        text.setVisibility(View.GONE);
-                        RecyclerView.Adapter a = new DoctorLabAdapter(labs);
-                        rv.setAdapter(a);
-                    }else{
-                        rv.setVisibility(View.GONE);
-                        text.setVisibility(View.VISIBLE);
                     }
                 }
+            });
+        } else {
+            if (!StudentMain.coursesCode.isEmpty()) {
+                db.collection("labs").whereIn("course", StudentMain.coursesCode).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            labs.clear();
+                            for (DocumentSnapshot document : task.getResult()) {
+                                Lab lab = document.toObject(Lab.class);
+                                Date labDate = null;
+                                try {
+                                    labDate = sdf.parse(lab.getDate());
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                if (finalToday.compareTo(labDate) < 0) {
+                                    labs.add(lab);
+                                }
+                            }
+                            if (labs.size() > 0) {
+                                rv.setVisibility(View.VISIBLE);
+                                text.setVisibility(View.GONE);
+                                RecyclerView.Adapter a = new DoctorLabAdapter(labs);
+                                rv.setAdapter(a);
+                            } else {
+                                rv.setVisibility(View.GONE);
+                                text.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    }
+                });
+            } else {
+                rv.setVisibility(View.GONE);
+                text.setVisibility(View.VISIBLE);
             }
-        });
+        }
 
 
         return view;
