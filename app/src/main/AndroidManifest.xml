@@ -2,8 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.lababsencesystem">
 
-    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddLab"></activity>
+        <activity android:name=".AddStudent"></activity>
+        <activity android:name=".AddLab" />
         <activity android:name=".StudentAttendance" />
         <activity android:name=".LoadingScreen" />
         <activity android:name=".DoctorMain" />
@@ -26,5 +25,7 @@
             </intent-filter>
         </activity>
     </application>
+
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
 
 </manifest>

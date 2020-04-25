@@ -1,5 +1,8 @@
 package com.example.lababsencesystem;
 
+
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +23,7 @@ import java.util.ArrayList;
 public class DoctorCourseAdapter extends RecyclerView.Adapter<DoctorCourseAdapter.DoctorCourseViewHolder> {
     ArrayList<Course> courses;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+    Context context;
 
     public DoctorCourseAdapter(ArrayList<Course> courses) {
         this.courses = courses;
@@ -39,6 +42,7 @@ public class DoctorCourseAdapter extends RecyclerView.Adapter<DoctorCourseAdapte
         holder.courseCredits.setText("Credits: "+courses.get(i).credits);
         holder.courseTitle.setText("Title: "+courses.get(i).name);
         holder.courseCode.setText("Code: "+courses.get(i).code);
+
         db.collection("courses").document(courses.get(i).code).collection("students").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -49,6 +53,15 @@ public class DoctorCourseAdapter extends RecyclerView.Adapter<DoctorCourseAdapte
                     }
                     holder.courseStudentsNumber.setText("Number Of Students: "+count);
                 }
+            }
+        });
+        final int j=i;
+        holder.courseNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(holder.itemView.getContext(), AddStudent.class);
+                intent.putExtra("CourseCode",courses.get(j).getCode());
+                holder.itemView.getContext().startActivity(intent);
             }
         });
 
@@ -74,7 +87,6 @@ public class DoctorCourseAdapter extends RecyclerView.Adapter<DoctorCourseAdapte
             courseNext = itemView.findViewById(R.id.doctorCourseCardNext);
             courseCredits = itemView.findViewById(R.id.doctorCourseCardCredits);
             courseStudentsNumber = itemView.findViewById(R.id.doctorCourseCardStudentsNumber);
-
         }
     }
 }
