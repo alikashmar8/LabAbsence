@@ -82,6 +82,7 @@ public class DoctorMain extends AppCompatActivity implements NavigationView.OnNa
                                 Log.d("TAG", "entered iff");
 
                                 doctor = document.toObject(Doctor.class);
+                                loadCourses(doctor);
 
                                 headerEmail.setText(doctor.getEmail());
                                 headerName.setText(doctor.getName());
@@ -93,31 +94,33 @@ public class DoctorMain extends AppCompatActivity implements NavigationView.OnNa
                         Log.d("TAG", "Error getting documents: ", task.getException());
                     }
                 }
+
             });
         }else{
             Log.d("TAG", "doctor else "+ doctor);
             headerEmail.setText(doctor.getEmail());
             headerName.setText(doctor.getName());
+            loadCourses(doctor);
 
         }
-        db.collection("courses").whereEqualTo("doctor",doctor.getFileNumber()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+
+    }
+
+    private void loadCourses(Doctor doctor) {
+        db.collection("courses").whereEqualTo("doctor", doctor.getFileNumber()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     courses.clear();
-                    for (QueryDocumentSnapshot document : task.getResult()){
-                        Course course =document.toObject(Course.class);
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Course course = document.toObject(Course.class);
                         courses.add(course);
-                        //  courseDr.setText(course.toString());
                     }
-
-
-
+                    getSupportFragmentManager().beginTransaction().add(R.id.doctor_fragment_container, new DoctorHomeFragment()).commit();
                 }
             }
         });
-        getSupportFragmentManager().beginTransaction().add(R.id.doctor_fragment_container, new DoctorHomeFragment()).commit();
-
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

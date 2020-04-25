@@ -22,9 +22,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 
 public class StudentMain extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -36,6 +39,9 @@ public class StudentMain extends AppCompatActivity implements NavigationView.OnN
     Toolbar toolbar;
     NavigationView navigationView;
     Preference preference=new Preference();
+    public static ArrayList<Course> courses = new ArrayList<>();
+    static ArrayList<String> coursesCode = new ArrayList<>();
+
     TextView headerName,headerEmail;
 
 
@@ -56,7 +62,6 @@ public class StudentMain extends AppCompatActivity implements NavigationView.OnN
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
         actionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new StudentHomeFragment()).commit();
 //        navigationView.setOnNavigationItemSelectedListener(navListener);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -71,31 +76,58 @@ public class StudentMain extends AppCompatActivity implements NavigationView.OnN
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
-
                         for (QueryDocumentSnapshot document : task.getResult()) {
-
                             Log.d("TAG", document.getId() + "  for   => " + document.getData());
                             if (document.get("email").equals(firebaseUser.getEmail())) {
-
                                 student = document.toObject(Student.class);
+                                loadCourses();
                                 headerEmail.setText(student.getEmail());
                                 headerName.setText(student.getName());
-
                                 break;
                             }
                         }
-
                     } else {
                         Log.d("TAG", "Error getting documents: ", task.getException());
                     }
                 }
             });
         }else{
+            loadCourses();
             headerEmail.setText(student.getEmail());
             headerName.setText(student.getName());
         }
+        Log.d("COURSE", "before");
 
 
+    }
+
+    private void loadCourses() {
+        db.collection("courses").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    courses.clear();
+                    coursesCode.clear();
+                    for (final QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d("COURSE", "TASK SUCCESS");
+                        db.collection("courses").document(document.getId()).collection("students").document(student.getFileNumber() + "").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    Course course = document.toObject(Course.class);
+                                    courses.add(course);
+                                    coursesCode.add(course.getCode());
+                                    Log.d("TESTING1", course.toString());
+                                    StudentHomeFragment.a.notifyDataSetChanged();
+                                }
+                            }
+                        });
+                    }
+                    Log.d("TESTING2", coursesCode.toString());
+                    getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new StudentHomeFragment()).commit();
+                }
+            }
+        });
     }
 
     @Override
