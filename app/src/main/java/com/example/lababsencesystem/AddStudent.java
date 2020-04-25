@@ -40,7 +40,7 @@ public class AddStudent extends AppCompatActivity {
         viewPager=findViewById(R.id.PagerId);
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(new EditStudentFragment(),"Edit");
+        viewPagerAdapter.addFragment(new EditStudentFragment(),"Add / Delete");
         viewPagerAdapter.addFragment(new ViewStudentFragment(),"View");
 
         viewPager.setAdapter(viewPagerAdapter);
