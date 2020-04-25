@@ -4,12 +4,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".StudentHomeFragment"
-    android:id="@+id/studentHomeFrag">
+    android:id="@+id/studentHomeFrag"
+    android:background="@drawable/grdnt"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/helloSt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="50dp"
+        android:text="Hello  "
+        android:textColor="@color/colorAccent"
+        android:textSize="30dp"
+        android:textStyle="bold|italic" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="3dp"
+        android:layout_marginHorizontal="20dp"
+        android:background="@color/colorAccent" />
     <TextView
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:text="Today Events: "
+        android:textColor="@color/colorAccent"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/studentTodayEventsRecycler"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_width="match_parent" />
+
 
 </LinearLayout>
