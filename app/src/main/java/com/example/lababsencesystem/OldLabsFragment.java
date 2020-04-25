@@ -42,8 +42,8 @@ public class OldLabsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_old_labs, container, false);
-        text = view.findViewById(R.id.noOldLabs);
 
+        text = view.findViewById(R.id.noOldLabs);
         final RecyclerView rv = view.findViewById(R.id.oldLabs);
         rv.setHasFixedSize(true);
         RecyclerView.LayoutManager lm = new LinearLayoutManager(getContext());
@@ -51,44 +51,79 @@ public class OldLabsFragment extends Fragment {
 
         final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String todayDate = sdf.format(new Date());
-//        helloDr.setText(todayDate);
         Date today = null;
         try {
             today = sdf.parse(todayDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         final Date finalToday = today;
-        db.collection("labs").whereEqualTo("doctor", doctor.getFileNumber()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    labs.clear();
-                    for (DocumentSnapshot document : task.getResult()) {
-                        Lab lab = document.toObject(Lab.class);
-                        Date labDate = null;
-                        try {
-                            labDate = sdf.parse(lab.getDate());
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+        if (doctor != null) {
+            db.collection("labs").whereEqualTo("doctor", doctor.getFileNumber()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        labs.clear();
+                        for (DocumentSnapshot document : task.getResult()) {
+                            Lab lab = document.toObject(Lab.class);
+                            Date labDate = null;
+                            try {
+                                labDate = sdf.parse(lab.getDate());
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            if (finalToday.compareTo(labDate) > 0) {
+                                labs.add(lab);
+                            }
                         }
-                        if (finalToday.compareTo(labDate) > 0) {
-                            labs.add(lab);
+                        if (labs.size() > 0) {
+                            rv.setVisibility(View.VISIBLE);
+                            text.setVisibility(View.GONE);
+                            RecyclerView.Adapter a = new DoctorLabAdapter(labs);
+                            rv.setAdapter(a);
+                        } else {
+                            rv.setVisibility(View.GONE);
+                            text.setVisibility(View.VISIBLE);
                         }
-                    }
-                    if (labs.size()>0) {
-                        rv.setVisibility(View.VISIBLE);
-                        text.setVisibility(View.GONE);
-                        RecyclerView.Adapter a = new DoctorLabAdapter(labs);
-                        rv.setAdapter(a);
-                    }else{
-                        rv.setVisibility(View.GONE);
-                        text.setVisibility(View.VISIBLE);
                     }
                 }
+            });
+        } else {
+            if (!StudentMain.coursesCode.isEmpty()) {
+                db.collection("labs").whereIn("course", StudentMain.coursesCode).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            labs.clear();
+                            for (DocumentSnapshot document : task.getResult()) {
+                                Lab lab = document.toObject(Lab.class);
+                                Date labDate = null;
+                                try {
+                                    labDate = sdf.parse(lab.getDate());
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                if (finalToday.compareTo(labDate) > 0) {
+                                    labs.add(lab);
+                                }
+                            }
+                            if (labs.size() > 0) {
+                                rv.setVisibility(View.VISIBLE);
+                                text.setVisibility(View.GONE);
+                                RecyclerView.Adapter a = new DoctorLabAdapter(labs);
+                                rv.setAdapter(a);
+                            } else {
+                                rv.setVisibility(View.GONE);
+                                text.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    }
+                });
+            } else {
+                rv.setVisibility(View.GONE);
+                text.setVisibility(View.VISIBLE);
             }
-        });
+        }
 
 
 

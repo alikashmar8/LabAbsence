@@ -46,4 +46,10 @@ dependencies {
     implementation 'com.loopj.android:android-async-http:1.4.10'
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    implementation 'com.google.android.gms:play-services-vision:20.0.0'
+
+    implementation 'me.dm7.barcodescanner:zxing:1.9'
+    implementation 'com.karumi:dexter:6.1.0'
+
+
 }

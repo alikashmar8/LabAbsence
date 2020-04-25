@@ -8,7 +8,6 @@
     android:gravity="center_horizontal"
     android:padding="20dp">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/courseDr"
         android:layout_width="wrap_content"

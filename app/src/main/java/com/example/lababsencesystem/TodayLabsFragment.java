@@ -52,28 +52,57 @@ public class TodayLabsFragment extends Fragment {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String todayDate = sdf.format(new Date());
 //        helloDr.setText(todayDate);
-
-        db.collection("labs").whereEqualTo("date", todayDate).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    labs.clear();
-                    for (DocumentSnapshot document : task.getResult()) {
-                        Lab lab = document.toObject(Lab.class);
-                        if (doctor.getFileNumber() == lab.getDoctor()) labs.add(lab);
-                    }
-                    if (labs.size()>0) {
-                        rv.setVisibility(View.VISIBLE);
-                        text.setVisibility(View.GONE);
-                        RecyclerView.Adapter a = new DoctorLabAdapter(labs);
-                        rv.setAdapter(a);
-                    }else{
-                        rv.setVisibility(View.GONE);
-                        text.setVisibility(View.VISIBLE);
+        if (doctor != null) {
+            db.collection("labs").whereEqualTo("date", todayDate).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        labs.clear();
+                        for (DocumentSnapshot document : task.getResult()) {
+                            Lab lab = document.toObject(Lab.class);
+                            if (doctor.getFileNumber() == lab.getDoctor()) labs.add(lab);
+                        }
+                        if (labs.size() > 0) {
+                            rv.setVisibility(View.VISIBLE);
+                            text.setVisibility(View.GONE);
+                            RecyclerView.Adapter a = new DoctorLabAdapter(labs);
+                            rv.setAdapter(a);
+                        } else {
+                            rv.setVisibility(View.GONE);
+                            text.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
+            });
+        } else {
+            if (!StudentMain.coursesCode.isEmpty()) {
+                db.collection("labs").whereEqualTo("date", todayDate).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult()) {
+                                if (StudentMain.coursesCode.contains(document.get("course").toString())) {
+                                    Lab lab = document.toObject(Lab.class);
+                                    labs.add(lab);
+                                }
+                            }
+                            if (labs.size() > 0) {
+                                rv.setVisibility(View.VISIBLE);
+                                text.setVisibility(View.GONE);
+                                RecyclerView.Adapter a = new DoctorLabAdapter(labs);
+                                rv.setAdapter(a);
+                            } else {
+                                rv.setVisibility(View.GONE);
+                                text.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    }
+                });
+            } else {
+                rv.setVisibility(View.GONE);
+                text.setVisibility(View.VISIBLE);
             }
-        });
+        }
 
 
         return view;

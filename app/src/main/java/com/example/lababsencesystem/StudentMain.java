@@ -77,7 +77,6 @@ public class StudentMain extends AppCompatActivity implements NavigationView.OnN
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            Log.d("TAG", document.getId() + "  for   => " + document.getData());
                             if (document.get("email").equals(firebaseUser.getEmail())) {
                                 student = document.toObject(Student.class);
                                 loadCourses();
@@ -96,7 +95,6 @@ public class StudentMain extends AppCompatActivity implements NavigationView.OnN
             headerEmail.setText(student.getEmail());
             headerName.setText(student.getName());
         }
-        Log.d("COURSE", "before");
 
 
     }
@@ -109,21 +107,23 @@ public class StudentMain extends AppCompatActivity implements NavigationView.OnN
                     courses.clear();
                     coursesCode.clear();
                     for (final QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d("COURSE", "TASK SUCCESS");
-                        db.collection("courses").document(document.getId()).collection("students").document(student.getFileNumber() + "").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        db.collection("courses").document(document.getId()).collection("students").whereEqualTo("fileNumber", student.getFileNumber()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
-                                    Course course = document.toObject(Course.class);
-                                    courses.add(course);
-                                    coursesCode.add(course.getCode());
-                                    Log.d("TESTING1", course.toString());
-                                    StudentHomeFragment.a.notifyDataSetChanged();
+                                    for (QueryDocumentSnapshot doc : task.getResult()) {
+                                        if (doc.get("fileNumber").toString().equals(student.getFileNumber())) {
+                                            Course course = document.toObject(Course.class);
+                                            courses.add(course);
+                                            coursesCode.add(course.getCode());
+                                            StudentHomeFragment.a.notifyDataSetChanged();
+                                        }
+                                    }
+
                                 }
                             }
                         });
                     }
-                    Log.d("TESTING2", coursesCode.toString());
                     getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new StudentHomeFragment()).commit();
                 }
             }
@@ -152,8 +152,8 @@ public class StudentMain extends AppCompatActivity implements NavigationView.OnN
                 selectedFragment = new StudentLabsFragment();
                 break;
             case R.id.menuStudentTakeAttendance:
-               Intent iii=new Intent(this,StudentAttendance.class);
-               startActivity(iii);
+                Intent intent = new Intent(this, QRCodeScanner.class);
+                startActivity(intent);
                 break;
             case R.id.menuStudentProfile:
                 selectedFragment = new StudentProfileFragment();

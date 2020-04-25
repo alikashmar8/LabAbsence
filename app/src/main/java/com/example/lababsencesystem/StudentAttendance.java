@@ -53,8 +53,6 @@ public class StudentAttendance extends AppCompatActivity {
     Cipher cipher;
     String KEY_NAME = "AndroidKey";
 
-    public static Student student;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
