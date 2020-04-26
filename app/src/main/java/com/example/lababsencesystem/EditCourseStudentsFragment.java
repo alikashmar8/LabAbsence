@@ -3,8 +3,11 @@ package com.example.lababsencesystem;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,8 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +40,7 @@ import static android.app.Activity.RESULT_OK;
 public class EditCourseStudentsFragment extends Fragment {
 
 
+    ProgressBar progressBar;
     TextView textImport,textShow;
     EditText enterStudentId;
     Button chooseFile,search,submit;
@@ -38,6 +48,9 @@ public class EditCourseStudentsFragment extends Fragment {
     List<String> name;
     List<String> id;
     Workbook workbook;
+    ArrayList<Student> students;
+    ArrayList<CourseStudent> cs;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public EditCourseStudentsFragment() {
         // Required empty public constructor
@@ -48,7 +61,7 @@ public class EditCourseStudentsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_edit_student, container, false);
+        final View view= inflater.inflate(R.layout.fragment_edit_student, container, false);
 
         textShow=view.findViewById(R.id.textShow);
         textImport=view.findViewById(R.id.textImport);
@@ -57,9 +70,65 @@ public class EditCourseStudentsFragment extends Fragment {
         search=view.findViewById(R.id.search);
         submit=view.findViewById(R.id.submit);
         submit.setVisibility(View.GONE);
+        progressBar=view.findViewById(R.id.prbar);
+        progressBar.setVisibility(View.GONE);
 
         name = new ArrayList<>();
         id = new ArrayList<>();
+
+        students=new ArrayList<>();
+        cs=new ArrayList<>();
+
+       // students.add(new Student("Aa","sa@s.com","321233","123445",18,"Sdd"));
+
+        final RecyclerView rv = view.findViewById(R.id.addDeleteRv);
+        rv.setHasFixedSize(true);
+        RecyclerView.LayoutManager lm = new LinearLayoutManager(getContext());
+        rv.setLayoutManager(lm);
+
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                students.clear();
+
+                String s=enterStudentId.getText().toString();
+                if (!s.equals("")){
+                    progressBar.setVisibility(View.VISIBLE);
+                    db.collection("users").document("students").collection("data").document(s).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()){
+                                String name=task.getResult().getString("name");
+                                String username=task.getResult().getString("username");
+                                String password=task.getResult().getString("password");
+                                String email=task.getResult().getString("email");
+                                String type=task.getResult().getString("type");
+                                int filenb=task.getResult().getLong("fileNumber").intValue();
+
+
+                                Student student=new Student(name,email,username,password,filenb,type);
+                                students.add(student);
+
+                                try {
+                                    Thread.sleep(3000);
+                                    RecyclerView.Adapter a = new DoctorAddDeleteStudentAdapter(students);
+                                    rv.setAdapter(a);
+                                    progressBar.setVisibility(View.GONE);
+                                    Log.d("asas",students.size()+"");
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+
+                        }
+                    });
+                }
+
+            }
+        });
+
+
 
 
 
