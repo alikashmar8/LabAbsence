@@ -62,7 +62,7 @@ public class StudentMain extends AppCompatActivity implements NavigationView.OnN
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
         actionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        navigationView.setOnNavigationItemSelectedListener(navListener);
+//      navigationView.setOnNavigationItemSelectedListener(navListener);
         navigationView.setNavigationItemSelectedListener(this);
 
         View headView = navigationView.getHeaderView(0);
@@ -168,7 +168,9 @@ public class StudentMain extends AppCompatActivity implements NavigationView.OnN
                 finish();
                 break;
         }
-
+        if (logout==0)
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
         return true;
+
     }
 }

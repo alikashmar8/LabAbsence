@@ -143,7 +143,7 @@ public class DoctorMain extends AppCompatActivity implements NavigationView.OnNa
                 selectedFragment = new DoctorLabsFragment();
                 break;
             case R.id.menuDoctorProfile:
-                selectedFragment = new StudentProfileFragment();
+                selectedFragment = new DoctorProfileFragment();
                 break;
             case R.id.menuDoctorLogout:
                 logout =1;
