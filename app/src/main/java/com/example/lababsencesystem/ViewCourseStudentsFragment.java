@@ -61,7 +61,7 @@ public class ViewCourseStudentsFragment extends Fragment {
         txtShow.setText(getCourseCode);
 
 
-        db.collection("courses").document("i3308").collection("students").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("courses").document(getCourseCode).collection("students").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
