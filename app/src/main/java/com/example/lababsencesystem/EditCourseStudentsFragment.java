@@ -100,7 +100,7 @@ public class EditCourseStudentsFragment extends Fragment {
                             Sheet sheet = workbook.getSheet(0);
                             int j;
                             for (j=0;j<sheet.getColumns();j++);
-                            if (j!=1)
+                            if (j!=2)
                                 flag=1;
                             if (flag==0) {
                                 for (int i = 0; i < sheet.getRows(); i++) {
