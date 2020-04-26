@@ -71,6 +71,7 @@ public class UpcomingLabsFragment extends Fragment {
                         labs.clear();
                         for (DocumentSnapshot document : task.getResult()) {
                             Lab lab = document.toObject(Lab.class);
+                            lab.setId(document.getId());
                             Date labDate = null;
                             try {
                                 labDate = sdf.parse(lab.getDate());
@@ -102,6 +103,7 @@ public class UpcomingLabsFragment extends Fragment {
                             labs.clear();
                             for (DocumentSnapshot document : task.getResult()) {
                                 Lab lab = document.toObject(Lab.class);
+                                lab.setId(document.getId());
                                 Date labDate = null;
                                 try {
                                     labDate = sdf.parse(lab.getDate());

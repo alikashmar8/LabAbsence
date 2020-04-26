@@ -21,6 +21,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Map;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,12 +49,12 @@ public class DoctorProfileFragment extends Fragment {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        nm = view.findViewById(R.id.name);
-        un = view.findViewById(R.id.username);
-        em = view.findViewById(R.id.email);
-        pass = view.findViewById(R.id.password);
-        fnb = view.findViewById(R.id.filenb);
-        ed = view.findViewById(R.id.Edit);
+        nm = view.findViewById(R.id.doctorProfilename);
+        un = view.findViewById(R.id.doctorProfileUsername);
+        em = view.findViewById(R.id.doctorProfileEmail);
+        pass = view.findViewById(R.id.doctorProfilePassword);
+        fnb = view.findViewById(R.id.doctorProfileFileNumber);
+        ed = view.findViewById(R.id.editDoctorProfile);
 
         nm.setText(doctor.getName());
         un.setText(doctor.getUsername());
@@ -63,8 +65,11 @@ public class DoctorProfileFragment extends Fragment {
         ed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Doctor dr = new Doctor(nm.getText().toString(), em.getText().toString(), un.getText().toString(), pass.getText().toString(), Integer.valueOf(fnb.getText().toString()), "doctor");
-                edit(dr);
+                DoctorMain.doctor.setEmail(em.getText().toString());
+                DoctorMain.doctor.setName(nm.getText().toString());
+                DoctorMain.doctor.setPassword(pass.getText().toString());
+                DoctorMain.doctor.setUsername(un.getText().toString());
+                edit();
                 Toast.makeText(getContext(),"Your Information had been edited",Toast.LENGTH_LONG).show();
             }
         });
@@ -72,30 +77,20 @@ public class DoctorProfileFragment extends Fragment {
         return view;
     }
 
-    void edit(final Doctor d) {
+    void edit() {
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
         db.collection("users").document("doctors")
-                .collection("data")
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        if (document.get("email").equals(doctor.getEmail())) {
+                .collection("data").document(doctor.getFileNumber() + "").update(
 
-                            document.getReference().set(d);
+                "name", nm.getText().toString(),
+                "username", un.getText().toString(),
+                "email", em.getText().toString(),
+                "password", pass.getText().toString()
 
-                        }
-                    }
-
-                } else {
-                    Log.d("TAG", "Error getting documents: ", task.getException());
-                }
-            }
-        });
+        );
 
     }
 }

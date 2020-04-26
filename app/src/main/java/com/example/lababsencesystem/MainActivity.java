@@ -119,30 +119,14 @@ public class MainActivity extends AppCompatActivity {
             password.setText(sp.getString("password", ""));
             rememberMe.setChecked(sp.getBoolean("rememberMe", false));
 
-//        if ((preference.getEmail(MainActivity.this) !=null) && (preference.getPass(MainActivity.this)!=null)){
-//            if(preference.getType(MainActivity.this).equalsIgnoreCase("student")){
-//                Intent i = new Intent(MainActivity.this, StudentMain.class);
-//                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                startActivity(i);
-//                finish();
-//            }
-//            else{
-//                Intent i = new Intent(MainActivity.this, DoctorMain.class);
-//                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                startActivity(i);
-//                finish();
-//            }
-//        }
 
             login.setOnClickListener(new View.OnClickListener() {
                 private int found = 0;
-                private int checked = 0;
 
                 @Override
                 public void onClick(View v) {
                     found =0;
-//                if(rememberMe.isChecked())
-//                    checked=1;
+                    login.setVisibility(View.GONE);
                     loginError.setVisibility(View.GONE);
                     spinner.setVisibility(View.VISIBLE);
                     final String e = username.getText().toString();
@@ -151,16 +135,21 @@ public class MainActivity extends AppCompatActivity {
                         username.setError("Please enter your username");
                         username.requestFocus();
                         spinner.setVisibility(View.GONE);
+                        login.setVisibility(View.VISIBLE);
                     } else {
                         if (p.isEmpty()) {
                             password.setError("please add your password");
                             password.requestFocus();
                             spinner.setVisibility(View.GONE);
+                            login.setVisibility(View.VISIBLE);
+
                         } else {
                             if (p.length() < 6) {
                                 password.setError("Minimum password length must be 6");
                                 password.requestFocus();
                                 spinner.setVisibility(View.GONE);
+                                login.setVisibility(View.VISIBLE);
+
                             } else {
                                 db.collection("users").document("students")
                                         .collection("data")
@@ -170,21 +159,13 @@ public class MainActivity extends AppCompatActivity {
                                         if (task.isSuccessful()) {
 
                                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                                Log.d("TAG", document.getId() + "  for   => " + document.getData());
-                                                Log.d("TAG", "  found   => " + found);
-
                                                 if (document.get("username").equals(username.getText().toString())) {
                                                     found = 1;
-                                                    Log.d("TAG", "  found   => " + found);
-
-                                                    Log.d("TAG", document.getId() + " ifpass  => " + document.getData());
                                                     firebaseAuth.signInWithEmailAndPassword(document.get("email").toString(), password.getText().toString()).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                                                         @Override
                                                         public void onComplete(Task<AuthResult> task) {
                                                             if (task.isSuccessful()) {
-//                                                            if (checked ==1){
-//                                                                preference.saveAcc(username.getText().toString(),password.getText().toString(),MainActivity.this,"student");
-//                                                            }
+//
                                                                 if (rememberMe.isChecked()) {
                                                                     editor.putBoolean("rememberMe", true);
                                                                     editor.putString("email", e);
@@ -207,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
                                                         public void onFailure(@NonNull Exception e) {
                                                             if (e instanceof FirebaseAuthInvalidCredentialsException) {
                                                                 spinner.setVisibility(View.GONE);
+                                                                login.setVisibility(View.VISIBLE);
                                                                 loginError.setText("Error Password Incorrect");
                                                                 loginError.setVisibility(View.VISIBLE);
                                                             }
@@ -215,7 +197,6 @@ public class MainActivity extends AppCompatActivity {
                                                     });
                                                 }
                                             }
-                                            Log.d("TAG", "  found   before if => " + found);
 
                                             if (found == 0) {
                                                 db.collection("users").document("doctors")
@@ -226,18 +207,12 @@ public class MainActivity extends AppCompatActivity {
                                                         if (task.isSuccessful()) {
 
                                                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                                                Log.d("TAG", document.getId() + "  for   => " + document.getData());
                                                                 if (document.get("username").equals(username.getText().toString())) {
                                                                     found = 1;
-
-                                                                    Log.d("TAG", document.getId() + " ifpass  => " + document.getData());
                                                                     firebaseAuth.signInWithEmailAndPassword(document.get("email").toString(), password.getText().toString()).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                                                                         @Override
                                                                         public void onComplete(Task<AuthResult> task) {
                                                                             if (task.isSuccessful()) {
-//                                                            if (checked ==1){
-//                                                                preference.saveAcc(username.getText().toString(),password.getText().toString(),MainActivity.this,"doctor");
-//                                                            }
                                                                                 if (rememberMe.isChecked()) {
                                                                                     editor.putBoolean("rememberMe", true);
                                                                                     editor.putString("email", e);
@@ -260,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
                                                                         public void onFailure(@NonNull Exception e) {
                                                                             if (e instanceof FirebaseAuthInvalidCredentialsException) {
                                                                                 spinner.setVisibility(View.GONE);
+                                                                                login.setVisibility(View.VISIBLE);
                                                                                 loginError.setText("Error Password Incorrect");
                                                                                 loginError.setVisibility(View.VISIBLE);
                                                                             }
@@ -271,6 +247,7 @@ public class MainActivity extends AppCompatActivity {
                                                                 loginError.setText("Error Username not found");
                                                                 loginError.setVisibility(View.VISIBLE);
                                                                 spinner.setVisibility(View.GONE);
+                                                                login.setVisibility(View.VISIBLE);
                                                             }
                                                         } else {
                                                             Log.d("TAG", "Error getting documents: ", task.getException());

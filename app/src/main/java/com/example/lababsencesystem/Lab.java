@@ -1,7 +1,9 @@
 package com.example.lababsencesystem;
 
-public class Lab {
-    String course,date,time;
+import java.io.Serializable;
+
+public class Lab implements Serializable {
+    String course, date, time, id;
     int doctor;
 
 
@@ -45,6 +47,14 @@ public class Lab {
 
     public void setDoctor(int doctor) {
         this.doctor = doctor;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override

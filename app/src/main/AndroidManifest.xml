@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".QRCodeScanner"></activity>
+        <activity android:name=".LabControl"></activity>
+        <activity android:name=".QRCodeScanner" />
         <activity android:name=".AddStudent" />
         <activity android:name=".AddLab" />
         <activity android:name=".StudentAttendance" />

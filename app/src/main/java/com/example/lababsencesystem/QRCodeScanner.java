@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.SparseArray;
@@ -73,5 +74,8 @@ public class QRCodeScanner extends AppCompatActivity implements ZXingScannerView
     @Override
     public void handleResult(Result result) {
         textScanned.setText(result.getText());
+
+//        startActivity(new Intent(getApplicationContext(),StudentMain.class));
+//        finish();
     }
 }

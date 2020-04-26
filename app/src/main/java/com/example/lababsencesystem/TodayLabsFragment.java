@@ -60,6 +60,7 @@ public class TodayLabsFragment extends Fragment {
                         labs.clear();
                         for (DocumentSnapshot document : task.getResult()) {
                             Lab lab = document.toObject(Lab.class);
+                            lab.setId(document.getId());
                             if (doctor.getFileNumber() == lab.getDoctor()) labs.add(lab);
                         }
                         if (labs.size() > 0) {
@@ -83,6 +84,7 @@ public class TodayLabsFragment extends Fragment {
                             for (DocumentSnapshot document : task.getResult()) {
                                 if (StudentMain.coursesCode.contains(document.get("course").toString())) {
                                     Lab lab = document.toObject(Lab.class);
+                                    lab.setId(document.getId());
                                     labs.add(lab);
                                 }
                             }

@@ -22,6 +22,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 
 /**
@@ -29,16 +30,17 @@ import java.util.ArrayList;
  */
 public class ViewCourseStudentsFragment extends Fragment {
 
+    ArrayList<String> fileNumbers;
+
     public ViewCourseStudentsFragment() {
         // Required empty public constructor
     }
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     TextView txtShow;
-    ArrayList<Integer> fileNumbers;
+    private ArrayList<CourseStudent> students = new ArrayList<>();
     ArrayList<String> names;
     int flag=0;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,28 +63,36 @@ public class ViewCourseStudentsFragment extends Fragment {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (DocumentSnapshot document : task.getResult()) {
-                        int fileNb = Integer.parseInt(document.getId());
-                        fileNumbers.add(fileNb);
+                        students.add(document.toObject(CourseStudent.class));
+                        fileNumbers.add(document.getId());
+                        Log.d("bobm", document.toObject(CourseStudent.class).toString());
                     }
-
-                    for (int i = 0; i < fileNumbers.size(); i++) {
-                        Log.d("bobm", ";;;"+fileNumbers.get(i)+";;;");
-                        db.collection("users").document("students").collection("data").document(fileNumbers.get(i).toString()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> taskk) {
-                                String name = (String) taskk.getResult().get("name");
-                                if (name !=null)
-                                Log.d("bobm", name);
-                            }
-                        });
-
-                    }
+//                    loadStudents(0);
                 }
             }
         });
 
         return view;
     }
+
+//    private void loadStudents(final int j) {
+//        if (j < fileNumbers.size()) {
+//                Log.d("bobm", ";;;" + fileNumbers.get(j) + ";;;");
+//                db.collection("users").document("students").collection("data").document(fileNumbers.get(j)).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DocumentSnapshot> taskk) {
+//
+//                        if (taskk.isSuccessful()) {
+//                            DocumentSnapshot document = taskk.getResult();
+//                            if (document.exists()) {
+//                                Log.d("bobm", "DocumentSnapshot data: " + document.get("name"));
+//                                loadStudents(j + 1);
+//                            }
+//                        }
+//                    }
+//                });
+//        }
+//    }
 
 
 }

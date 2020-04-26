@@ -152,6 +152,7 @@ public class StudentMain extends AppCompatActivity implements NavigationView.OnN
                 selectedFragment = new StudentLabsFragment();
                 break;
             case R.id.menuStudentTakeAttendance:
+                selectedFragment = new StudentHomeFragment();
                 Intent intent = new Intent(this, QRCodeScanner.class);
                 startActivity(intent);
                 break;

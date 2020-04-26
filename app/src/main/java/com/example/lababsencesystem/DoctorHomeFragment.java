@@ -64,6 +64,7 @@ public class DoctorHomeFragment extends Fragment {
                     int count = 0;
                     for (DocumentSnapshot document : task.getResult()) {
                         Lab lab = document.toObject(Lab.class);
+                        lab.setId(document.getId());
                         labs.add(lab);
                     }
                     RecyclerView.Adapter a = new DoctorLabAdapter(labs);
