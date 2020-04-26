@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -53,34 +54,20 @@ public class StudentProfileFragment extends Fragment {
         Button ed = view.findViewById(R.id.Edit);
 
 
-        db.collection("users").document("students")
-                .collection("data")
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        if (document.get("fileNumber").equals(String.valueOf(student.getFileNumber()))) {
-                            Student studentt = document.toObject(Student.class);
-                            nm.setText(studentt.getName());
-                            un.setText(studentt.getUsername());
-                            em.setText(studentt.getEmail());
-                            pass.setText(studentt.getPassword());
-                            fnb .setText(studentt.getFileNumber());
+        nm.setText(student.getName());
+        un.setText(student.getUsername());
+        em.setText(student.getEmail());
+        pass.setText(student.getPassword());
+        fnb.setText(String.valueOf(student.getFileNumber()));
 
-                        }
-                    }
-                } else {
-                    Log.d("TAG", "Error getting documents: ", task.getException());
-                }
-            }
-        });
 
         ed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Student st=new Student(nm.getText().toString(), em.getText().toString(), un.getText().toString(), pass.getText().toString(),Integer.valueOf(fnb.getText().toString()),"student");
                 edit(st);
+                Toast.makeText(getContext(),"Your Information had been edited",Toast.LENGTH_LONG).show();
+
             }
         });
 
@@ -99,7 +86,7 @@ public class StudentProfileFragment extends Fragment {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        if (document.get("fileNumber").equals(String.valueOf(student.getFileNumber()))) {
+                        if (document.get("email").equals(student.getEmail())) {
 
                            document.getReference().set(s);
                         }
