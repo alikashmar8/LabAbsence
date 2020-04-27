@@ -72,22 +72,26 @@
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF" />
 
-    <LinearLayout
+    <Button
+        android:id="@+id/search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="5dp">
+        android:layout_gravity="center"
+        android:text="Search"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"/>
 
-        <Button
-            android:id="@+id/search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="60dp"
-            android:layout_weight="1"
-            android:text="Search" />
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/eror"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="TextView"
+        android:textColor="#F44336"
+        android:textSize="14sp"
+        android:visibility="gone" />
 
     <ProgressBar
         android:id="@+id/prbar"
