@@ -63,15 +63,14 @@
         android:id="@+id/enterStudentId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="7dp"
         android:ems="10"
-        android:hint="Enter Student Id"
+        android:hint="Enter Student file number "
         android:inputType="textPersonName"
         android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="7dp"
-        android:layout_marginRight="7dp"
-        />
+        android:textColorHint="#FFFFFF" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -89,5 +88,18 @@
             android:text="Search" />
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/prbar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/addDeleteRv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="12dp" />
 
 </LinearLayout>

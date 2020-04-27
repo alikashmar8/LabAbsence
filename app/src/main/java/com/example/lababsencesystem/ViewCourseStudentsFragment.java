@@ -2,6 +2,7 @@ package com.example.lababsencesystem;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -79,6 +80,7 @@ public class ViewCourseStudentsFragment extends Fragment {
 
                         TextView label_hello = new TextView(getActivity());
                         label_hello.setText(students.get(i).getFileNumber()+"");
+                        label_hello.setTypeface(null, Typeface.BOLD);
                         label_hello.setTextSize(18);
                         label_hello.setTextColor(Color.BLACK);          // part2
                         label_hello.setPadding(5, 5, 5, 5);
@@ -88,13 +90,13 @@ public class ViewCourseStudentsFragment extends Fragment {
                         label_android.setText(students.get(i).getName()+""); // set the text for the header
                         label_android.setTextColor(Color.BLACK); // set the color
                         label_android.setTextSize(18);
+                        label_android.setTypeface(null, Typeface.BOLD);
                         label_android.setPadding(5, 5, 5, 5); // set the padding (if required)
                         tr_head.addView(label_android);
                         tableLay.addView(tr_head, new TableLayout.LayoutParams(
                                 ViewGroup.LayoutParams.MATCH_PARENT,                    //part4
                                 ViewGroup.LayoutParams.MATCH_PARENT));
                     }
-
                 }
             }
         });
