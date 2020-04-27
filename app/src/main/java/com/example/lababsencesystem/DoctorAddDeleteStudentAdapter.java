@@ -125,11 +125,10 @@ public class DoctorAddDeleteStudentAdapter extends RecyclerView.Adapter<DoctorAd
     public void removest(int position,int y) {
         if (y==-1) {
             students.remove(position);
-            notifyDataSetChanged();
         }
         else {
             students.remove(position - y);
-            notifyDataSetChanged();
         }
+        notifyDataSetChanged();
     }
 }

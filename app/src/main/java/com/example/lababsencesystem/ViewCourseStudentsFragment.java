@@ -45,6 +45,7 @@ public class ViewCourseStudentsFragment extends Fragment {
     TableLayout tableLay;
     private ArrayList<CourseStudent> students = new ArrayList<>();
     ArrayList<String> names;
+    String getCourseCode="";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,11 +57,20 @@ public class ViewCourseStudentsFragment extends Fragment {
         tableLay=view.findViewById(R.id.tabLay);
         names=new ArrayList<>();
 
-        String getCourseCode="";
+
         Intent intent=getActivity().getIntent();
         getCourseCode=intent.getStringExtra("CourseCode");
         txtShow.setText(getCourseCode);
 
+
+
+
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
 
         db.collection("courses").document(getCourseCode).collection("students").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -100,8 +110,5 @@ public class ViewCourseStudentsFragment extends Fragment {
                 }
             }
         });
-
-        return view;
     }
-
 }
