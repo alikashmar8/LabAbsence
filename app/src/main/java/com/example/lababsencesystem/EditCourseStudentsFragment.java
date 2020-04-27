@@ -119,31 +119,31 @@ public class EditCourseStudentsFragment extends Fragment {
 
                         /////////
                         flag=2;
-                        db.collection("courses").document(finalGetCourseCode).collection("students").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        db.collection("courses").document(finalGetCourseCode).collection("students").whereLessThanOrEqualTo("fileNumber", Integer.parseInt(strings[1])).whereGreaterThanOrEqualTo("fileNumber", Integer.parseInt(strings[0])).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()){
 
                                     if (task.getResult().size() > 0)
                                         for (QueryDocumentSnapshot document : task.getResult()){
-                                            if (document.getLong("fileNumber").intValue() >= Integer.parseInt(strings[0])
-                                                    && document.getLong("fileNumber").intValue() <= Integer.parseInt(strings[1])){
+//                                            if (document.getLong("fileNumber").intValue() >= Integer.parseInt(strings[0])
+//                                                    && document.getLong("fileNumber").intValue() <= Integer.parseInt(strings[1])){
                                                 String name = document.getString("name");
                                                 int filenb = document.getLong("fileNumber").intValue();
                                                 CourseStudent ss = new CourseStudent(name, filenb);
                                                 cs.add(ss);
-                                            }
+//                                            }
                                         }
 
-                                    db.collection("users").document("students").collection("data").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    db.collection("users").document("students").collection("data").whereLessThanOrEqualTo("fileNumber", Integer.parseInt(strings[1])).whereGreaterThanOrEqualTo("fileNumber", Integer.parseInt(strings[0])).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                             if (task.isSuccessful()) {
 //                                                int ln=cs.size();
                                                 if (task.getResult().size() > 0)
                                                     for (QueryDocumentSnapshot document : task.getResult()) {
-                                                        if (document.getLong("fileNumber").intValue() >= Integer.parseInt(strings[0])
-                                                                && document.getLong("fileNumber").intValue() <= Integer.parseInt(strings[1])) {
+//                                                        if (document.getLong("fileNumber").intValue() >= Integer.parseInt(strings[0])
+//                                                                && document.getLong("fileNumber").intValue() <= Integer.parseInt(strings[1])) {
                                                             String name = document.getString("name");
                                                             String username = document.getString("username");
                                                             String password = document.getString("password");
@@ -153,24 +153,27 @@ public class EditCourseStudentsFragment extends Fragment {
 
                                                             Student st = new Student(name, email, username, password, filenb, type);
                                                             students.add(st);
-                                                        }
+//                                                        }
                                                     }
-                                            }
-                                            try {
-                                                Thread.sleep(1000);
-                                                for (int l=0;l<students.size();l++){
-                                                    for (int o=0;o<cs.size();o++){
+                                                for (int l = 0; l < students.size(); l++) {
+                                                    for (int o = 0; o < cs.size(); o++) {
                                                         if (cs.get(o).getFileNumber() == students.get(l).getFileNumber())
                                                             students.remove(l);
+
                                                     }
                                                 }
                                                 search.setEnabled(true);
-                                                RecyclerView.Adapter a = new DoctorAddDeleteStudentAdapter(students, cs, flag,finalGetCourseCode);
+                                                RecyclerView.Adapter a = new DoctorAddDeleteStudentAdapter(students, cs, flag, finalGetCourseCode);
                                                 rv.setAdapter(a);
                                                 progressBar.setVisibility(View.GONE);
-                                            } catch (InterruptedException e) {
-                                                e.printStackTrace();
                                             }
+//                                            try {
+//                                                Thread.sleep(1000);
+//
+//
+//                                            } catch (InterruptedException e) {
+//                                                e.printStackTrace();
+//                                            }
                                         }
                                     });
                                 }
@@ -190,7 +193,10 @@ public class EditCourseStudentsFragment extends Fragment {
                                         CourseStudent ss = new CourseStudent(name, filenb);
                                         cs.add(ss);
                                         flag = 1;
-
+                                        search.setEnabled(true);
+                                        RecyclerView.Adapter a = new DoctorAddDeleteStudentAdapter(students, cs, flag, finalGetCourseCode);
+                                        rv.setAdapter(a);
+                                        progressBar.setVisibility(View.GONE);
                                     } else {
                                         db.collection("users").document("students").collection("data").document(idToSearch).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                             @Override
@@ -207,6 +213,10 @@ public class EditCourseStudentsFragment extends Fragment {
                                                         Student st = new Student(name, email, username, password, filenb, type);
                                                         students.add(st);
                                                         flag = 0;
+                                                        search.setEnabled(true);
+                                                        RecyclerView.Adapter a = new DoctorAddDeleteStudentAdapter(students, cs, flag, finalGetCourseCode);
+                                                        rv.setAdapter(a);
+                                                        progressBar.setVisibility(View.GONE);
                                                     }
                                                     else{
                                                         eror.setText("File Number doesn't exists");
@@ -218,15 +228,12 @@ public class EditCourseStudentsFragment extends Fragment {
 
                                     }
 
-                                    try {
-                                        Thread.sleep(1000);
-                                        search.setEnabled(true);
-                                        RecyclerView.Adapter a = new DoctorAddDeleteStudentAdapter(students, cs, flag,finalGetCourseCode);
-                                        rv.setAdapter(a);
-                                        progressBar.setVisibility(View.GONE);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
+//                                    try {
+//                                        Thread.sleep(1000);
+//
+//                                    } catch (InterruptedException e) {
+//                                        e.printStackTrace();
+//                                    }
                                 }
                             }
                         });
