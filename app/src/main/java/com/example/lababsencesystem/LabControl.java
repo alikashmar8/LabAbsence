@@ -26,9 +26,13 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class LabControl extends AppCompatActivity {
     Lab lab;
-    TextView labTitle, labDateAndTime, labAttendance;
+    TextView labTitle, labDateAndTime, labAttendance, attendanceError;
     Switch showHideQR;
     ImageView qrContainer;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -48,6 +52,7 @@ public class LabControl extends AppCompatActivity {
         labAttendance = findViewById(R.id.labAttendance);
         showHideQR = findViewById(R.id.showHideQR);
         qrContainer = findViewById(R.id.qrContainer);
+        attendanceError = findViewById(R.id.attendaceError);
 
         labTitle.setText("Lab: " + lab.getCourse());
         labDateAndTime.setText(lab.getDate() + "  " + lab.getTime());
@@ -62,29 +67,59 @@ public class LabControl extends AppCompatActivity {
                 loadAttendance();
             }
         });
+        final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String todayDate = sdf.format(new Date());
+        Date today = null;
+        try {
+            today = sdf.parse(todayDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
-        showHideQR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (showHideQR.isChecked()) {
-                    qrContainer.setVisibility(View.VISIBLE);
-                    MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-                    try {
-                        BitMatrix bitMatrix = multiFormatWriter.encode(lab.getId(), BarcodeFormat.QR_CODE, 200, 200);
-                        BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-                        Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
-                        qrContainer.setImageBitmap(bitmap);
+        Date labDate = null;
+        try {
+            labDate = sdf.parse(lab.getDate());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (today.compareTo(labDate) == 0) {
+            attendanceError.setVisibility(View.GONE);
+            showHideQR.setVisibility(View.VISIBLE);
+            showHideQR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (showHideQR.isChecked()) {
+                        qrContainer.setVisibility(View.VISIBLE);
+                        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+                        try {
+                            BitMatrix bitMatrix = multiFormatWriter.encode(lab.getId(), BarcodeFormat.QR_CODE, 200, 200);
+                            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+                            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+                            qrContainer.setImageBitmap(bitmap);
 //                        showHideQR.setText("Hide Attendance QR");
-                    } catch (WriterException e) {
-                        e.printStackTrace();
+                        } catch (WriterException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        qrContainer.setVisibility(View.GONE);
                     }
-                } else {
-                    qrContainer.setVisibility(View.GONE);
                 }
+
+
+            });
+        } else {
+            if (today.compareTo(labDate) < 0) { //upcoming labs
+                showHideQR.setVisibility(View.GONE);
+                attendanceError.setVisibility(View.VISIBLE);
+                attendanceError.setText("Cannot take attendance till lab day !");
             }
+            if (today.compareTo(labDate) > 0) {
+                showHideQR.setVisibility(View.GONE);
+                attendanceError.setVisibility(View.VISIBLE);
+                attendanceError.setText("Lab time ended can't take attendance anymore !");
 
-
-        });
+            }
+        }
 
     }
 

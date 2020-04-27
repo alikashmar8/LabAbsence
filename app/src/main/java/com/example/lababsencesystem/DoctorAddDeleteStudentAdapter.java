@@ -20,7 +20,7 @@ public class DoctorAddDeleteStudentAdapter extends RecyclerView.Adapter<DoctorAd
 
     ArrayList<Student> students;
     ArrayList<CourseStudent> cs;
-    int flag,w;
+    int flag;
     String getCourse;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
