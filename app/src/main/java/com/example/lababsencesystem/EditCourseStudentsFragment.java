@@ -104,12 +104,12 @@ public class EditCourseStudentsFragment extends Fragment {
                 students.clear();
                 cs.clear();
                 eror.setVisibility(View.GONE);
-                final String s=enterStudentId.getText().toString();
-                if (!s.equals("")) {
+                final String idToSearch = enterStudentId.getText().toString();
+                if (!idToSearch.equals("")) {
                     search.setEnabled(false);
                     progressBar.setVisibility(View.VISIBLE);
 
-                    final String[] strings = s.split("-");
+                    final String[] strings = idToSearch.split("-");
 
                     if (strings.length == 2) {
                         flag=2;
@@ -178,7 +178,7 @@ public class EditCourseStudentsFragment extends Fragment {
 
                     } else{
 
-                        db.collection("courses").document(finalGetCourseCode).collection("students").document(s).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        db.collection("courses").document(finalGetCourseCode).collection("students").document(idToSearch).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.isSuccessful()) {
@@ -191,7 +191,7 @@ public class EditCourseStudentsFragment extends Fragment {
                                         flag = 1;
 
                                     } else {
-                                        db.collection("users").document("students").collection("data").document(s).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        db.collection("users").document("students").collection("data").document(idToSearch).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                             @Override
                                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                 if (task.isSuccessful()) {
