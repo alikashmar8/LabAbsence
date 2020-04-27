@@ -1,37 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorAccent"
     android:padding="15dp"
+    android:id="@+id/mainContainer"
+    android:gravity="center"
     android:orientation="vertical">
-    <TextView
+
+    <LinearLayout
+        android:id="@+id/linearPart1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="Course"
+            android:id="@+id/doctorLabCourse" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/doctorLabDate"
+            android:textSize="20dp"
+            android:text="Date" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/doctorLabTime"
+            android:textSize="20dp"
+            android:text="Time" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/doctorLabEdit"
+            android:text="Details" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:text="Course"
-        android:id="@+id/doctorLabCourse"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/doctorLabDate"
-        android:textSize="20dp"
-        android:text="Date"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/doctorLabTime"
-        android:textSize="20dp"
-        android:text="Time"
-        />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/doctorLabEdit"
-        android:text="proceed"
-        />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/labAttended"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Attended"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/labMissed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Missed"
+            android:visibility="gone" />
+    </LinearLayout>
 
 
-</LinearLayout>
+</RelativeLayout>

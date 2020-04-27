@@ -9,9 +9,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class StudentLabAdapter extends RecyclerView.Adapter<StudentLabAdapter.StudentLabViewHolder> {
     ArrayList<Lab> labs;
@@ -37,9 +44,41 @@ public class StudentLabAdapter extends RecyclerView.Adapter<StudentLabAdapter.St
         holder.labDate.setText("Date: " + labs.get(i).date.toString());
         holder.labTime.setText("Time: " + labs.get(i).getTime());
         holder.labEdit.setVisibility(View.GONE);
+        final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String todayDate = sdf.format(new Date());
+        Date today = null;
+        try {
+            today = sdf.parse(todayDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Date labDate = null;
+        try {
+            labDate = sdf.parse(labs.get(i).getDate());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (today.compareTo(labDate) > 0) { //old Lab
 
+            db.collection("labs").document(labs.get(i).getId()).collection("attendance").document(StudentMain.student.getFileNumber() + "").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            holder.attended.setVisibility(View.VISIBLE);
+                            //                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        } else {
+//                        Log.d(TAG, "No such document");
+                            holder.missed.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+//                    Log.d(TAG, "get failed with ", task.getException());
+                    }
+                }
+            });
+        }
     }
-
     @Override
     public int getItemCount() {
         return labs.size();
@@ -51,6 +90,10 @@ public class StudentLabAdapter extends RecyclerView.Adapter<StudentLabAdapter.St
         TextView labDate;
         TextView labTime;
         Button labEdit;
+        TextView attended;
+        TextView missed;
+
+
 
         StudentLabViewHolder(View itemView) {
             super(itemView);
@@ -58,6 +101,8 @@ public class StudentLabAdapter extends RecyclerView.Adapter<StudentLabAdapter.St
             labDate = itemView.findViewById(R.id.doctorLabDate);
             labTime = itemView.findViewById(R.id.doctorLabTime);
             labEdit = itemView.findViewById(R.id.doctorLabEdit);
+            attended = itemView.findViewById(R.id.labAttended);
+            missed = itemView.findViewById(R.id.labMissed);
 
         }
     }

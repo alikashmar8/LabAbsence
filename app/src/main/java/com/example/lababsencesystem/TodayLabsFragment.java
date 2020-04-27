@@ -91,7 +91,7 @@ public class TodayLabsFragment extends Fragment {
                             if (labs.size() > 0) {
                                 rv.setVisibility(View.VISIBLE);
                                 text.setVisibility(View.GONE);
-                                RecyclerView.Adapter a = new DoctorLabAdapter(labs);
+                                RecyclerView.Adapter a = new StudentLabAdapter(labs);
                                 rv.setAdapter(a);
                             } else {
                                 rv.setVisibility(View.GONE);

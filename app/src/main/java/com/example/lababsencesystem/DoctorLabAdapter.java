@@ -60,6 +60,8 @@ public class DoctorLabAdapter extends RecyclerView.Adapter<StudentLabAdapter.Stu
         TextView labDate;
         TextView labTime;
         Button labEdit;
+        TextView attended;
+        TextView missed;
 
         DoctorLabViewHolder(View itemView) {
             super(itemView);
@@ -67,6 +69,8 @@ public class DoctorLabAdapter extends RecyclerView.Adapter<StudentLabAdapter.Stu
             labDate = itemView.findViewById(R.id.doctorLabDate);
             labTime = itemView.findViewById(R.id.doctorLabTime);
             labEdit = itemView.findViewById(R.id.doctorLabEdit);
+            attended = itemView.findViewById(R.id.labAttended);
+            missed = itemView.findViewById(R.id.labMissed);
 
 
         }
