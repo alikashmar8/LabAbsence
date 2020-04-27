@@ -62,16 +62,6 @@ public class ViewCourseStudentsFragment extends Fragment {
         getCourseCode=intent.getStringExtra("CourseCode");
         txtShow.setText(getCourseCode);
 
-
-
-
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
         db.collection("courses").document(getCourseCode).collection("students").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -110,5 +100,12 @@ public class ViewCourseStudentsFragment extends Fragment {
                 }
             }
         });
+
+
+
+
+        return view;
     }
+
+
 }
