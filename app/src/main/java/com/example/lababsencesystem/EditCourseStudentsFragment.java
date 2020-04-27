@@ -207,11 +207,14 @@ public class EditCourseStudentsFragment extends Fragment {
                                                         students.add(st);
                                                         flag = 0;
                                                     }
+                                                    else{
+                                                        eror.setText("File Number doesn't exists");
+                                                        eror.setVisibility(View.VISIBLE);
+                                                    }
                                                 }
                                             }
                                         });
-                                        //eror.setText("File Number doesn't exists");
-                                        //eror.setVisibility(View.VISIBLE);
+
                                     }
 
                                     try {
