@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -128,7 +129,6 @@ public class EditCourseStudentsFragment extends Fragment {
                                                 CourseStudent ss = new CourseStudent(name, filenb);
                                                 cs.add(ss);
                                             }
-
                                         }
 
                                     db.collection("users").document("students").collection("data").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -149,8 +149,6 @@ public class EditCourseStudentsFragment extends Fragment {
 
                                                             Student st = new Student(name, email, username, password, filenb, type);
                                                             students.add(st);
-
-
                                                         }
                                                     }
                                             }
@@ -172,7 +170,6 @@ public class EditCourseStudentsFragment extends Fragment {
                                         }
                                     });
                                 }
-
                             }
                         });
 
@@ -260,7 +257,7 @@ public class EditCourseStudentsFragment extends Fragment {
                     textImport.setText(path);
                     WorkbookSettings ws = new WorkbookSettings();
                     ws.setGCDisabled(true);
-                    File file = new File(path);
+                    File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),path);
                     if (file.exists()) {
                         try {
                             workbook = Workbook.getWorkbook(file);
