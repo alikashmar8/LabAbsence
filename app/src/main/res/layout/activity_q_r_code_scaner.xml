@@ -17,17 +17,17 @@
     <LinearLayout
         android:id="@+id/linear"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center">
 
-        <TextView
-            android:id="@+id/textScanned"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:text="text"
-            android:textColor="@color/colorAccent"
-            android:textSize="20dp" />
+        <ProgressBar
+            android:id="@+id/attendanceProgressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="37dp"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:visibility="gone" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -23,8 +23,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
         android:text="Date and Time:"
+        android:layout_marginLeft="20dp"
         android:textColor="@color/colorAccent"
         android:textSize="25dp" />
 
@@ -32,7 +32,8 @@
         android:id="@+id/dateAndTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp"
         android:textColor="@color/colorAccent"
         android:textSize="25dp" />
 
@@ -44,4 +45,19 @@
         android:text="Attendance:"
         android:textColor="@color/colorAccent"
         android:textSize="25sp" />
+
+    <Switch
+        android:id="@+id/showHideQR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="Show/Hide Attendance QR"
+        android:textColor="@color/colorAccent"
+        android:textSize="17dp" />
+
+    <ImageView
+        android:id="@+id/qrContainer"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+
 </LinearLayout>

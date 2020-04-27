@@ -107,24 +107,32 @@ public class StudentMain extends AppCompatActivity implements NavigationView.OnN
                     courses.clear();
                     coursesCode.clear();
                     for (final QueryDocumentSnapshot document : task.getResult()) {
-                        db.collection("courses").document(document.getId()).collection("students").whereEqualTo("fileNumber", student.getFileNumber()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot doc : task.getResult()) {
-                                        if (doc.get("fileNumber").toString().equals(student.getFileNumber())) {
-                                            Course course = document.toObject(Course.class);
-                                            courses.add(course);
-                                            coursesCode.add(course.getCode());
-                                            StudentHomeFragment.a.notifyDataSetChanged();
-                                        }
-                                    }
+                        checkCourse(document.getId(), document.toObject(Course.class));
+//                        Course course = document.toObject(Course.class);
+//                        courses.add(course);
+//                        coursesCode.add(course.getCode());
+//                        StudentHomeFragment.a.notifyDataSetChanged();
 
-                                }
-                            }
-                        });
                     }
                     getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new StudentHomeFragment()).commit();
+                }
+            }
+        });
+    }
+
+    private void checkCourse(String id, final Course course) {
+        db.collection("courses").document(id).collection("students").whereEqualTo("fileNumber", student.getFileNumber()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot doc : task.getResult()) {
+//                        if (doc.get("fileNumber").toString().equals(student.getFileNumber())) {
+                        courses.add(course);
+                        coursesCode.add(course.getCode());
+                        StudentHomeFragment.a.notifyDataSetChanged();
+//                        }
+//                    }
+                    }
                 }
             }
         });
