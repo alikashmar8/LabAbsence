@@ -113,6 +113,11 @@ public class EditCourseStudentsFragment extends Fragment {
                     final String[] strings = idToSearch.split("-");
 
                     if (strings.length == 2) {
+
+                        //////////
+
+
+                        /////////
                         flag=2;
                         db.collection("courses").document(finalGetCourseCode).collection("students").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
@@ -124,7 +129,6 @@ public class EditCourseStudentsFragment extends Fragment {
                                             if (document.getLong("fileNumber").intValue() >= Integer.parseInt(strings[0])
                                                     && document.getLong("fileNumber").intValue() <= Integer.parseInt(strings[1])){
                                                 String name = document.getString("name");
-
                                                 int filenb = document.getLong("fileNumber").intValue();
                                                 CourseStudent ss = new CourseStudent(name, filenb);
                                                 cs.add(ss);
@@ -135,7 +139,7 @@ public class EditCourseStudentsFragment extends Fragment {
                                         @Override
                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                             if (task.isSuccessful()) {
-                                                int ln=cs.size();
+//                                                int ln=cs.size();
                                                 if (task.getResult().size() > 0)
                                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                                         if (document.getLong("fileNumber").intValue() >= Integer.parseInt(strings[0])
