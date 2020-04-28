@@ -1,15 +1,28 @@
 package com.example.lababsencesystem;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.ContentUris;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Environment;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,13 +40,27 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+import org.apache.poi.ss.usermodel.CellValue;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import org.apache.poi.ss.usermodel.Cell;
+
+
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import jxl.Cell;
+
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.WorkbookSettings;
@@ -56,6 +83,8 @@ public class EditCourseStudentsFragment extends Fragment {
     ArrayList<CourseStudent> cs;
     int flag=0;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    private int STORAGE_PERMISSION_CODE = 1;
 
     public EditCourseStudentsFragment() {
         // Required empty public constructor
@@ -260,18 +289,22 @@ public class EditCourseStudentsFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         int flag=0;
         String path="";
+        Uri uri;
         switch (requestCode) {
             case 10:
                 if (resultCode == RESULT_OK) {
                     path = data.getData().getPath();
+
                     Log.d("tag3", path);
                     textImport.setText(path);
-                    WorkbookSettings ws = new WorkbookSettings();
-                    ws.setGCDisabled(true);
-                    File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),path);
-                    if (file.exists()) {
+                    //WorkbookSettings ws = new WorkbookSettings();
+                    //ws.setGCDisabled(true);
+                    //File file = new File(path);
+                  /*  if (file.exists()) {
                         try {
-                            workbook = Workbook.getWorkbook(file);
+                            FileInputStream is = new FileInputStream(file);
+                            workbook = Workbook.getWorkbook(is);
+                            Toast.makeText(getActivity(),path,Toast.LENGTH_LONG).show();
                             Sheet sheet = workbook.getSheet(0);
                             int j;
                             for (j=0;j<sheet.getColumns();j++);
@@ -299,10 +332,246 @@ public class EditCourseStudentsFragment extends Fragment {
                     }
                     else{
                         Toast.makeText(getActivity(),"File does not exist",Toast.LENGTH_SHORT).show();
-                    }
+                    }*/
+                    //uri = data.getData();
+                    //path = getPath(getActivity(), uri);
+                    String filenameArray[] = path.split("\\.");
+                    String extension = filenameArray[filenameArray.length-1];
+
+                    if (extension.equals("xlsx")) {
+
+                        File inputFile = new File(path);
+
+
+                        if (ContextCompat.checkSelfPermission(getActivity(),
+                                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+
+                            try {
+                                InputStream inputStream = new FileInputStream(inputFile);
+                                XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+                                XSSFSheet sheet = workbook.getSheetAt(0);
+                                int rowsCount = sheet.getPhysicalNumberOfRows();
+                                FormulaEvaluator formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
+                                StringBuilder sb = new StringBuilder();
+
+                                //outter loop, loops through rows
+                                for (int r = 1; r < rowsCount; r++) {
+                                    Row row = sheet.getRow(r);
+                                    int cellsCount = row.getPhysicalNumberOfCells();
+                                    //inner loop, loops through columns
+                                    for (int c = 0; c < cellsCount; c++) {
+                                        //handles if there are to many columns on the excel sheet.
+                                        if (c > 2) {
+                                            Toast.makeText(getActivity(), "invalid format", Toast.LENGTH_SHORT).show();
+                                            break;
+                                        } else {
+                                            String value = getCellAsString(row, c, formulaEvaluator);
+                                            String cellInfo = "r:" + r + "; c:" + c + "; v:" + value;
+                                            sb.append(value + ", ");
+                                        }
+                                    }
+                                    sb.append(":");
+                                }submit.setVisibility(View.VISIBLE);
+
+                                //parseStringBuilder(sb);
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            requestStoragePermission();
+                        }
+                    }else
+                        Toast.makeText(getActivity(), "please choose .xlsx file", Toast.LENGTH_SHORT).show();
+
                 }
                 break;
         }
+    }
+
+    private String getCellAsString(Row row, int c, FormulaEvaluator formulaEvaluator) {
+        String value = "";
+        try {
+            Cell cell = row.getCell(c);
+            CellValue cellValue = formulaEvaluator.evaluate(cell);
+            switch (cellValue.getCellType()) {
+                case Cell.CELL_TYPE_BOOLEAN:
+                    value = ""+cellValue.getBooleanValue();
+                    break;
+                case Cell.CELL_TYPE_NUMERIC:
+                    double numericValue = cellValue.getNumberValue();
+                    if(HSSFDateUtil.isCellDateFormatted(cell)) {
+                        double date = cellValue.getNumberValue();
+                        SimpleDateFormat formatter =
+                                new SimpleDateFormat("MM/dd/yy");
+                        value = formatter.format(HSSFDateUtil.getJavaDate(date));
+                    } else {
+                        value = ""+numericValue;
+                    }
+                    break;
+                case Cell.CELL_TYPE_STRING:
+                    value = ""+cellValue.getStringValue();
+                    break;
+                default:
+            }
+        } catch (NullPointerException e) {
+
+        }
+        return value;
+    }
+
+    private void requestStoragePermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                Manifest.permission.READ_EXTERNAL_STORAGE)) {
+
+            new AlertDialog.Builder(getActivity())
+                    .setTitle("Permission needed")
+                    .setMessage("This permission is needed because of this and that")
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ActivityCompat.requestPermissions(getActivity(),
+                                    new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+                        }
+                    })
+                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create().show();
+
+        } else {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == STORAGE_PERMISSION_CODE)  {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(getActivity(), "Permission GRANTED", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getActivity(), "Permission DENIED", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+
+    public static String getPath(final Context context, final Uri uri) {
+
+        // DocumentProvider
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && DocumentsContract.isDocumentUri(context, uri)) {
+
+            if (isExternalStorageDocument(uri)) {// ExternalStorageProvider
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+                String storageDefinition;
+
+
+                if("primary".equalsIgnoreCase(type)){
+
+                    return Environment.getExternalStorageDirectory() + "/" + split[1];
+
+                } else {
+
+                    if(Environment.isExternalStorageRemovable()){
+                        storageDefinition = "EXTERNAL_STORAGE";
+
+                    } else{
+                        storageDefinition = "SECONDARY_STORAGE";
+                    }
+
+                    return System.getenv(storageDefinition) + "/" + split[1];
+                }
+
+            } else if (isDownloadsDocument(uri)) {// DownloadsProvider
+
+                final String id = DocumentsContract.getDocumentId(uri);
+                final Uri contentUri = ContentUris.withAppendedId(
+                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+
+                return getDataColumn(context, contentUri, null, null);
+
+            } else if (isMediaDocument(uri)) {// MediaProvider
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+
+                Uri contentUri = null;
+                if ("image".equals(type)) {
+                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                } else if ("video".equals(type)) {
+                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                } else if ("audio".equals(type)) {
+                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                }
+
+                final String selection = "_id=?";
+                final String[] selectionArgs = new String[]{
+                        split[1]
+                };
+
+                return getDataColumn(context, contentUri, selection, selectionArgs);
+            }
+
+        } else if ("content".equalsIgnoreCase(uri.getScheme())) {// MediaStore (and general)
+
+            // Return the remote address
+            if (isGooglePhotosUri(uri))
+                return uri.getLastPathSegment();
+
+            return getDataColumn(context, uri, null, null);
+
+        } else if ("file".equalsIgnoreCase(uri.getScheme())) {// File
+            return uri.getPath();
+        }
+
+        return null;
+    }
+
+    public static String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
+
+        Cursor cursor = null;
+        final String column = "_data";
+        final String[] projection = {
+                column
+        };
+
+        try {
+            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                final int column_index = cursor.getColumnIndexOrThrow(column);
+                return cursor.getString(column_index);
+            }
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return null;
+    }
+
+
+    public static boolean isExternalStorageDocument(Uri uri) {
+        return "com.android.externalstorage.documents".equals(uri.getAuthority());
+    }
+
+
+    public static boolean isDownloadsDocument(Uri uri) {
+        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
+    }
+
+    public static boolean isMediaDocument(Uri uri) {
+        return "com.android.providers.media.documents".equals(uri.getAuthority());
+    }
+
+    public static boolean isGooglePhotosUri(Uri uri) {
+        return "com.google.android.apps.photos.content".equals(uri.getAuthority());
     }
 
 
