@@ -293,7 +293,7 @@ public class EditCourseStudentsFragment extends Fragment {
         switch (requestCode) {
             case 10:
                 if (resultCode == RESULT_OK) {
-                    path = data.getData().getPath();
+                   // path = data.getData().getPath();
 
                     Log.d("tag3", path);
                     textImport.setText(path);
@@ -333,8 +333,8 @@ public class EditCourseStudentsFragment extends Fragment {
                     else{
                         Toast.makeText(getActivity(),"File does not exist",Toast.LENGTH_SHORT).show();
                     }*/
-                    //uri = data.getData();
-                    //path = getPath(getActivity(), uri);
+                    uri = data.getData();
+                    path = getPath(getActivity(), uri);
                     String filenameArray[] = path.split("\\.");
                     String extension = filenameArray[filenameArray.length-1];
 
