@@ -30,31 +30,37 @@
             android:layout_marginTop="10dp"
             android:layout_gravity="center"/>
 
-    <Button
-        android:id="@+id/chooseFile"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ChooseFile"
-        android:textSize="14sp"
-        android:visibility="visible"
-        android:layout_marginLeft="66dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="66dp"/>
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        >
 
+        <Button
+            android:id="@+id/chooseFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ChooseFile"
+            android:textSize="14sp"
+            android:visibility="visible"
+            android:layout_marginRight="20dp"
+            />
 
-    <Button
-        android:id="@+id/submit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="66dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="66dp"
-        android:background="#4CAF50"
-        android:text="Submit"
-        android:textAllCaps="true"
-        android:textColor="#FFFFFF"
-        android:textStyle="italic"
-        android:visibility="gone" />
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:background="#4CAF50"
+            android:text="Submit"
+            android:textAllCaps="true"
+            android:textColor="#FFFFFF"
+            android:textStyle="italic"
+            android:visibility="visible" />
+    </LinearLayout>
+
 
     <EditText
         android:id="@+id/enterStudentId"
