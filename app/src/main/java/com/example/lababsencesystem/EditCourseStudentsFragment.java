@@ -59,6 +59,8 @@ import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 
 import jxl.Sheet;
@@ -72,7 +74,7 @@ public class EditCourseStudentsFragment extends Fragment {
 
 
     ProgressBar progressBar;
-    TextView textImport,textShow,eror;
+    TextView textImport, textShow, eror, excelResult;
     EditText enterStudentId;
     Button chooseFile,search,submit;
     Intent myFileIntent;
@@ -82,9 +84,13 @@ public class EditCourseStudentsFragment extends Fragment {
     ArrayList<Student> students;
     ArrayList<CourseStudent> cs;
     int flag=0;
+    String getCourseCode = "";
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private int STORAGE_PERMISSION_CODE = 1;
+    private ArrayList<CourseStudent> excelStudents;
+    private ArrayList<CourseStudent> notRegisteredStudents;
+    private ArrayList<CourseStudent> alreadyRegisteredStudents;
 
     public EditCourseStudentsFragment() {
         // Required empty public constructor
@@ -108,14 +114,18 @@ public class EditCourseStudentsFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
         eror=view.findViewById(R.id.eror);
         eror.setVisibility(View.GONE);
+        excelResult = view.findViewById(R.id.excelResult);
 
         name = new ArrayList<>();
         id = new ArrayList<>();
+        excelStudents = new ArrayList<>();
+        notRegisteredStudents = new ArrayList<>();
+        alreadyRegisteredStudents = new ArrayList<>();
 
         students=new ArrayList<>();
         cs=new ArrayList<>();
 
-        String getCourseCode="";
+
         Intent intent=getActivity().getIntent();
         getCourseCode=intent.getStringExtra("CourseCode");
         textShow.setText(getCourseCode);
@@ -357,21 +367,52 @@ public class EditCourseStudentsFragment extends Fragment {
                                 //outter loop, loops through rows
                                 for (int r = 1; r < rowsCount; r++) {
                                     Row row = sheet.getRow(r);
-                                    int cellsCount = row.getPhysicalNumberOfCells();
+                                    int columnsCount = row.getPhysicalNumberOfCells();
                                     //inner loop, loops through columns
-                                    for (int c = 0; c < cellsCount; c++) {
-                                        //handles if there are to many columns on the excel sheet.
-                                        if (c > 2) {
-                                            Toast.makeText(getActivity(), "invalid format", Toast.LENGTH_SHORT).show();
-                                            break;
-                                        } else {
-                                            String value = getCellAsString(row, c, formulaEvaluator);
-                                            String cellInfo = "r:" + r + "; c:" + c + "; v:" + value;
-                                            sb.append(value + ", ");
-                                        }
+                                    if (columnsCount > 2) {
+                                        Toast.makeText(getActivity(), "invalid format", Toast.LENGTH_SHORT).show();
+                                        flag = 1;
+                                        break;
+                                    } else {
+                                        String fileNumber = getCellAsString(row, 0, formulaEvaluator);
+                                        String cellInfo = "r:" + r + "; c:" + 0 + "; v:" + fileNumber;
+                                        sb.append(fileNumber + ", ");
+
+                                        String name = getCellAsString(row, 1, formulaEvaluator);
+                                        String cellInfo2 = "r:" + r + "; c:" + 1 + "; v:" + name;
+                                        sb.append(name + ", ");
+
+                                        CourseStudent cs = new CourseStudent(name, Integer.parseInt(fileNumber));
+                                        excelStudents.add(cs);
+
+                                        Log.d("excelTAggg", fileNumber + " ::  " + name);
+                                        Toast.makeText(getActivity(), fileNumber + " ::  " + name, Toast.LENGTH_SHORT).show();
+
+
                                     }
+
+//                                    for (int c = 0; c < columnsCount; c++) {
+//                                        //handles if there are to many columns on the excel sheet.
+//                                        if (c > 2) {
+//                                            Toast.makeText(getActivity(), "invalid format", Toast.LENGTH_SHORT).show();
+//                                            break;
+//                                        } else {
+//                                            String value = getCellAsString(row, c, formulaEvaluator);
+//                                            String cellInfo = "r:" + r + "; c:" + c + "; v:" + value;
+//                                            sb.append(value + ", ");
+//                                        }
+//                                    }
                                     sb.append(":");
-                                }submit.setVisibility(View.VISIBLE);
+                                }//for each row
+                                if (flag == 1) {
+                                    //format not correct
+                                } else {
+                                    enrollStudents(0);
+                                    excelResult.setText("add students= " + excelStudents.size() + "  students not found = " + notRegisteredStudents.size() + "  already Registered in courses=" + alreadyRegisteredStudents.size());
+                                    excelResult.setVisibility(View.VISIBLE);
+                                    submit.setVisibility(View.VISIBLE);
+                                }
+
 
                                 //parseStringBuilder(sb);
                             } catch (FileNotFoundException e) {
@@ -387,6 +428,49 @@ public class EditCourseStudentsFragment extends Fragment {
 
                 }
                 break;
+        }
+    }
+
+    private void enrollStudents(final int i) {
+        if (i < excelStudents.size()) {
+            final int finalI = i;
+            db.collection("users").document("students").collection("data").document(excelStudents.get(i).getFileNumber() + "").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        if (task.getResult().exists()) { //student is found in db
+                            //check if he is already registered in this courses
+                            db.collection("courses").document(getCourseCode).collection("students").document(excelStudents.get(i).getFileNumber() + "").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        if (task.getResult().exists()) { //he is already registered in course
+                                            alreadyRegisteredStudents.add(excelStudents.get(i));
+                                            excelStudents.remove(i);
+                                            enrollStudents(i + 1);
+                                        } else {
+                                            //not registered in course
+
+                                            // register him
+
+                                            enrollStudents(i + 1);
+                                        }
+                                    }
+                                }
+                            });
+
+
+                        } else {
+                            //student not registered in db
+                            notRegisteredStudents.add(excelStudents.get(finalI));
+                            excelStudents.remove(finalI);
+                            enrollStudents(i + 1);
+
+                        }
+                    }
+                }
+            });
+
         }
     }
 

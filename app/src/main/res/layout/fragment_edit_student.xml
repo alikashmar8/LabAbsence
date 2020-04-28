@@ -36,6 +36,7 @@
         android:orientation="horizontal"
         android:layout_marginTop="5dp"
         android:gravity="center"
+        android:padding="5dp"
         >
 
         <Button
@@ -60,6 +61,16 @@
             android:textStyle="italic"
             android:visibility="visible" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/excelResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:text="resulytssssssss"
+        android:textColor="@color/colorAccent"
+        android:textSize="15dp"
+        android:visibility="gone" />
 
 
     <EditText
