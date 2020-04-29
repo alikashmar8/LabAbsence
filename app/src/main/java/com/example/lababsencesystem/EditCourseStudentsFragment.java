@@ -91,6 +91,8 @@ public class EditCourseStudentsFragment extends Fragment {
     private ArrayList<CourseStudent> excelStudents;
     private ArrayList<CourseStudent> notRegisteredStudents;
     private ArrayList<CourseStudent> alreadyRegisteredStudents;
+    private ArrayList<CourseStudent> readyToAddStudents;
+    private ProgressBar loadingExcel;
 
     public EditCourseStudentsFragment() {
         // Required empty public constructor
@@ -111,6 +113,7 @@ public class EditCourseStudentsFragment extends Fragment {
         submit=view.findViewById(R.id.submit);
         submit.setVisibility(View.GONE);
         progressBar=view.findViewById(R.id.prbar);
+        loadingExcel = view.findViewById(R.id.loadingExcel);
         progressBar.setVisibility(View.GONE);
         eror=view.findViewById(R.id.eror);
         eror.setVisibility(View.GONE);
@@ -121,6 +124,7 @@ public class EditCourseStudentsFragment extends Fragment {
         excelStudents = new ArrayList<>();
         notRegisteredStudents = new ArrayList<>();
         alreadyRegisteredStudents = new ArrayList<>();
+        readyToAddStudents = new ArrayList<>();
 
         students=new ArrayList<>();
         cs=new ArrayList<>();
@@ -291,7 +295,36 @@ public class EditCourseStudentsFragment extends Fragment {
             }
         });
 
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                excelResult.setVisibility(View.GONE);
+                loadingExcel.setVisibility(View.VISIBLE);
+                saveStudents();
+            }
+        });
+
         return view;
+    }
+
+    private void saveStudents() {
+        if (readyToAddStudents.size() > 0) {
+            db.collection("courses").document(getCourseCode).collection("students").document(readyToAddStudents.get(0).getFileNumber() + "").set(readyToAddStudents.get(0)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        readyToAddStudents.remove(0);
+                        saveStudents();
+                    }
+                }
+            });
+        } else {
+            excelResult.setText("Added");
+            loadingExcel.setVisibility(View.GONE);
+            excelResult.setVisibility(View.VISIBLE);
+
+        }
+
     }
 
     @Override
@@ -382,11 +415,13 @@ public class EditCourseStudentsFragment extends Fragment {
                                         String cellInfo2 = "r:" + r + "; c:" + 1 + "; v:" + name;
                                         sb.append(name + ", ");
 
-                                        CourseStudent cs = new CourseStudent(name, Integer.parseInt(fileNumber));
+                                        int fn = (int) Double.parseDouble(fileNumber);
+
+                                        CourseStudent cs = new CourseStudent(name, fn);
                                         excelStudents.add(cs);
 
-                                        Log.d("excelTAggg", fileNumber + " ::  " + name);
-                                        Toast.makeText(getActivity(), fileNumber + " ::  " + name, Toast.LENGTH_SHORT).show();
+                                        Log.d("excelTAggg", fn + " ::  " + name);
+//                                        Toast.makeText(getActivity(),  fn + " ::  " + name, Toast.LENGTH_SHORT).show();
 
 
                                     }
@@ -406,11 +441,11 @@ public class EditCourseStudentsFragment extends Fragment {
                                 }//for each row
                                 if (flag == 1) {
                                     //format not correct
+                                    Toast.makeText(getContext(), "error filesss", Toast.LENGTH_SHORT).show();
                                 } else {
+
                                     enrollStudents(0);
-                                    excelResult.setText("add students= " + excelStudents.size() + "  students not found = " + notRegisteredStudents.size() + "  already Registered in courses=" + alreadyRegisteredStudents.size());
-                                    excelResult.setVisibility(View.VISIBLE);
-                                    submit.setVisibility(View.VISIBLE);
+                                    loadingExcel.setVisibility(View.VISIBLE);
                                 }
 
 
@@ -432,7 +467,7 @@ public class EditCourseStudentsFragment extends Fragment {
     }
 
     private void enrollStudents(final int i) {
-        if (i < excelStudents.size()) {
+        if (excelStudents.size() > 0) {
             final int finalI = i;
             db.collection("users").document("students").collection("data").document(excelStudents.get(i).getFileNumber() + "").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
@@ -447,13 +482,14 @@ public class EditCourseStudentsFragment extends Fragment {
                                         if (task.getResult().exists()) { //he is already registered in course
                                             alreadyRegisteredStudents.add(excelStudents.get(i));
                                             excelStudents.remove(i);
-                                            enrollStudents(i + 1);
+                                            enrollStudents(i);
                                         } else {
                                             //not registered in course
 
                                             // register him
-
-                                            enrollStudents(i + 1);
+                                            readyToAddStudents.add(excelStudents.get(i));
+                                            excelStudents.remove(i);
+                                            enrollStudents(i);
                                         }
                                     }
                                 }
@@ -464,12 +500,18 @@ public class EditCourseStudentsFragment extends Fragment {
                             //student not registered in db
                             notRegisteredStudents.add(excelStudents.get(finalI));
                             excelStudents.remove(finalI);
-                            enrollStudents(i + 1);
+                            enrollStudents(i);
 
                         }
                     }
                 }
             });
+
+        } else {
+            loadingExcel.setVisibility(View.GONE);
+            excelResult.setText(" Students to add = " + readyToAddStudents.size() + "\n Students not found = " + notRegisteredStudents.size() + "\n Already registered students= " + alreadyRegisteredStudents.size() + "\n If you would like to proceed please submit");
+            excelResult.setVisibility(View.VISIBLE);
+            submit.setVisibility(View.VISIBLE);
 
         }
     }
