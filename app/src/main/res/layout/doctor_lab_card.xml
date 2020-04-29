@@ -15,11 +15,11 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/doctorLabCourse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
             android:text="Course"
-            android:id="@+id/doctorLabCourse" />
+            android:textSize="20dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,10 +36,13 @@
             android:text="Time" />
 
         <Button
+            android:id="@+id/doctorLabEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/doctorLabEdit"
-            android:text="Details" />
+            android:layout_gravity="right"
+            android:background="#009688"
+            android:text="Details"
+            android:textColor="#FFFFFF" />
     </LinearLayout>
 
     <LinearLayout

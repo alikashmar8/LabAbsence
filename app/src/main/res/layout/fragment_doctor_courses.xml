@@ -5,20 +5,23 @@
     android:layout_height="match_parent"
     tools:context=".DoctorCoursesFragment"
     android:orientation="vertical"
-    android:gravity="center_horizontal"
-    android:padding="20dp">
+    android:gravity="center_horizontal">
 
     <TextView
         android:id="@+id/courseDr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Your Courses"
+        android:layout_margin="15dp"
         android:background="@color/colorAccent"
-        android:layout_margin="15dp"/>
+        android:text="Your Courses"
+        android:textAllCaps="true"
+        android:textSize="24sp"
+        android:textStyle="bold|italic" />
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/doctorCoursesRecycler">
+        android:id="@+id/doctorCoursesRecycler"
+        >
 
     </androidx.recyclerview.widget.RecyclerView>
 

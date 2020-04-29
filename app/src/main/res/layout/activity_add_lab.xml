@@ -8,63 +8,114 @@
     android:background="@drawable/grdnt"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="20dp">
+    >
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Choose Course:"
-        android:textColor="@color/colorAccent"
-        android:textSize="20sp" />
+        android:orientation="vertical"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="0.7in"
+        android:layout_marginRight="30dp"
+        android:layout_gravity="center"
+        android:background="#A3FFFFFF">
 
-    <Spinner
-        android:id="@+id/courseSpinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:popupBackground="#242424" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="Choose Course:"
+            android:textColor="#000000"
+            android:textSize="30sp" />
 
-    <Button
-        android:id="@+id/chooseDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Choose lab date " />
-
-    <TextView
-        android:id="@+id/dateShow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="28dp"
-        android:text="date"
-        android:textColor="@color/colorAccent"
-        android:textSize="30sp" />
+        <Spinner
+            android:id="@+id/courseSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:popupBackground="#3F51B5" />
 
 
-    <Button
-        android:id="@+id/chooseTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="choose lab time" />
+        <TextView
+            android:id="@+id/dateShow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
 
-    <TextView
-        android:id="@+id/showTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="time"
-        android:textColor="@color/colorAccent"
-        android:textSize="30sp" />
+            android:layout_margin="10dp"
+            android:text="Date:"
+            android:textColor="#000000"
+            android:textSize="30sp" />
 
-    <Button
-        android:id="@+id/createLab"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_margin="50dp"
-        android:text="Create Lab" />
 
-    <ProgressBar
-        android:id="@+id/creatingProgressBar"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="37dp"
-        android:layout_height="28dp"
-        android:gravity="center"
-        android:visibility="gone" />
+        <Button
+            android:id="@+id/chooseDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="#3F51B5"
+            android:text="Choose lab date "
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/showTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:text="Time:"
+            android:textColor="#000000"
+            android:textSize="30sp" />
+
+
+        <Button
+            android:id="@+id/chooseTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="#3F51B5"
+            android:text="choose lab time"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:textColor="#FFFFFF" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_marginTop="15dp"
+            android:background="#000000"
+            />
+        <Button
+            android:id="@+id/createLab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="#4CAF50"
+            android:text="Create Lab"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold|italic" />
+
+        <ProgressBar
+            android:id="@+id/creatingProgressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="37dp"
+            android:layout_height="28dp"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:visibility="gone" />
+    </LinearLayout>
+
+
 </LinearLayout>

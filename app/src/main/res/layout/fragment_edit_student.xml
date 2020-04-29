@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/grdnt"
     android:orientation="vertical"
     android:gravity="center_horizontal"
@@ -42,11 +43,10 @@
             android:id="@+id/chooseFile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
             android:text="ChooseFile"
             android:textSize="14sp"
-            android:visibility="visible"
-            android:layout_marginRight="20dp"
-            />
+            android:visibility="visible" />
 
         <Button
             android:id="@+id/submit"
@@ -87,7 +87,8 @@
         android:layout_marginTop="15dp"
         android:layout_marginRight="7dp"
         android:ems="10"
-        android:hint="Enter Student file number "
+        android:hint="Enter Student file number: "
+        android:backgroundTint="@android:color/white"
         android:inputType="textPersonName"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF" />
@@ -97,9 +98,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginRight="70dp"
+        android:background="#009688"
         android:text="Search"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="60dp"/>
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/eror"

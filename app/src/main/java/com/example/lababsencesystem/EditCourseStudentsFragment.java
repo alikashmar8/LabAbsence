@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -207,6 +208,9 @@ public class EditCourseStudentsFragment extends Fragment {
                                                 }
                                                 search.setEnabled(true);
                                                 RecyclerView.Adapter a = new DoctorAddDeleteStudentAdapter(students, cs, flag, finalGetCourseCode);
+                                                DividerItemDecoration dividerItemDecoration=new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL);
+                                                dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.recycler_view_divider));
+                                                rv.addItemDecoration(dividerItemDecoration);
                                                 rv.setAdapter(a);
                                                 progressBar.setVisibility(View.GONE);
                                             }
@@ -238,6 +242,9 @@ public class EditCourseStudentsFragment extends Fragment {
                                         flag = 1;
                                         search.setEnabled(true);
                                         RecyclerView.Adapter a = new DoctorAddDeleteStudentAdapter(students, cs, flag, finalGetCourseCode);
+                                        DividerItemDecoration dividerItemDecoration=new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL);
+                                        dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.recycler_view_divider));
+                                        rv.addItemDecoration(dividerItemDecoration);
                                         rv.setAdapter(a);
                                         progressBar.setVisibility(View.GONE);
                                     } else {
@@ -258,12 +265,17 @@ public class EditCourseStudentsFragment extends Fragment {
                                                         flag = 0;
                                                         search.setEnabled(true);
                                                         RecyclerView.Adapter a = new DoctorAddDeleteStudentAdapter(students, cs, flag, finalGetCourseCode);
+                                                        DividerItemDecoration dividerItemDecoration=new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL);
+                                                        dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.recycler_view_divider));
+                                                        rv.addItemDecoration(dividerItemDecoration);
                                                         rv.setAdapter(a);
                                                         progressBar.setVisibility(View.GONE);
                                                     }
                                                     else{
-                                                        eror.setText("File Number doesn't exists");
+                                                        eror.setText("File Number doesn't exist");
                                                         eror.setVisibility(View.VISIBLE);
+                                                        search.setEnabled(true);
+                                                        progressBar.setVisibility(View.GONE);
                                                     }
                                                 }
                                             }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -47,6 +48,9 @@ public class TodayLabsFragment extends Fragment {
         final RecyclerView rv = view.findViewById(R.id.todayLabsRV);
         rv.setHasFixedSize(true);
         RecyclerView.LayoutManager lm = new LinearLayoutManager(getContext());
+        DividerItemDecoration dividerItemDecoration=new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.recycler_view_divider));
+        rv.addItemDecoration(dividerItemDecoration);
         rv.setLayoutManager(lm);
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");

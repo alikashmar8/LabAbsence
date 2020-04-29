@@ -8,12 +8,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import static android.widget.LinearLayout.HORIZONTAL;
 
 public class DoctorLabAdapter extends RecyclerView.Adapter<StudentLabAdapter.StudentLabViewHolder> {
     ArrayList<Lab> labs;
@@ -46,6 +49,7 @@ public class DoctorLabAdapter extends RecyclerView.Adapter<StudentLabAdapter.Stu
                 holder.itemView.getContext().startActivity(intent);
             }
         });
+
 
     }
 
