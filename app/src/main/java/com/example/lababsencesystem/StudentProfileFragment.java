@@ -1,5 +1,6 @@
 package com.example.lababsencesystem;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,7 +34,10 @@ public class StudentProfileFragment extends Fragment {
     private Student student = StudentMain.student;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    private EditText nm,un,em,pass,fnb;
+    EditText nm,un,em,pass,fnb,oldPassword,newPassword,newPasswordConfirm;
+    TextView usernmaeTv,fileNumberbTv,emailTv,nameTv;
+    Button ed,changePassword;
+    LinearLayout linearEdit,linearShow,linearChangePassword;
 
     public StudentProfileFragment() {
         // Required empty public constructor
@@ -46,40 +52,149 @@ public class StudentProfileFragment extends Fragment {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
 
-        nm=view.findViewById(R.id.name);
-        un=view.findViewById(R.id.username);
-        em=view.findViewById(R.id.email);
-        pass=view.findViewById(R.id.password);
-        fnb=view.findViewById(R.id.filenb);
-        Button ed = view.findViewById(R.id.Edit);
+        nm=view.findViewById(R.id.studentProfilename);
+        un=view.findViewById(R.id.studentProfileUsername);
+        em=view.findViewById(R.id.studentProfileEmail);
+        //pass=view.findViewById(R.id.password);
+        //fnb=view.findViewById(R.id.filenb);
+         ed = view.findViewById(R.id.editStudentProfile);
+         changePassword = view.findViewById(R.id.changePasswordSt);
 
+        usernmaeTv=view.findViewById(R.id.studentProfileUsernametv);
+        emailTv=view.findViewById(R.id.studentProfileEmailtv);
+        fileNumberbTv=view.findViewById(R.id.studentProfileFileNumberTv);
+        nameTv=view.findViewById(R.id.studentProfilenametv);
 
-        nm.setText(student.getName());
-        un.setText(student.getUsername());
-        em.setText(student.getEmail());
-        pass.setText(student.getPassword());
-        fnb.setText(String.valueOf(student.getFileNumber()));
+        oldPassword=view.findViewById(R.id.oldPasswordSt);
+        newPassword=view.findViewById(R.id.newPasswordSt);
+        newPasswordConfirm=view.findViewById(R.id.newPasswordConfirmSt);
+
+        linearChangePassword=view.findViewById(R.id.linearChangePasswordSt);
+        linearEdit=view.findViewById(R.id.linearEditSt);
+        linearShow=view.findViewById(R.id.linearShowSt);
+
+        linearShow.setVisibility(View.VISIBLE);
+        linearEdit.setVisibility(View.GONE);
+        linearChangePassword.setVisibility(View.GONE);
+
+        refresh();
+
 
 
         ed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Student st=new Student(nm.getText().toString(), em.getText().toString(), un.getText().toString(), pass.getText().toString(),Integer.valueOf(fnb.getText().toString()),"student");
-                edit(st);
-                Toast.makeText(getContext(),"Your Information had been edited",Toast.LENGTH_LONG).show();
+                String getEditPosition=ed.getText().toString();
+                if (getEditPosition.equalsIgnoreCase("Submit")){
+                    int flag=0;
+                    if (nm.getText().toString().equals("") ){
+                        nm.setError("please enter your name");
+                        flag=1;
+                    }
+                    if(em.getText().toString().equals("")) {
+                        em.setError("please enter your email");
+                        flag=1;
+                    }
+                    if(un.getText().toString().equals("")) {
+                        un.setError("please enter your username");
+                        flag=1;
+                    }
+                    if (flag==0) {
+                        ed.setText("Edit");
+                        ed.setBackgroundColor(Color.parseColor("#FF3F51B5"));
+                        linearShow.setVisibility(View.VISIBLE);
+                        linearEdit.setVisibility(View.GONE);
+                        changePassword.setVisibility(View.VISIBLE);
+                        StudentMain.student.setEmail(em.getText().toString());
+                        StudentMain.student.setName(nm.getText().toString());
+                        StudentMain.student.setUsername(un.getText().toString());
+                        edit();
+                        refresh();
+                    }
 
+                }
+                else {
+                    ed.setText("Submit");
+                    ed.setBackgroundColor(Color.parseColor("#FF4CAF50"));
+                    linearEdit.setVisibility(View.VISIBLE);
+                    linearShow.setVisibility(View.GONE);
+                    changePassword.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        changePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String getPasswordPosition=changePassword.getText().toString();
+                if (getPasswordPosition.equalsIgnoreCase("Submit")){
+                    int flag=0;
+
+                    if (!oldPassword.getText().toString().equals(student.getPassword())) {
+                        oldPassword.setError("Incorrect Password");
+                        flag = 1;
+                    }
+                    if (!newPassword.getText().toString().equals(newPasswordConfirm.getText().toString())){
+                        Toast.makeText(getActivity(),"new Password and Confirm new Password fields are different",Toast.LENGTH_LONG).show();
+                        flag=1;
+                    }
+                    if (oldPassword.getText().length()<6) {
+                        oldPassword.setError("Minimum password length must be 6");
+                        flag=1;
+                    }
+                    if (newPassword.getText().length()<6) {
+                        newPassword.setError("Minimum password length must be 6");
+                        flag=1;
+                    }
+                    if (newPasswordConfirm.getText().length()<6) {
+                        newPasswordConfirm.setError("Minimum password length must be 6");
+                        flag=1;
+                    }
+                    if(oldPassword.getText().toString().equals("")  || oldPassword.getText().length()<6){
+                        oldPassword.setError("please enter your password");
+                        flag=1;
+                    }
+                    if(newPassword.getText().toString().equals("")){
+                        newPassword.setError("please enter your password");
+                        flag=1;
+                    }
+                    if(newPasswordConfirm.getText().toString().equals("")){
+                        newPasswordConfirm.setError("please enter your password");
+                        flag=1;
+                    }
+
+                    if (flag==0) {
+                        changePassword.setText("Change Password");
+                        changePassword.setBackgroundColor(Color.parseColor("#FFF44336"));
+                        linearChangePassword.setVisibility(View.GONE);
+                        linearShow.setVisibility(View.VISIBLE);
+                        ed.setVisibility(View.VISIBLE);
+                        StudentMain.student.setPassword(newPassword.getText().toString());
+                        change();
+                        Toast.makeText(getActivity(),"Your Password is Changed",Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }
+                else {
+                    changePassword.setText("Submit");
+                    changePassword.setBackgroundColor(Color.parseColor("#FF4CAF50"));
+                    linearChangePassword.setVisibility(View.VISIBLE);
+                    linearShow.setVisibility(View.GONE);
+                    ed.setVisibility(View.GONE);
+                }
             }
         });
 
         return view;
     }
 
-    private void edit(final Student s){
+    private void edit(){
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        db.collection("users").document("students")
+       /* db.collection("users").document("students")
                 .collection("data")
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -88,15 +203,40 @@ public class StudentProfileFragment extends Fragment {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         if (document.get("email").equals(student.getEmail())) {
 
-                           document.getReference().set(s);
                         }
                     }
                 } else {
                     Log.d("TAG", "Error getting documents: ", task.getException());
                 }
             }
-        });
+        });*/
+        db.collection("users").document("students")
+                .collection("data").document(student.getFileNumber() + "").update(
 
+                "name", nm.getText().toString(),
+                "username", un.getText().toString(),
+                "email", em.getText().toString()
+        );
+
+    }
+
+    void change(){
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        db.collection("users").document("students")
+                .collection("data").document(student.getFileNumber() + "").update(
+                "password", newPassword.getText().toString()
+        );
+    }
+
+    void refresh(){
+        nm.setText(student.getName());
+        un.setText(student.getUsername());
+        em.setText(student.getEmail());
+
+        usernmaeTv.setText("Username : "+student.getUsername());
+        emailTv.setText("Email : "+student.getEmail());
+        fileNumberbTv.setText("File Number : "+student.getFileNumber());
+        nameTv.setText("Name : "+student.getName());
     }
 
 }

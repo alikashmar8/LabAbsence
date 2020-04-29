@@ -1,165 +1,255 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StudentProfileFragment"
-    android:background="#ffffff">
-
-    <!-- TODO: Update blank fragment layout -->
+    android:background="@drawable/grdnt"
+    android:orientation="vertical"
+    tools:context=".DoctorProfileFragment">
 
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/grdnt"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="0.93in"
+        android:layout_marginRight="30dp"
+        android:background="#A3FFFFFF"
+        android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/filenb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#00000000"
-                android:backgroundTint="#FFFFFF"
-                android:textAlignment="center"
-                android:layout_gravity="center"
-                android:textColor="#fff"
-                android:textColorHint="#d9e5f3"
-                android:textSize="20dp"
-                android:enabled="false"
-                />
-
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_marginHorizontal="60dp"
-            android:background="#ffffff"
-            android:layout_marginBottom="30dp" />
-
-
-
-            <EditText
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:textAlignment="center"
-                android:layout_gravity="center"
-                android:textColor="#fff"
-                android:textColorHighlight="#FFFFFF"
-                android:textColorHint="#d9e5f3"
-                android:textSize="20dp"
-                />
-
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_marginHorizontal="60dp"
-            android:background="#ffffff"
-            android:layout_marginBottom="30dp"
-
-            />
-
-        <EditText
-            android:id="@+id/username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:textAlignment="center"
-            android:layout_gravity="center"
-            android:textColor="#fff"
-            android:textColorHighlight="#FFFFFF"
-            android:textColorHint="#d9e5f3"
-            android:textSize="20dp"
-            />
-
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_marginHorizontal="60dp"
-            android:background="#ffffff"
-            android:layout_marginBottom="30dp"
-
-            />
-
-        <EditText
-            android:id="@+id/email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:textAlignment="center"
-            android:layout_gravity="center"
-            android:textColor="#fff"
-            android:textColorHighlight="#FFFFFF"
-            android:textColorHint="#d9e5f3"
-            android:textSize="20dp"
-            />
-
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_marginHorizontal="60dp"
-            android:background="#ffffff"
-            android:layout_marginBottom="30dp"
-
-            />
-
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:textAlignment="center"
-            android:layout_gravity="center"
-            android:textColor="#fff"
-            android:textColorHighlight="#FFFFFF"
-            android:textColorHint="#d9e5f3"
-            android:textSize="20dp"
-            />
-
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_marginHorizontal="60dp"
-            android:background="#ffffff"
-            android:layout_marginBottom="30dp"
-
-            />
-
-        <Button
-            android:id="@+id/Edit"
+        <TextView
+            android:id="@+id/studentProfileFileNumberTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:background="#115385"
+            android:layout_margin="15dp"
             android:gravity="center"
-            android:text="Edit"
-            android:textSize="20dp"
+            android:text="TextView"
             android:textAllCaps="true"
-            android:layout_marginHorizontal="70dp"
-            android:textColor="#FFFFFF"
+            android:textColor="#000000"
+            android:textSize="24sp"
             android:textStyle="bold|italic" />
+    </LinearLayout>
 
-        <ProgressBar
-            android:id="@+id/progressBar1"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="37dp"
-            android:layout_height="28dp"
-            android:gravity="center"
-            android:visibility="gone" />
+    <LinearLayout
+        android:id="@+id/linearEditSt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginRight="30dp"
+        android:background="#A3FFFFFF"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:visibility="gone">
+        <EditText
+            android:id="@+id/studentProfileUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:backgroundTint="#000000"
+            android:ems="10"
+            android:enabled="true"
+            android:hint="Username"
+            android:textColor="#000000"
+            android:textColorHighlight="#000000"
+            android:textColorHint="#000000"
+            android:textSize="18sp" />
 
+        <EditText
+            android:id="@+id/studentProfilename"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:backgroundTint="#000000"
+            android:ems="10"
+            android:enabled="true"
+            android:hint="Name"
+            android:textColor="#000000"
+            android:textColorHighlight="#000000"
+            android:textColorHint="#000000"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/studentProfileEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:backgroundTint="#000000"
+            android:ems="10"
+            android:enabled="true"
+            android:hint="Email"
+            android:textColor="#000000"
+            android:textColorHighlight="#000000"
+            android:textColorHint="#000000"
+            android:textSize="18sp" />
 
     </LinearLayout>
 
-</FrameLayout>
+    <LinearLayout
+        android:id="@+id/linearChangePasswordSt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginRight="30dp"
+        android:background="#A3FFFFFF"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/oldPasswordSt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:backgroundTint="#000000"
+            android:ems="10"
+            android:enabled="true"
+            android:hint="Your Password"
+            android:inputType="textPassword"
+            android:textColor="#000000"
+            android:textColorHighlight="#000000"
+            android:textColorHint="#000000"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/newPasswordSt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:backgroundTint="#000000"
+            android:ems="10"
+            android:enabled="true"
+            android:hint="New Password"
+
+            android:inputType="textPassword"
+            android:textColor="#000000"
+            android:textColorHighlight="#000000"
+            android:textColorHint="#000000"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/newPasswordConfirmSt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:backgroundTint="#000000"
+            android:ems="10"
+            android:enabled="true"
+            android:hint="Confirm New Password"
+
+            android:inputType="textPassword"
+            android:textColor="#000000"
+            android:textColorHighlight="#000000"
+            android:textColorHint="#000000"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearShowSt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginRight="30dp"
+        android:background="#A3FFFFFF"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/studentProfileUsernametv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:text="fasdfs"
+            android:textAllCaps="true"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:textStyle="bold|italic" />
+
+        <TextView
+            android:id="@+id/studentProfilenametv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:text="TextView"
+            android:textAllCaps="true"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:textStyle="bold|italic" />
+
+        <TextView
+            android:id="@+id/studentProfileEmailtv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:text="TextView"
+            android:textAllCaps="true"
+            android:textColor="#0B0000"
+            android:textSize="24sp"
+            android:textStyle="bold|italic" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginRight="30dp"
+        android:background="#A3FFFFFF"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <Button
+            android:id="@+id/editStudentProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginHorizontal="70dp"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="1"
+            android:background="#3F51B5"
+            android:gravity="center"
+            android:text="Edit"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="17dp"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/changePasswordSt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="#F44336"
+            android:text="Change Password"
+            android:textColor="#FFFFFF"
+            android:textSize="17dp"
+            android:visibility="visible" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="37dp"
+        android:layout_height="28dp"
+        android:gravity="center"
+        android:visibility="gone" />
+
+
+</LinearLayout>
