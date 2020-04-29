@@ -4,116 +4,253 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/grdnt"
-    android:gravity="center"
     android:orientation="vertical"
     tools:context=".DoctorProfileFragment">
 
 
-    <EditText
-        android:id="@+id/doctorProfilename"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="20dp"
-        android:backgroundTint="#FFFFFF"
-        android:ems="10"
-        android:enabled="true"
-        android:textAlignment="center"
-        android:textColor="#fff"
-        android:textColorHighlight="#FFFFFF"
-        android:textColorHint="#d9e5f3"
-        android:textSize="20sp" />
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="0.93in"
+        android:layout_marginRight="30dp"
+        android:background="#A3FFFFFF"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/doctorProfileFileNumberTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:gravity="center"
+            android:text="TextView"
+            android:textAllCaps="true"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:textStyle="bold|italic" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginRight="30dp"
+        android:background="#A3FFFFFF"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:visibility="gone">
 
         <EditText
-            android:id="@+id/doctorProfileFileNumber"
+            android:id="@+id/doctorProfileUsername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:backgroundTint="#FFFFFF"
-            android:textAlignment="center"
             android:layout_gravity="center"
-            android:textColor="#fff"
-            android:textColorHint="#d9e5f3"
-            android:textSize="20dp"
+            android:layout_margin="10dp"
+            android:backgroundTint="#000000"
             android:ems="10"
-            android:enabled="false"
-            />
+            android:enabled="true"
+            android:hint="Username"
+            android:textColor="#000000"
+            android:textColorHighlight="#000000"
+            android:textColorHint="#000000"
+            android:textSize="18sp" />
 
-
-    <EditText
-        android:id="@+id/doctorProfileUsername"
+        <EditText
+            android:id="@+id/doctorProfilename"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-            android:textAlignment="center"
             android:layout_gravity="center"
-        android:backgroundTint="#FFFFFF"
-            android:textColor="#fff"
-            android:textColorHighlight="#FFFFFF"
-            android:textColorHint="#d9e5f3"
-            android:textSize="20dp"
+            android:layout_margin="10dp"
+            android:backgroundTint="#000000"
+            android:ems="10"
             android:enabled="true"
-        android:ems="10"
-            />
-
+            android:hint="Name"
+            android:textColor="#000000"
+            android:textColorHighlight="#000000"
+            android:textColorHint="#000000"
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/doctorProfileEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:textAlignment="center"
             android:layout_gravity="center"
-            android:backgroundTint="#FFFFFF"
-            android:textColor="#fff"
-            android:textColorHighlight="#FFFFFF"
-            android:textColorHint="#d9e5f3"
+            android:layout_margin="10dp"
+            android:backgroundTint="#000000"
             android:ems="10"
             android:enabled="true"
-            android:textSize="20sp"
-            />
+            android:hint="Email"
+            android:textColor="#000000"
+            android:textColorHighlight="#000000"
+            android:textColorHint="#000000"
+            android:textSize="18sp" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearChangePassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginRight="30dp"
+        android:background="#A3FFFFFF"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:visibility="gone">
 
         <EditText
-            android:id="@+id/doctorProfilePassword"
+            android:id="@+id/oldPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:textAlignment="center"
             android:layout_gravity="center"
-            android:backgroundTint="#FFFFFF"
+            android:layout_margin="10dp"
+            android:backgroundTint="#000000"
             android:ems="10"
-            android:textColor="#fff"
-            android:textColorHighlight="#FFFFFF"
-            android:textColorHint="#d9e5f3"
-            android:textSize="20dp"
             android:enabled="true"
-            />
+            android:hint="Your Password"
+            android:inputType="textPassword"
+            android:textColor="#000000"
+            android:textColorHighlight="#000000"
+            android:textColorHint="#000000"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/newPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:backgroundTint="#000000"
+            android:ems="10"
+            android:enabled="true"
+            android:hint="New Password"
+
+            android:inputType="textPassword"
+            android:textColor="#000000"
+            android:textColorHighlight="#000000"
+            android:textColorHint="#000000"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/newPasswordConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:backgroundTint="#000000"
+            android:ems="10"
+            android:enabled="true"
+            android:hint="Confirm New Password"
+
+            android:inputType="textPassword"
+            android:textColor="#000000"
+            android:textColorHighlight="#000000"
+            android:textColorHint="#000000"
+            android:textSize="18sp" />
+
+    </LinearLayout>
 
 
+    <LinearLayout
+        android:id="@+id/linearShow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginRight="30dp"
+        android:background="#A3FFFFFF"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:visibility="visible">
 
+        <TextView
+            android:id="@+id/doctorProfileUsernametv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:text="fasdfs"
+            android:textAllCaps="true"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:textStyle="bold|italic" />
+
+        <TextView
+            android:id="@+id/doctorProfilenametv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:text="TextView"
+            android:textAllCaps="true"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:textStyle="bold|italic" />
+
+        <TextView
+            android:id="@+id/doctorProfileEmailtv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:text="TextView"
+            android:textAllCaps="true"
+            android:textColor="#0B0000"
+            android:textSize="24sp"
+            android:textStyle="bold|italic" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginRight="30dp"
+        android:background="#A3FFFFFF"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <Button
             android:id="@+id/editDoctorProfile"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginHorizontal="70dp"
             android:layout_marginBottom="20dp"
-            android:background="#115385"
+            android:layout_weight="1"
+            android:background="#3F51B5"
             android:gravity="center"
             android:text="Edit"
-            android:textSize="20dp"
-            android:textAllCaps="true"
-            android:layout_marginHorizontal="70dp"
+            android:textAllCaps="false"
             android:textColor="#FFFFFF"
-            android:textStyle="bold|italic" />
+            android:textSize="17dp"
+            android:visibility="visible" />
 
-        <ProgressBar
-            android:id="@+id/progressBar1"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="37dp"
-            android:layout_height="28dp"
-            android:gravity="center"
-            android:visibility="gone" />
-
-
+        <Button
+            android:id="@+id/changePassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="#F44336"
+            android:text="Change Password"
+            android:textColor="#FFFFFF"
+            android:textSize="17dp"
+            android:visibility="visible" />
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="37dp"
+        android:layout_height="28dp"
+        android:gravity="center"
+        android:visibility="gone" />
+
+
+</LinearLayout>

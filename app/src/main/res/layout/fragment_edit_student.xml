@@ -17,8 +17,6 @@
         android:textSize="24sp"
         android:textStyle="bold|italic" />
 
-
-
         <TextView
             android:id="@+id/textImport"
             android:layout_width="wrap_content"
@@ -59,7 +57,7 @@
             android:textAllCaps="true"
             android:textColor="#FFFFFF"
             android:textStyle="italic"
-            android:visibility="visible" />
+            android:visibility="gone" />
     </LinearLayout>
 
     <TextView
