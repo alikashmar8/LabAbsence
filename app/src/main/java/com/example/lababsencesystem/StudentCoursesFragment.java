@@ -3,6 +3,7 @@ package com.example.lababsencesystem;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,6 +37,9 @@ public class StudentCoursesFragment extends Fragment {
         RecyclerView.LayoutManager lm = new LinearLayoutManager(getContext());
         rv.setLayoutManager(lm);
         RecyclerView.Adapter a = new StudentCourseAdapter(courses);
+        DividerItemDecoration dividerItemDecoration=new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.recycler_view_divider));
+        rv.addItemDecoration(dividerItemDecoration);
         rv.setAdapter(a);
 
 
