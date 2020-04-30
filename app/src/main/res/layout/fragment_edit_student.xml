@@ -44,7 +44,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
+            android:background="@drawable/custom_button_5"
             android:text="ChooseFile"
+            android:textAllCaps="false"
             android:textSize="14sp"
             android:visibility="visible" />
 
@@ -53,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:background="#4CAF50"
+            android:background="@drawable/custom_button"
             android:text="Submit"
             android:textAllCaps="true"
             android:textColor="#FFFFFF"
@@ -101,7 +103,7 @@
         android:layout_marginLeft="70dp"
         android:layout_marginTop="7dp"
         android:layout_marginRight="70dp"
-        android:background="#009688"
+        android:background="@drawable/custom_button_4"
         android:text="Search"
         android:textColor="#FFFFFF" />
 

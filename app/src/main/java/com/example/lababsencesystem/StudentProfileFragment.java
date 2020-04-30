@@ -24,6 +24,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.spark.submitbutton.SubmitButton;
 
 
 /**
@@ -38,6 +39,7 @@ public class StudentProfileFragment extends Fragment {
     TextView usernmaeTv,fileNumberbTv,emailTv,nameTv;
     Button ed,changePassword;
     LinearLayout linearEdit,linearShow,linearChangePassword;
+    int cur=0;
 
     public StudentProfileFragment() {
         // Required empty public constructor
@@ -49,6 +51,8 @@ public class StudentProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_student_profile, container, false);
+
+
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
 
@@ -84,6 +88,7 @@ public class StudentProfileFragment extends Fragment {
         ed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String getEditPosition=ed.getText().toString();
                 if (getEditPosition.equalsIgnoreCase("Submit")){
                     int flag=0;
@@ -101,7 +106,9 @@ public class StudentProfileFragment extends Fragment {
                     }
                     if (flag==0) {
                         ed.setText("Edit");
-                        ed.setBackgroundColor(Color.parseColor("#FF3F51B5"));
+                        //ed.setBackgroundColor(Color.parseColor("#FF3F51B5"));
+                        ed.setBackgroundResource(R.drawable.custom_button_2);
+
                         linearShow.setVisibility(View.VISIBLE);
                         linearEdit.setVisibility(View.GONE);
                         changePassword.setVisibility(View.VISIBLE);
@@ -115,12 +122,16 @@ public class StudentProfileFragment extends Fragment {
                 }
                 else {
                     ed.setText("Submit");
-                    ed.setBackgroundColor(Color.parseColor("#FF4CAF50"));
+                    ed.setBackgroundResource(R.drawable.custom_button);
+                    //ed.setBackgroundColor(Color.parseColor("#FF4CAF50"));
                     linearEdit.setVisibility(View.VISIBLE);
                     linearShow.setVisibility(View.GONE);
                     changePassword.setVisibility(View.GONE);
                 }
+
             }
+
+
         });
 
         changePassword.setOnClickListener(new View.OnClickListener() {
@@ -165,7 +176,9 @@ public class StudentProfileFragment extends Fragment {
 
                     if (flag==0) {
                         changePassword.setText("Change Password");
-                        changePassword.setBackgroundColor(Color.parseColor("#FFF44336"));
+                        //changePassword.setBackgroundColor(Color.parseColor("#FFF44336"));
+                        changePassword.setBackgroundResource(R.drawable.custom_button_3);
+
                         linearChangePassword.setVisibility(View.GONE);
                         linearShow.setVisibility(View.VISIBLE);
                         ed.setVisibility(View.VISIBLE);
@@ -178,13 +191,14 @@ public class StudentProfileFragment extends Fragment {
                 }
                 else {
                     changePassword.setText("Submit");
-                    changePassword.setBackgroundColor(Color.parseColor("#FF4CAF50"));
+                    changePassword.setBackgroundResource(R.drawable.custom_button);
                     linearChangePassword.setVisibility(View.VISIBLE);
                     linearShow.setVisibility(View.GONE);
                     ed.setVisibility(View.GONE);
                 }
             }
         });
+
 
         return view;
     }

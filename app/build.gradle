@@ -62,4 +62,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:multidex:1.0.1'
 
+
+    implementation 'me.spark:submitbutton:1.0.1'
+
 }

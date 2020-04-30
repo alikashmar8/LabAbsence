@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:popupBackground="#3F51B5" />
+            android:popupBackground="@drawable/grdnt" />
 
 
         <TextView
@@ -55,11 +55,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="30dp"
-            android:background="#3F51B5"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/custom_button_2"
             android:text="Choose lab date "
             android:textColor="#FFFFFF" />
 
@@ -79,12 +79,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="#3F51B5"
-            android:text="choose lab time"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="30dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/custom_button_2"
+            android:text="choose lab time"
             android:textColor="#FFFFFF" />
 
         <View
@@ -93,16 +93,17 @@
             android:layout_marginTop="15dp"
             android:background="#000000"
             />
+
         <Button
             android:id="@+id/createLab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
             android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
             android:layout_marginRight="30dp"
-            android:background="#4CAF50"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/custom_button"
             android:text="Create Lab"
             android:textColor="#FFFFFF"
             android:textStyle="bold|italic" />

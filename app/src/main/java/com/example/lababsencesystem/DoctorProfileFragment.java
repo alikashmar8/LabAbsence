@@ -99,7 +99,8 @@ public class DoctorProfileFragment extends Fragment {
                     }
                     if (flag==0) {
                         ed.setText("Edit");
-                        ed.setBackgroundColor(Color.parseColor("#FF3F51B5"));
+                        //ed.setBackgroundColor(Color.parseColor("#FF3F51B5"));
+                        ed.setBackgroundResource(R.drawable.custom_button_2);
                         linearShow.setVisibility(View.VISIBLE);
                         linearEdit.setVisibility(View.GONE);
                         changePassword.setVisibility(View.VISIBLE);
@@ -113,7 +114,8 @@ public class DoctorProfileFragment extends Fragment {
                 }
                 else {
                     ed.setText("Submit");
-                    ed.setBackgroundColor(Color.parseColor("#FF4CAF50"));
+                   // ed.setBackgroundColor(Color.parseColor("#FF4CAF50"));
+                    ed.setBackgroundResource(R.drawable.custom_button);
                     linearEdit.setVisibility(View.VISIBLE);
                     linearShow.setVisibility(View.GONE);
                     changePassword.setVisibility(View.GONE);
@@ -163,7 +165,8 @@ public class DoctorProfileFragment extends Fragment {
 
                     if (flag==0) {
                         changePassword.setText("Change Password");
-                        changePassword.setBackgroundColor(Color.parseColor("#FFF44336"));
+                        //changePassword.setBackgroundColor(Color.parseColor("#FFF44336"));
+                        changePassword.setBackgroundResource(R.drawable.custom_button_3);
                         linearChangePassword.setVisibility(View.GONE);
                         linearShow.setVisibility(View.VISIBLE);
                         ed.setVisibility(View.VISIBLE);
@@ -176,7 +179,8 @@ public class DoctorProfileFragment extends Fragment {
                 }
                 else {
                     changePassword.setText("Submit");
-                    changePassword.setBackgroundColor(Color.parseColor("#FF4CAF50"));
+                    //changePassword.setBackgroundColor(Color.parseColor("#FF4CAF50"));
+                    changePassword.setBackgroundResource(R.drawable.custom_button);
                     linearChangePassword.setVisibility(View.VISIBLE);
                     linearShow.setVisibility(View.GONE);
                     ed.setVisibility(View.GONE);
