@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:popupBackground="@drawable/grdnt" />
+            android:popupBackground="@drawable/custom_button_2" />
 
 
         <TextView
