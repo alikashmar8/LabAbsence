@@ -177,7 +177,7 @@ public class StudentProfileFragment extends Fragment {
                     if (flag==0) {
                         changePassword.setText("Change Password");
                         //changePassword.setBackgroundColor(Color.parseColor("#FFF44336"));
-                        changePassword.setBackgroundResource(R.drawable.custom_button_3);
+                        changePassword.setBackgroundResource(R.drawable.custom_button_2);
 
                         linearChangePassword.setVisibility(View.GONE);
                         linearShow.setVisibility(View.VISIBLE);

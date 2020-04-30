@@ -238,7 +238,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:background="@drawable/custom_button_3"
+            android:background="@drawable/custom_button_2"
             android:text="Change Password"
             android:textColor="#FFFFFF"
             android:textSize="17dp"
