@@ -245,21 +245,7 @@
             android:visibility="visible"
             tools:visibility="visible" />
 
-        <com.spark.submitbutton.SubmitButton
-            android:id="@+id/btnClick"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:text="Submit"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="#4CAF50"
-            android:textSize="12sp"
-            android:visibility="gone"
-            app:sub_btn_background="#FFFFFF"
-            app:sub_btn_duration="1500"
-            app:sub_btn_line_color="#4CAF50"
-            app:sub_btn_ripple_color="#FFFFFF"
-            app:sub_btn_tick_color="#FFFFFF" />
+
 
     </LinearLayout>
 

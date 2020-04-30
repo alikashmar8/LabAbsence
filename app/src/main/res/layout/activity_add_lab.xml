@@ -106,7 +106,8 @@
             android:background="@drawable/custom_button"
             android:text="Create Lab"
             android:textColor="#FFFFFF"
-            android:textStyle="bold|italic" />
+            android:textStyle="bold|italic"
+            android:visibility="visible" />
 
         <ProgressBar
             android:id="@+id/creatingProgressBar"
