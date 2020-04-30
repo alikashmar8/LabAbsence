@@ -5,9 +5,11 @@ import androidx.fragment.app.DialogFragment;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -43,6 +45,17 @@ public class AddLab extends AppCompatActivity implements DatePickerDialog.OnDate
             coursesCode.add(DoctorMain.courses.get(i).getCode());
         ArrayAdapter<String> adapter = new ArrayAdapter(getApplicationContext(), R.layout.spinner_style, coursesCode);
         courseSpinner.setAdapter(adapter);
+        courseSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                ((TextView)parentView.getChildAt(0)).setTextColor(Color.BLACK);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         final ProgressBar progressBar = findViewById(R.id.creatingProgressBar);
         Button button = findViewById(R.id.chooseDate);
         Button createLab = findViewById(R.id.createLab);
