@@ -8,10 +8,8 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -32,7 +30,7 @@ import java.util.Date;
 
 public class LabControl extends AppCompatActivity {
     Lab lab;
-    TextView labTitle, labDateAndTime, labAttendance, attendanceError;
+    TextView labTitle, labDateAndTime, labAttendance, attendanceError,dateL,timeL;
     Switch showHideQR;
     ImageView qrContainer;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -47,15 +45,19 @@ public class LabControl extends AppCompatActivity {
         Intent intent = getIntent();
         lab = (Lab) intent.getSerializableExtra("lab");
 
-        labDateAndTime = findViewById(R.id.dateAndTime);
+        timeL = findViewById(R.id.timeL);
+
         labTitle = findViewById(R.id.labControlTitle);
         labAttendance = findViewById(R.id.labAttendance);
         showHideQR = findViewById(R.id.showHideQR);
         qrContainer = findViewById(R.id.qrContainer);
         attendanceError = findViewById(R.id.attendaceError);
+        dateL = findViewById(R.id.dateL);
 
         labTitle.setText("Lab: " + lab.getCourse());
-        labDateAndTime.setText(lab.getDate() + "  " + lab.getTime());
+        //labDateAndTime.setText(lab.getDate() + "  " + lab.getTime());
+        dateL.setText("Date: "+lab.getDate() );
+        timeL.setText("Time: "+lab.getTime());
         Log.d("labbbbb", lab.toString());
 
         db.collection("courses").document(lab.getCourse()).collection("students").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

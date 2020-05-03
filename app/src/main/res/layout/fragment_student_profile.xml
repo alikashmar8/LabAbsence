@@ -33,7 +33,8 @@
                 android:adjustViewBounds="true"
                 android:background="@drawable/circle"
                 android:padding="3dp"
-                android:scaleType="centerInside" />
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/img" />
 
         </RelativeLayout>
 

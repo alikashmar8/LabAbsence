@@ -6,29 +6,31 @@
     android:padding="12dp">
 
     <TextView
-        android:id="@+id/doctorCourseCardTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Course Title"
-        android:textAllCaps="false"
-        android:textSize="20dp"
-        android:textStyle="bold" />
-
-    <TextView
         android:id="@+id/doctorCourseCardCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="code"
         android:textAllCaps="false"
-        android:textSize="20dp"
+        android:textSize="22dp"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/doctorCourseCardTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Course Title"
+        android:textAllCaps="false"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+
+
 
     <TextView
         android:id="@+id/doctorCourseCardCredits"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="credits num"
-        android:textSize="20dp"
+        android:textSize="18dp"
         android:textStyle="bold" />
 
     <TextView
@@ -36,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="studentNum"
-        android:textSize="20dp"
+        android:textSize="18dp"
         android:textStyle="bold" />
 
     <Button

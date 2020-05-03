@@ -10,55 +10,49 @@
     android:padding="20dp"
     tools:context=".LabControl">
 
-    <LinearLayout
+
+    <TextView
+        android:id="@+id/labControlTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="0.3in"
-        android:layout_marginRight="30dp"
-        android:background="#A3FFFFFF"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:text="Lab: "
+        android:textAllCaps="true"
+        android:textColor="#FFFFFF"
+        android:textSize="30dp"
+        android:textStyle="bold|italic" />
 
-        <TextView
-            android:id="@+id/labControlTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:gravity="center"
-            android:text="Lab: "
-            android:textAllCaps="true"
-            android:textColor="#000000"
-            android:textSize="30dp"
-            android:textStyle="bold" />
+    <TextView
+        android:id="@+id/dateL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Date and Time:"
-            android:textColor="#000000"
-            android:textSize="25dp" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="Date "
+        android:textColor="#FFFFFF"
+        android:textSize="25dp" />
 
-        <TextView
-            android:id="@+id/dateAndTime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="15dp"
-            android:textColor="#000000"
-            android:textSize="25dp" />
+    <TextView
+        android:id="@+id/timeL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Time"
+        android:textColor="#FFFFFF"
+        android:textSize="25dp" />
 
-        <TextView
-            android:id="@+id/labAttendance"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Attendance:"
-            android:textColor="#000000"
-            android:textSize="25sp" />
+    <TextView
+        android:id="@+id/labAttendance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Attendance:"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp" />
 
         <TextView
             android:id="@+id/attendaceError"
@@ -70,21 +64,22 @@
             android:textSize="18dp"
             android:textStyle="bold" />
 
-        <Switch
-            android:id="@+id/showHideQR"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:text="Show/Hide Attendance QR"
-            android:textColor="#000000"
-            android:textSize="17dp" />
+    <Switch
+        android:id="@+id/showHideQR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:text="Show/Hide Attendance QR"
+        android:textColor="#FFFFFF"
+        android:textSize="17dp" />
 
         <ImageView
             android:id="@+id/qrContainer"
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            android:layout_height="200dp"
+            android:layout_margin="10dp"/>
 
-    </LinearLayout>
+
 
 
 </LinearLayout>
