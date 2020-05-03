@@ -1,268 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/grdnt"
-    android:orientation="vertical"
-    tools:context=".DoctorProfileFragment">
-
-
-  <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="0.85in"
-        android:layout_marginRight="30dp"
-        android:background="#FFFFFF"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/studentProfileFileNumberTv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:gravity="center"
-            android:text="TextView"
-            android:textAllCaps="true"
-            android:textColor="#000000"
-            android:textSize="24sp"
-            android:textStyle="bold|italic" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearEditSt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginRight="30dp"
-        android:background="#FFFFFF"
-        android:orientation="vertical"
-        android:padding="8dp"
-        android:visibility="gone">
-
-        <EditText
-            android:id="@+id/studentProfileUsername"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:backgroundTint="#000000"
-            android:ems="10"
-            android:enabled="true"
-            android:hint="Username"
-            android:textColor="#000000"
-            android:textColorHighlight="#000000"
-            android:textColorHint="#000000"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/studentProfilename"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:backgroundTint="#000000"
-            android:ems="10"
-            android:enabled="true"
-            android:hint="Name"
-            android:textColor="#000000"
-            android:textColorHighlight="#000000"
-            android:textColorHint="#000000"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/studentProfileEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:backgroundTint="#000000"
-            android:ems="10"
-            android:enabled="true"
-            android:hint="Email"
-            android:textColor="#000000"
-            android:textColorHighlight="#000000"
-            android:textColorHint="#000000"
-            android:textSize="18sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearChangePasswordSt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginRight="30dp"
-        android:background="#FFFFFF"
-        android:orientation="vertical"
-        android:padding="8dp"
-        android:visibility="gone">
-
-        <EditText
-            android:id="@+id/oldPasswordSt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:backgroundTint="#000000"
-            android:ems="10"
-            android:enabled="true"
-            android:hint="Your Password"
-            android:inputType="textPassword"
-            android:textColor="#000000"
-            android:textColorHighlight="#000000"
-            android:textColorHint="#000000"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/newPasswordSt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:backgroundTint="#000000"
-            android:ems="10"
-            android:enabled="true"
-            android:hint="New Password"
-
-            android:inputType="textPassword"
-            android:textColor="#000000"
-            android:textColorHighlight="#000000"
-            android:textColorHint="#000000"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/newPasswordConfirmSt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:backgroundTint="#000000"
-            android:ems="10"
-            android:enabled="true"
-            android:hint="Confirm New Password"
-
-            android:inputType="textPassword"
-            android:textColor="#000000"
-            android:textColorHighlight="#000000"
-            android:textColorHint="#000000"
-            android:textSize="18sp" />
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/linearShowSt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginRight="30dp"
-        android:background="#FFFFFF"
-        android:orientation="vertical"
-        android:padding="8dp"
-        android:visibility="visible">
-
-        <TextView
-            android:id="@+id/studentProfileUsernametv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:gravity="center"
-            android:text="fasdfs"
-            android:textAllCaps="true"
-            android:textColor="#000000"
-            android:textSize="24sp"
-            android:textStyle="bold|italic" />
-
-        <TextView
-            android:id="@+id/studentProfilenametv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:gravity="center"
-            android:text="TextView"
-            android:textAllCaps="true"
-            android:textColor="#000000"
-            android:textSize="24sp"
-            android:textStyle="bold|italic" />
-
-        <TextView
-            android:id="@+id/studentProfileEmailtv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:gravity="center"
-            android:text="TextView"
-            android:textAllCaps="true"
-            android:textColor="#0B0000"
-            android:textSize="24sp"
-            android:textStyle="bold|italic" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="79dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginRight="30dp"
-        android:background="#FFFFFF"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="5dp">
-
-        <Button
-            android:id="@+id/editStudentProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_marginHorizontal="70dp"
-            android:layout_marginBottom="20dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_button_2"
-            android:gravity="center"
-            android:text="Edit"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:textSize="17dp"
-            android:visibility="visible" />
-
-        <Button
-            android:id="@+id/changePasswordSt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_button_2"
-            android:text="Change Password"
-            android:textColor="#FFFFFF"
-            android:textSize="17dp"
-            android:visibility="visible"
-            tools:visibility="visible" />
-
-
-    </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/progressBar1"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="37dp"
-        android:layout_height="28dp"
-        android:gravity="center"
-        android:visibility="gone" />
-
-
-</LinearLayout>
--->
-
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -296,7 +33,7 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/tv_name"
+            android:id="@+id/nameTvSt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imgUser"
@@ -325,6 +62,7 @@
         android:layout_below="@+id/linlay1"
         android:background="@color/white">
 
+
         <LinearLayout
             android:id="@+id/la"
             android:layout_width="match_parent"
@@ -333,7 +71,8 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="30dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -343,24 +82,23 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:text="File Number"
                     android:textColor="@color/colorPrimary"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:text="joey@sharenofood.com"
-                    android:textColor="#000000"
-                    android:textSize="18sp" />
-
-                <View
+                <EditText
+                    android:id="@+id/FNED"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@color/colorPrimary" />
+                    android:layout_height="wrap_content"
+                    android:cursorVisible="false"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:inputType="textPersonName"
+
+                    />
+
 
             </LinearLayout>
 
@@ -373,24 +111,21 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:text="Username"
                     android:textColor="@color/colorPrimary"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:text="+1-202-555-0157"
-                    android:textColor="#000000"
-                    android:textSize="18sp" />
-
-                <View
+                <EditText
+                    android:id="@+id/studentProfileUsername"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@color/colorPrimary" />
+                    android:layout_height="wrap_content"
+                    android:cursorVisible="false"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:inputType="textPersonName" />
+
 
             </LinearLayout>
 
@@ -403,24 +138,21 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:text="Name"
                     android:textColor="@color/colorPrimary"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:text="twitterUsername"
-                    android:textColor="#000000"
-                    android:textSize="18sp" />
-
-                <View
+                <EditText
+                    android:id="@+id/studentProfilename"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@color/colorPrimary" />
+                    android:layout_height="wrap_content"
+                    android:cursorVisible="false"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:inputType="textPersonName" />
+
 
             </LinearLayout>
 
@@ -433,35 +165,33 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:text="Email"
                     android:textColor="@color/colorPrimary"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:text="facebook.com/joeytrib"
-                    android:textColor="#000000"
-                    android:textSize="18sp" />
-
-                <View
+                <EditText
+                    android:id="@+id/studentProfileEmail"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@color/colorPrimary" />
+                    android:layout_height="wrap_content"
+                    android:cursorVisible="false"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:inputType="textPersonName" />
 
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layEC"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
 
                 <Button
-                    android:id="@+id/button3"
+                    android:id="@+id/editStudentProfile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
@@ -471,7 +201,7 @@
                     android:textColor="#FFFFFF" />
 
                 <Button
-                    android:id="@+id/button4"
+                    android:id="@+id/changePasswordSt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -479,10 +209,75 @@
                     android:background="@drawable/custom_button_6"
                     android:text="Change Password"
                     android:textColor="#FFFFFF" />
+
             </LinearLayout>
-            "
+
+            <Button
+                android:id="@+id/submitProfileSt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_button"
+                android:text="submit"
+                android:textColor="#FFFFFF"
+                android:visibility="gone" />
 
 
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/laC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="30dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+
+            <EditText
+                android:id="@+id/oldPasswordSt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:hint="Current Password:"
+                android:inputType="textPersonName|textPassword" />
+
+            <EditText
+                android:id="@+id/newPasswordSt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:hint="New Password:"
+                android:inputType="textPersonName|textPassword" />
+
+            <EditText
+                android:id="@+id/newPasswordConfirmSt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:hint=" Confirm New Password:"
+                android:inputType="textPersonName|textPassword" />
+
+
+            <Button
+                android:id="@+id/submit2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/custom_button"
+                android:text="Submit"
+                android:textColor="#FFFFFF" />
         </LinearLayout>
 
 
