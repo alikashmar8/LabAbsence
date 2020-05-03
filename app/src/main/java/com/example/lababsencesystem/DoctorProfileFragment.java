@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,10 +30,11 @@ public class DoctorProfileFragment extends Fragment {
 
     Doctor doctor = DoctorMain.doctor;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    EditText nm, un, em, pass, fnb,oldPassword,newPassword,newPasswordConfirm;
-    TextView usernmaeTv,fileNumberbTv,emailTv,nameTv;
-    Button ed,changePassword;
-    LinearLayout linearEdit,linearShow,linearChangePassword;
+    EditText nm,un,em,fnb,oldPassword,newPassword,newPasswordConfirm;
+    TextView nameTv;
+    Button ed,changePassword,sb,sb2;
+    LinearLayout linearEC,linearLayoutC,la;
+
 
     public DoctorProfileFragment() {
         // Required empty public constructor
@@ -48,142 +51,126 @@ public class DoctorProfileFragment extends Fragment {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        nm = view.findViewById(R.id.doctorProfilename);
-        un = view.findViewById(R.id.doctorProfileUsername);
-        em = view.findViewById(R.id.doctorProfileEmail);
-        //pass = view.findViewById(R.id.doctorProfilePassword);
-        //fnb = view.findViewById(R.id.doctorProfileFileNumber);
+        fnb=view.findViewById(R.id.FNEDDR);
+        nm=view.findViewById(R.id.doctorProfilename);
+        un=view.findViewById(R.id.doctorProfileUsername);
+        em=view.findViewById(R.id.doctorProfileEmail);
+        nameTv=view.findViewById(R.id.nameTvDr);
+        oldPassword=view.findViewById(R.id.oldPasswordDr);
+        newPassword=view.findViewById(R.id.newPasswordDr);
+        newPasswordConfirm=view.findViewById(R.id.newPasswordConfirmDr);
+
         ed = view.findViewById(R.id.editDoctorProfile);
-        changePassword=view.findViewById(R.id.changePassword);
-
-        usernmaeTv=view.findViewById(R.id.doctorProfileUsernametv);
-        emailTv=view.findViewById(R.id.doctorProfileEmailtv);
-        fileNumberbTv=view.findViewById(R.id.doctorProfileFileNumberTv);
-        nameTv=view.findViewById(R.id.doctorProfilenametv);
-
-        oldPassword=view.findViewById(R.id.oldPassword);
-        newPassword=view.findViewById(R.id.newPassword);
-        newPasswordConfirm=view.findViewById(R.id.newPasswordConfirm);
-
-        linearChangePassword=view.findViewById(R.id.linearChangePassword);
-        linearEdit=view.findViewById(R.id.linearEdit);
-        linearShow=view.findViewById(R.id.linearShow);
-
-        linearShow.setVisibility(View.VISIBLE);
-        linearEdit.setVisibility(View.GONE);
-        linearChangePassword.setVisibility(View.GONE);
-
-
+        changePassword = view.findViewById(R.id.changePasswordDr);
+        sb=view.findViewById(R.id.submitProfileDr);
+        linearEC=view.findViewById(R.id.layECDr);
+        linearLayoutC=view.findViewById(R.id.laCDr);
+        la=view.findViewById(R.id.laDr);
+        sb2=view.findViewById(R.id.submit2Dr);
 
         refresh();
-        //pass.setText(doctor.getPassword());
-        //fnb.setText(String.valueOf(doctor.getFileNumber()));
+
 
         ed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String getEditPosition=ed.getText().toString();
-                if (getEditPosition.equalsIgnoreCase("Submit")){
-                    int flag=0;
-                    if (nm.getText().toString().equals("") ){
-                        nm.setError("please enter your name");
-                        flag=1;
-                    }
-                    if(em.getText().toString().equals("")) {
-                        em.setError("please enter your email");
-                        flag=1;
-                    }
-                    if(un.getText().toString().equals("")) {
-                        un.setError("please enter your username");
-                        flag=1;
-                    }
-                    if (flag==0) {
-                        ed.setText("Edit");
-                        //ed.setBackgroundColor(Color.parseColor("#FF3F51B5"));
-                        ed.setBackgroundResource(R.drawable.custom_button_2);
-                        linearShow.setVisibility(View.VISIBLE);
-                        linearEdit.setVisibility(View.GONE);
-                        changePassword.setVisibility(View.VISIBLE);
-                        DoctorMain.doctor.setEmail(em.getText().toString());
-                        DoctorMain.doctor.setName(nm.getText().toString());
-                        DoctorMain.doctor.setUsername(un.getText().toString());
-                        edit();
-                        refresh();
-                    }
-
+                nm.setCursorVisible(true);
+                nm.setFocusableInTouchMode(true);
+                un.setCursorVisible(true);
+                un.setFocusableInTouchMode(true);
+                em.setCursorVisible(true);
+                em.setFocusableInTouchMode(true);
+                nm.setInputType(InputType.TYPE_CLASS_TEXT);
+                un.setInputType(InputType.TYPE_CLASS_TEXT);
+                em.setInputType(InputType.TYPE_CLASS_TEXT);
+                sb.setVisibility(View.VISIBLE);
+                linearEC.setVisibility(View.GONE);
+            }
+        });
+        sb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int flag = 0;
+                if (!isValidEmail(em.getText().toString())){
+                    em.setError("Invalid email format");
+                    flag = 1;
                 }
-                else {
-                    ed.setText("Submit");
-                   // ed.setBackgroundColor(Color.parseColor("#FF4CAF50"));
-                    ed.setBackgroundResource(R.drawable.custom_button);
-                    linearEdit.setVisibility(View.VISIBLE);
-                    linearShow.setVisibility(View.GONE);
-                    changePassword.setVisibility(View.GONE);
+                if (nm.getText().toString().equals("")) {
+                    nm.setError("please enter your name");
+                    flag = 1;
+                }
+                if (em.getText().toString().equals("")) {
+                    em.setError("please enter your email");
+                    flag = 1;
+                }
+                if (un.getText().toString().equals("")) {
+                    un.setError("please enter your username");
+                    flag = 1;
+                }
+
+                if (flag == 0) {
+                    DoctorMain.doctor.setEmail(em.getText().toString());
+                    DoctorMain.doctor.setName(nm.getText().toString());
+                    DoctorMain.doctor.setUsername(un.getText().toString());
+                    edit();
+                    refresh();
                 }
 
             }
         });
+
         changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String getPasswordPosition=changePassword.getText().toString();
-                if (getPasswordPosition.equalsIgnoreCase("Submit")){
-                    int flag=0;
+                linearEC.setVisibility(View.GONE);
+                sb2.setVisibility(View.VISIBLE);
+                linearLayoutC.setVisibility(View.VISIBLE);
+                la.setVisibility(View.GONE);
+            }
+        });
 
-                    if (!oldPassword.getText().toString().equals(doctor.getPassword())) {
-                        oldPassword.setError("Incorrect Password");
-                        flag = 1;
-                    }
-                    if (!newPassword.getText().toString().equals(newPasswordConfirm.getText().toString())){
-                        Toast.makeText(getActivity(),"new Password and Confirm new Password fields are different",Toast.LENGTH_LONG).show();
-                        flag=1;
-                    }
-                    if (oldPassword.getText().length()<6) {
-                        oldPassword.setError("Minimum password length must be 6");
-                        flag=1;
-                    }
-                    if (newPassword.getText().length()<6) {
-                        newPassword.setError("Minimum password length must be 6");
-                        flag=1;
-                    }
-                    if (newPasswordConfirm.getText().length()<6) {
-                        newPasswordConfirm.setError("Minimum password length must be 6");
-                        flag=1;
-                    }
-                    if(oldPassword.getText().toString().equals("")  || oldPassword.getText().length()<6){
-                        oldPassword.setError("please enter your password");
-                        flag=1;
-                    }
-                    if(newPassword.getText().toString().equals("")){
-                        newPassword.setError("please enter your password");
-                        flag=1;
-                    }
-                    if(newPasswordConfirm.getText().toString().equals("")){
-                        newPasswordConfirm.setError("please enter your password");
-                        flag=1;
-                    }
+        sb2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int flag = 0;
 
-                    if (flag==0) {
-                        changePassword.setText("Change Password");
-                        //changePassword.setBackgroundColor(Color.parseColor("#FFF44336"));
-                        changePassword.setBackgroundResource(R.drawable.custom_button_2);
-                        linearChangePassword.setVisibility(View.GONE);
-                        linearShow.setVisibility(View.VISIBLE);
-                        ed.setVisibility(View.VISIBLE);
-                        DoctorMain.doctor.setPassword(newPassword.getText().toString());
-                        change();
-                        Toast.makeText(getActivity(),"Your Password is Changed",Toast.LENGTH_SHORT).show();
-
-                    }
-
+                if (!oldPassword.getText().toString().equals(doctor.getPassword())) {
+                    oldPassword.setError("Incorrect Password");
+                    flag = 1;
                 }
-                else {
-                    changePassword.setText("Submit");
-                    //changePassword.setBackgroundColor(Color.parseColor("#FF4CAF50"));
-                    changePassword.setBackgroundResource(R.drawable.custom_button);
-                    linearChangePassword.setVisibility(View.VISIBLE);
-                    linearShow.setVisibility(View.GONE);
-                    ed.setVisibility(View.GONE);
+                if (!newPassword.getText().toString().equals(newPasswordConfirm.getText().toString())) {
+                    Toast.makeText(getActivity(), "new Password and Confirm new Password fields are different", Toast.LENGTH_LONG).show();
+                    flag = 1;
+                }
+                if (oldPassword.getText().length() < 6) {
+                    oldPassword.setError("Minimum password length must be 6");
+                    flag = 1;
+                }
+                if (newPassword.getText().length() < 6) {
+                    newPassword.setError("Minimum password length must be 6");
+                    flag = 1;
+                }
+                if (newPasswordConfirm.getText().length() < 6) {
+                    newPasswordConfirm.setError("Minimum password length must be 6");
+                    flag = 1;
+                }
+                if (oldPassword.getText().toString().equals("") || oldPassword.getText().length() < 6) {
+                    oldPassword.setError("please enter your password");
+                    flag = 1;
+                }
+                if (newPassword.getText().toString().equals("")) {
+                    newPassword.setError("please enter your password");
+                    flag = 1;
+                }
+                if (newPasswordConfirm.getText().toString().equals("")) {
+                    newPasswordConfirm.setError("please enter your password");
+                    flag = 1;
+                }
+                if (flag == 0) {
+                    DoctorMain.doctor.setPassword(newPassword.getText().toString());
+                    change();
+                    Toast.makeText(getActivity(), "Your Password is Changed", Toast.LENGTH_SHORT).show();
+                    refresh();
                 }
             }
         });
@@ -215,13 +202,30 @@ public class DoctorProfileFragment extends Fragment {
     }
 
     void refresh(){
+        fnb.setText(doctor.getFileNumber() +"");
         nm.setText(doctor.getName());
         un.setText(doctor.getUsername());
         em.setText(doctor.getEmail());
+        nameTv.setText(doctor.getName());
+        sb.setVisibility(View.GONE);
+        linearEC.setVisibility(View.VISIBLE);
+        sb2.setVisibility(View.GONE);
+        linearLayoutC.setVisibility(View.GONE);
+        la.setVisibility(View.VISIBLE);
 
-        usernmaeTv.setText("Username : "+doctor.getUsername());
-        emailTv.setText("Email : "+doctor.getEmail());
-        fileNumberbTv.setText("File Number : "+doctor.getFileNumber());
-        nameTv.setText("Name : "+doctor.getName());
+        nm.setInputType(InputType.TYPE_NULL);
+        un.setInputType(InputType.TYPE_NULL);
+        em.setInputType(InputType.TYPE_NULL);
+
+        nm.setFocusable(false);
+        un.setCursorVisible(false);
+        un.setFocusable(false);
+        un.setCursorVisible(false);
+        em.setFocusable(false);
+        em.setCursorVisible(false);
+    }
+
+    public  boolean isValidEmail(CharSequence target) {
+        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 }

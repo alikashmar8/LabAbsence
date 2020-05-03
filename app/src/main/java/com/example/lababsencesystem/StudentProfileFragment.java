@@ -91,8 +91,6 @@ public class StudentProfileFragment extends Fragment {
                 nm.setInputType(InputType.TYPE_CLASS_TEXT);
                 un.setInputType(InputType.TYPE_CLASS_TEXT);
                 em.setInputType(InputType.TYPE_CLASS_TEXT);
-
-                cur=1;
                 sb.setVisibility(View.VISIBLE);
                 linearEC.setVisibility(View.GONE);
             }
