@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorAccent"
+    android:background="#FFFFFF"
     android:padding="15dp"
     android:id="@+id/mainContainer"
     android:gravity="center"
@@ -19,21 +19,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Course"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/doctorLabDate"
-            android:textSize="20dp"
-            android:text="Date" />
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/doctorLabTime"
+            android:text="Date"
             android:textSize="20dp"
-            android:text="Time" />
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/doctorLabTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/doctorLabEdit"

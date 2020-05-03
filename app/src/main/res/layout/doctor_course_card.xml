@@ -2,35 +2,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorAccent"
+    android:background="#FFFFFF"
     android:padding="12dp">
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/doctorCourseCardTitle"
-    android:textSize="20dp"
-    android:text="Course Title"
-    />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/doctorCourseCardCode"
-        android:textSize="20dp"
-        android:text="code"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/doctorCourseCardCredits"
-        android:textSize="20dp"
-        android:text="credits num"/>
 
     <TextView
+        android:id="@+id/doctorCourseCardTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Course Title"
+        android:textAllCaps="false"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/doctorCourseCardCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="code"
+        android:textAllCaps="false"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/doctorCourseCardCredits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="credits num"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <TextView
         android:id="@+id/doctorCourseCardStudentsNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="studentNum"
-        android:textSize="20dp"/>
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/doctorCourseCardNext"

@@ -55,7 +55,7 @@ public class StudentProfileFragment extends Fragment {
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
-
+/*
         nm=view.findViewById(R.id.studentProfilename);
         un=view.findViewById(R.id.studentProfileUsername);
         em=view.findViewById(R.id.studentProfileEmail);
@@ -197,7 +197,7 @@ public class StudentProfileFragment extends Fragment {
                     ed.setVisibility(View.GONE);
                 }
             }
-        });
+        });*/
 
 
         return view;

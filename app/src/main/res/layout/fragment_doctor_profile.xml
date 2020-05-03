@@ -12,9 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="0.93in"
+        android:layout_marginTop="0.85in"
         android:layout_marginRight="30dp"
-        android:background="#A3FFFFFF"
+        android:background="#FFFFFF"
         android:orientation="vertical">
 
         <TextView
@@ -37,10 +37,11 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="1dp"
         android:layout_marginRight="30dp"
-        android:background="#A3FFFFFF"
+        android:background="#FFFFFF"
         android:orientation="vertical"
         android:padding="8dp"
         android:visibility="gone">
+
         <EditText
             android:id="@+id/doctorProfileUsername"
             android:layout_width="wrap_content"
@@ -95,7 +96,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="1dp"
         android:layout_marginRight="30dp"
-        android:background="#A3FFFFFF"
+        android:background="#FFFFFF"
         android:orientation="vertical"
         android:padding="8dp"
         android:visibility="gone">
@@ -160,7 +161,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="1dp"
         android:layout_marginRight="30dp"
-        android:background="#A3FFFFFF"
+        android:background="#FFFFFF"
         android:orientation="vertical"
         android:padding="8dp"
         android:visibility="visible">
@@ -209,7 +210,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="1dp"
         android:layout_marginRight="30dp"
-        android:background="#A3FFFFFF"
+        android:background="#FFFFFF"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="5dp">
