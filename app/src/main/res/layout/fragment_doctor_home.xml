@@ -7,7 +7,7 @@
     android:layout_gravity="center"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="20dp"
+
     tools:context=".DoctorHomeFragment">
 
     <TextView
@@ -40,7 +40,8 @@
         android:id="@+id/doctorTodayEventsRecycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible" />
+        android:visibility="visible"
+        android:layout_marginTop="10dp"/>
 
 
 </LinearLayout>

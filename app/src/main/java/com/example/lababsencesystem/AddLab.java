@@ -85,8 +85,6 @@ public class AddLab extends AppCompatActivity implements DatePickerDialog.OnDate
                         progressBar.setVisibility(View.GONE);
                         finish();
                     }
-
-
                 });
             }
         });
