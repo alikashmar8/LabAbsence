@@ -32,7 +32,7 @@ public class DoctorProfileFragment extends Fragment {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     EditText nm,un,em,fnb,oldPassword,newPassword,newPasswordConfirm;
     TextView nameTv;
-    Button ed,changePassword,sb,sb2;
+    Button ed, changePassword, sb, sb2, cancelPasswordChange;
     LinearLayout linearEC,linearLayoutC,la;
 
 
@@ -59,6 +59,7 @@ public class DoctorProfileFragment extends Fragment {
         oldPassword=view.findViewById(R.id.oldPasswordDr);
         newPassword=view.findViewById(R.id.newPasswordDr);
         newPasswordConfirm=view.findViewById(R.id.newPasswordConfirmDr);
+        cancelPasswordChange = view.findViewById(R.id.cancelProfileDr);
 
         ed = view.findViewById(R.id.editDoctorProfile);
         changePassword = view.findViewById(R.id.changePasswordDr);
@@ -84,6 +85,7 @@ public class DoctorProfileFragment extends Fragment {
                 un.setInputType(InputType.TYPE_CLASS_TEXT);
                 em.setInputType(InputType.TYPE_CLASS_TEXT);
                 sb.setVisibility(View.VISIBLE);
+                cancelPasswordChange.setVisibility(View.VISIBLE);
                 linearEC.setVisibility(View.GONE);
             }
         });
@@ -168,6 +170,7 @@ public class DoctorProfileFragment extends Fragment {
                 }
                 if (flag == 0) {
                     DoctorMain.doctor.setPassword(newPassword.getText().toString());
+                    firebaseUser.updatePassword(newPassword.getText().toString());
                     change();
                     Toast.makeText(getActivity(), "Your Password is Changed", Toast.LENGTH_SHORT).show();
                     refresh();
@@ -208,6 +211,7 @@ public class DoctorProfileFragment extends Fragment {
         em.setText(doctor.getEmail());
         nameTv.setText(doctor.getName());
         sb.setVisibility(View.GONE);
+        cancelPasswordChange.setVisibility(View.GONE);
         linearEC.setVisibility(View.VISIBLE);
         sb2.setVisibility(View.GONE);
         linearLayoutC.setVisibility(View.GONE);

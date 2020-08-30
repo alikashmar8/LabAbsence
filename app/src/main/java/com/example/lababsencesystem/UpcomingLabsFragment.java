@@ -22,6 +22,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 import static android.widget.LinearLayout.HORIZONTAL;
@@ -89,6 +91,18 @@ public class UpcomingLabsFragment extends Fragment {
                             }
                         }
                         if (labs.size() > 0) {
+                            Collections.sort(labs, new Comparator<Lab>() {
+                                SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+
+                                @Override
+                                public int compare(Lab lhs, Lab rhs) {
+                                    try {
+                                        return f.parse(lhs.getDate()).compareTo(f.parse(rhs.getDate()));
+                                    } catch (ParseException e) {
+                                        throw new IllegalArgumentException(e);
+                                    }
+                                }
+                            });
                             rv.setVisibility(View.VISIBLE);
                             text.setVisibility(View.GONE);
                             RecyclerView.Adapter a = new DoctorLabAdapter(labs);
@@ -121,6 +135,18 @@ public class UpcomingLabsFragment extends Fragment {
                                 }
                             }
                             if (labs.size() > 0) {
+                                Collections.sort(labs, new Comparator<Lab>() {
+                                    SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+
+                                    @Override
+                                    public int compare(Lab lhs, Lab rhs) {
+                                        try {
+                                            return f.parse(lhs.getDate()).compareTo(f.parse(rhs.getDate()));
+                                        } catch (ParseException e) {
+                                            throw new IllegalArgumentException(e);
+                                        }
+                                    }
+                                });
                                 rv.setVisibility(View.VISIBLE);
                                 text.setVisibility(View.GONE);
                                 RecyclerView.Adapter a = new StudentLabAdapter(labs);

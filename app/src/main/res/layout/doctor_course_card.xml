@@ -37,7 +37,7 @@
         android:id="@+id/doctorCourseCardStudentsNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="studentNum"
+        android:text="Number Of Students:"
         android:textSize="18dp"
         android:textStyle="bold" />
 

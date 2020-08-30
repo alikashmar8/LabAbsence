@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/grdnt"
+    android:tag="fragment_view_student"
     android:padding="20dp">
 
     <TextView
@@ -16,6 +17,15 @@
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold|italic" />
+
+    <ProgressBar
+        android:id="@+id/studentsProgressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:visibility="gone" />
 
         <TableLayout
             android:id="@+id/tabLay"

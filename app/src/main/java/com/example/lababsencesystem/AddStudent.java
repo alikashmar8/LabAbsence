@@ -29,7 +29,8 @@ import jxl.read.biff.BiffException;
 public class AddStudent extends AppCompatActivity {
 
     TabLayout tabLayout;
-    ViewPager viewPager;
+    public ViewPager viewPager;
+    public ViewPagerAdapter viewPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +40,30 @@ public class AddStudent extends AppCompatActivity {
         tabLayout=findViewById(R.id.tabLay);
         viewPager=findViewById(R.id.PagerId);
 
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 1) {
+                    viewPager.getAdapter().notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragment(new EditCourseStudentsFragment(), "Add / Delete");
         viewPagerAdapter.addFragment(new ViewCourseStudentsFragment(), "View");
 
         viewPager.setAdapter(viewPagerAdapter);
+        viewPagerAdapter.notifyDataSetChanged();
         tabLayout.setupWithViewPager(viewPager);
     }
 

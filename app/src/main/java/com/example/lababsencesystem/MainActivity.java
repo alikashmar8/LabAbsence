@@ -1,6 +1,7 @@
 package com.example.lababsencesystem;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     Button showPass;
     CheckBox rememberMe;
     Preference preference=new Preference();
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -244,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
                                                                 }
                                                             }
                                                             if (found == 0) {
-                                                                loginError.setText("Error Username not found");
+                                                                loginError.setText("Error User not found");
                                                                 loginError.setVisibility(View.VISIBLE);
                                                                 spinner.setVisibility(View.GONE);
                                                                 login.setVisibility(View.VISIBLE);

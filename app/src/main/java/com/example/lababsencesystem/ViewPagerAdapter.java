@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class ViewPagerAdapter extends FragmentPagerAdapter {
     ArrayList<Fragment> fragments = new ArrayList<>();
     ArrayList<String> fragmentsTitles = new ArrayList<>();
+
     public ViewPagerAdapter(@NonNull FragmentManager fm) {
         super(fm);
     }
@@ -32,8 +33,30 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return fragmentsTitles.get(position);
     }
+
     public void addFragment(Fragment fragment,String title){
         fragments.add(fragment);
         fragmentsTitles.add(title);
     }
+
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
+
+    }
+
+
+//@Override
+//public int getItemPosition(Object object) {
+//    if (object instanceof ViewPager) {
+//        // Create a new method notifyUpdate() in your fragment
+//        // it will get call when you invoke
+//        // notifyDatasetChaged();
+//        ((ViewPager) object).notifyUpdate();
+//    }
+//    //don't return POSITION_NONE, avoid fragment recreation.
+//    return super.getItemPosition(object);
+//}
+
 }
+
