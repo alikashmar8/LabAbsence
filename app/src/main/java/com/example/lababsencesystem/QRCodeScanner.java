@@ -1,28 +1,21 @@
 package com.example.lababsencesystem;
 
+import android.Manifest;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Vibrator;
-import android.util.Log;
-import android.util.SparseArray;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.vision.CameraSource;
-import com.google.android.gms.vision.Detector;
-import com.google.android.gms.vision.barcode.Barcode;
-import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.zxing.Result;
 import com.karumi.dexter.Dexter;
@@ -32,7 +25,6 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -88,27 +80,68 @@ public class QRCodeScanner extends AppCompatActivity implements ZXingScannerView
         data.put("name", StudentMain.student.getName());
         data.put("fileNumber", StudentMain.student.getFileNumber());
 
-        db.collection("labs").document(result.getText()).collection("attendance").document(StudentMain.student.getFileNumber() + "").set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+        //check if lab exists
+        db.collection("labs").document(result.getText()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(Void aVoid) {
-                Log.d("attendanceTake", "DocumentSnapshot successfully written!");
-                Toast.makeText(getApplicationContext(), "Attendance Taken", Toast.LENGTH_SHORT);
-                attendanceProgressBar.setVisibility(View.GONE);
-                startActivity(new Intent(getApplicationContext(), StudentMain.class));
-                finish();
-            }
-        })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("attendancetake", "Error writing document", e);
-                        Toast.makeText(getApplicationContext(), "Error Taking attendance !! Please try again later", Toast.LENGTH_LONG);
-                        attendanceProgressBar.setVisibility(View.GONE);
-                        startActivity(new Intent(getApplicationContext(), StudentMain.class));
-                        finish();
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Lab lab = task.getResult().toObject(Lab.class);
+                        Log.d("QR", "lab found = " + lab.toString());
+                        //check if student enrolled in this course
+                        db.collection("courses").document(lab.getCourse()).collection("students").document(StudentMain.student.getFileNumber() + "").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    //student is enrolled in this course
+                                    if (document.exists()) {
+                                        //check if student aleady took attendance
+                                        db.collection("labs").document(result.getText()).collection("attendance").document(StudentMain.student.getFileNumber() + "").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    DocumentSnapshot document = task.getResult();
+                                                    //student did not take attendance before
+                                                    if (!document.exists()) {
+                                                        //take attendance
+                                                        db.collection("labs").document(result.getText()).collection("attendance").document(StudentMain.student.getFileNumber() + "").set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void aVoid) {
+                                                                Log.d("QR", "Attendance taken!");
+                                                                Toast.makeText(getApplicationContext(), "Attendance Taken", Toast.LENGTH_SHORT);
+                                                                attendanceProgressBar.setVisibility(View.GONE);
+                                                                startActivity(new Intent(getApplicationContext(), StudentMain.class));
+                                                                finish();
+                                                            }
+                                                        }).addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Log.w("attendancetake", "Error writing document", e);
+                                                                Toast.makeText(getApplicationContext(), "Error Taking attendance !! Please try again later", Toast.LENGTH_LONG);
+                                                                attendanceProgressBar.setVisibility(View.GONE);
+                                                                startActivity(new Intent(getApplicationContext(), StudentMain.class));
+                                                                finish();
+                                                            }
+                                                        });
+                                                    }
+                                                }
+                                            }
+                                        });
+
+                                    } else {
+                                        //student not enrolled in this course
+                                    }
+                                }
+                            }
+                        });
+                    } else {
+                        //lab not found || qr code error
                     }
-                });
-        ;
+                }
+            }
+        });
 
     }
 }

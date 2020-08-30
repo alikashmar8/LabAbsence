@@ -59,7 +59,7 @@ public class StudentHomeFragment extends Fragment {
 //        helloDr.setText(todayDate);
         Date date = new Date();
         Timestamp timestamp = new Timestamp(date);
-
+        labs.clear();
         db.collection("labs").whereEqualTo("date", todayDate).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {

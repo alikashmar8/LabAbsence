@@ -42,21 +42,8 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getItemPosition(Object object) {
         return POSITION_NONE;
-
     }
 
-
-//@Override
-//public int getItemPosition(Object object) {
-//    if (object instanceof ViewPager) {
-//        // Create a new method notifyUpdate() in your fragment
-//        // it will get call when you invoke
-//        // notifyDatasetChaged();
-//        ((ViewPager) object).notifyUpdate();
-//    }
-//    //don't return POSITION_NONE, avoid fragment recreation.
-//    return super.getItemPosition(object);
-//}
 
 }
 

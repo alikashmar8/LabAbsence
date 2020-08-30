@@ -60,6 +60,7 @@ public class LabControl extends AppCompatActivity {
         timeL.setText("Time: "+lab.getTime());
         Log.d("labbbbb", lab.toString());
 
+        //Get Number Of Students In Course
         db.collection("courses").document(lab.getCourse()).collection("students").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -69,6 +70,8 @@ public class LabControl extends AppCompatActivity {
                 loadAttendance();
             }
         });
+
+        //Get Today Date
         final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String todayDate = sdf.format(new Date());
         Date today = null;
@@ -115,6 +118,7 @@ public class LabControl extends AppCompatActivity {
                 attendanceError.setVisibility(View.VISIBLE);
                 attendanceError.setText("Cannot take attendance till lab day !");
             }
+            //Old Labs
             if (today.compareTo(labDate) > 0) {
                 showHideQR.setVisibility(View.GONE);
                 attendanceError.setVisibility(View.VISIBLE);
