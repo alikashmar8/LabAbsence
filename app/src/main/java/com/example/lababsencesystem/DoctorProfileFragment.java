@@ -32,7 +32,7 @@ public class DoctorProfileFragment extends Fragment {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     EditText nm,un,em,fnb,oldPassword,newPassword,newPasswordConfirm;
     TextView nameTv;
-    Button ed, changePassword, sb, sb2, cancelPasswordChange;
+    Button ed, changePassword, sb, sb2, cancelPasswordChange,cancelStEdit;
     LinearLayout linearEC,linearLayoutC,la;
 
 
@@ -53,7 +53,7 @@ public class DoctorProfileFragment extends Fragment {
 
         fnb=view.findViewById(R.id.FNEDDR);
         nm=view.findViewById(R.id.doctorProfilename);
-        un=view.findViewById(R.id.doctorProfileUsername);
+    //    un=view.findViewById(R.id.doctorProfileUsername);
         em=view.findViewById(R.id.doctorProfileEmail);
         nameTv=view.findViewById(R.id.nameTvDr);
         oldPassword=view.findViewById(R.id.oldPasswordDr);
@@ -67,6 +67,7 @@ public class DoctorProfileFragment extends Fragment {
         linearLayoutC=view.findViewById(R.id.laCDr);
         la=view.findViewById(R.id.laDr);
         sb2=view.findViewById(R.id.submit2Dr);
+        cancelStEdit=view.findViewById(R.id.cancelStEdit);
 
         refresh();
 
@@ -76,16 +77,17 @@ public class DoctorProfileFragment extends Fragment {
             public void onClick(View v) {
                 nm.setCursorVisible(true);
                 nm.setFocusableInTouchMode(true);
-                un.setCursorVisible(true);
-                un.setFocusableInTouchMode(true);
+//                un.setCursorVisible(true);
+//                un.setFocusableInTouchMode(true);
                 em.setCursorVisible(true);
                 em.setFocusableInTouchMode(true);
                 nm.setInputType(InputType.TYPE_CLASS_TEXT);
-                un.setInputType(InputType.TYPE_CLASS_TEXT);
+//                un.setInputType(InputType.TYPE_CLASS_TEXT);
                 em.setInputType(InputType.TYPE_CLASS_TEXT);
                 sb.setVisibility(View.VISIBLE);
 //                cancelPasswordChange.setVisibility(View.VISIBLE);
                 linearEC.setVisibility(View.GONE);
+
             }
         });
         sb.setOnClickListener(new View.OnClickListener() {
@@ -104,15 +106,15 @@ public class DoctorProfileFragment extends Fragment {
                     em.setError("please enter your email");
                     flag = 1;
                 }
-                if (un.getText().toString().equals("")) {
+        /*        if (un.getText().toString().equals("")) {
                     un.setError("please enter your username");
                     flag = 1;
                 }
-
+        */
                 if (flag == 0) {
                     DoctorMain.doctor.setEmail(em.getText().toString());
                     DoctorMain.doctor.setName(nm.getText().toString());
-                    DoctorMain.doctor.setUsername(un.getText().toString());
+                    //DoctorMain.doctor.setUsername(un.getText().toString());
                     edit();
                     refresh();
                 }
@@ -127,6 +129,9 @@ public class DoctorProfileFragment extends Fragment {
                 sb2.setVisibility(View.VISIBLE);
                 linearLayoutC.setVisibility(View.VISIBLE);
                 la.setVisibility(View.GONE);
+                oldPassword.setText("");
+                newPassword.setText("");
+                newPasswordConfirm.setText("");
             }
         });
 
@@ -177,6 +182,18 @@ public class DoctorProfileFragment extends Fragment {
             }
         });
 
+        cancelStEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linearEC.setVisibility(View.VISIBLE);
+                linearLayoutC.setVisibility(View.VISIBLE);
+                la.setVisibility(View.VISIBLE);
+                //   layCS.setVisibility(View.GONE);
+                linearLayoutC.setVisibility(View.GONE);
+
+            }
+        });
+
         return view;
     }
 
@@ -189,7 +206,6 @@ public class DoctorProfileFragment extends Fragment {
                 .collection("data").document(doctor.getFileNumber() + "").update(
 
                 "name", nm.getText().toString(),
-                "username", un.getText().toString(),
                 "email", em.getText().toString()
         );
 
@@ -206,7 +222,7 @@ public class DoctorProfileFragment extends Fragment {
     void refresh(){
         fnb.setText(doctor.getFileNumber() +"");
         nm.setText(doctor.getName());
-        un.setText(doctor.getUsername());
+//        un.setText(doctor.getUsername());
         em.setText(doctor.getEmail());
         nameTv.setText(doctor.getName());
         sb.setVisibility(View.GONE);
@@ -217,13 +233,13 @@ public class DoctorProfileFragment extends Fragment {
         la.setVisibility(View.VISIBLE);
 
         nm.setInputType(InputType.TYPE_NULL);
-        un.setInputType(InputType.TYPE_NULL);
+//        un.setInputType(InputType.TYPE_NULL);
         em.setInputType(InputType.TYPE_NULL);
 
         nm.setFocusable(false);
-        un.setCursorVisible(false);
-        un.setFocusable(false);
-        un.setCursorVisible(false);
+   //     un.setCursorVisible(false);
+   //     un.setFocusable(false);
+    //    un.setCursorVisible(false);
         em.setFocusable(false);
         em.setCursorVisible(false);
     }

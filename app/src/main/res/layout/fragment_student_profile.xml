@@ -80,35 +80,9 @@
             android:orientation="vertical"
             android:visibility="visible">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="File Number"
-                    android:textColor="#474545"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/FNED"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:cursorVisible="false"
-                    android:ems="10"
-                    android:focusable="false"
-                    android:inputType="textPersonName"
-
-                    />
 
 
-            </LinearLayout>
-
-            <LinearLayout
+            <!--         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -135,11 +109,44 @@
 
             </LinearLayout>
 
+            -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="Username"
+                    android:textColor="#474545"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+                <EditText
+                    android:id="@+id/FNED"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:cursorVisible="false"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:inputType="textPersonName"
+
+                    />
+
+
+            </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="vertical">
+
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -149,7 +156,6 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="13sp"
                     android:textStyle="bold" />
-
                 <EditText
                     android:id="@+id/studentProfilename"
                     android:layout_width="match_parent"
@@ -168,6 +174,8 @@
                 android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
+
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -176,7 +184,6 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="13sp"
                     android:textStyle="bold" />
-
                 <EditText
                     android:id="@+id/studentProfileEmail"
                     android:layout_width="match_parent"
@@ -232,8 +239,9 @@
                 android:visibility="gone" />
 
 
-        </LinearLayout>
 
+
+        </LinearLayout>
 
 
         <LinearLayout
@@ -275,16 +283,40 @@
                 android:hint=" Confirm New Password:"
                 android:inputType="textPersonName|textPassword" />
 
-
-            <Button
-                android:id="@+id/submit2"
+            <LinearLayout
+                android:id="@+id/layCS"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/custom_button"
-                android:text="Submit"
-                android:textColor="#FFFFFF" />
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal"
+                android:layout_centerInParent="true"
+                android:visibility="visible">
+
+                <Button
+                    android:id="@+id/cancelStEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/custom_button_6"
+                    android:text="Cancel"
+                    android:textColor="#FFFFFF" />
+
+                <Button
+                    android:id="@+id/submit2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/custom_button"
+                    android:text="Submit"
+                    android:textColor="#FFFFFF" />
+
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
 

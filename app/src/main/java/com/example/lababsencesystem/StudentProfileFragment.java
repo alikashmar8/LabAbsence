@@ -39,8 +39,8 @@ public class StudentProfileFragment extends Fragment {
 
     EditText nm,un,em,pass,fnb,oldPassword,newPassword,newPasswordConfirm;
     TextView usernmaeTv,fileNumberbTv,emailTv,nameTv;
-    Button ed,changePassword,sb,sb2;
-    LinearLayout linearEC,linearLayoutC,la;
+    Button ed,changePassword,sb,sb2,cancelStEdit;
+    LinearLayout linearEC,linearLayoutC,layCS,la;
     int cur=0;
 
     public StudentProfileFragment() {
@@ -60,7 +60,7 @@ public class StudentProfileFragment extends Fragment {
 
         fnb=view.findViewById(R.id.FNED);
         nm=view.findViewById(R.id.studentProfilename);
-        un=view.findViewById(R.id.studentProfileUsername);
+  //      un=view.findViewById(R.id.studentProfileUsername);
         em=view.findViewById(R.id.studentProfileEmail);
         nameTv=view.findViewById(R.id.nameTvSt);
         oldPassword=view.findViewById(R.id.oldPasswordSt);
@@ -74,6 +74,8 @@ public class StudentProfileFragment extends Fragment {
         linearLayoutC=view.findViewById(R.id.laC);
         la=view.findViewById(R.id.la);
         sb2=view.findViewById(R.id.submit2);
+        cancelStEdit=view.findViewById(R.id.cancelStEdit);
+      //  layCS=view.findViewById(R.id.layCS);
 
         refresh();
 
@@ -84,12 +86,12 @@ public class StudentProfileFragment extends Fragment {
             public void onClick(View v) {
                 nm.setCursorVisible(true);
                 nm.setFocusableInTouchMode(true);
-                un.setCursorVisible(true);
-                un.setFocusableInTouchMode(true);
+      //          un.setCursorVisible(true);
+      //          un.setFocusableInTouchMode(true);
                 em.setCursorVisible(true);
                 em.setFocusableInTouchMode(true);
                 nm.setInputType(InputType.TYPE_CLASS_TEXT);
-                un.setInputType(InputType.TYPE_CLASS_TEXT);
+    //            un.setInputType(InputType.TYPE_CLASS_TEXT);
                 em.setInputType(InputType.TYPE_CLASS_TEXT);
                 sb.setVisibility(View.VISIBLE);
                 linearEC.setVisibility(View.GONE);
@@ -112,15 +114,17 @@ public class StudentProfileFragment extends Fragment {
                         em.setError("please enter your email");
                         flag = 1;
                     }
-                    if (un.getText().toString().equals("")) {
+           /*         if (un.getText().toString().equals("")) {
                         un.setError("please enter your username");
                         flag = 1;
                     }
 
+            */
+
                     if (flag == 0) {
                         StudentMain.student.setEmail(em.getText().toString());
                         StudentMain.student.setName(nm.getText().toString());
-                        StudentMain.student.setUsername(un.getText().toString());
+            //            StudentMain.student.setUsername(un.getText().toString());
                         edit();
                         refresh();
                     }
@@ -135,6 +139,11 @@ public class StudentProfileFragment extends Fragment {
                 sb2.setVisibility(View.VISIBLE);
                 linearLayoutC.setVisibility(View.VISIBLE);
                 la.setVisibility(View.GONE);
+             //   layCS.setVisibility(View.VISIBLE);
+                oldPassword.setText("");
+                newPassword.setText("");
+                newPasswordConfirm.setText("");
+
             }
         });
 
@@ -184,10 +193,17 @@ public class StudentProfileFragment extends Fragment {
             }
         });
 
+        cancelStEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linearEC.setVisibility(View.VISIBLE);
+                linearLayoutC.setVisibility(View.VISIBLE);
+                la.setVisibility(View.VISIBLE);
+             //   layCS.setVisibility(View.GONE);
+                linearLayoutC.setVisibility(View.GONE);
 
-
-
-
+            }
+        });
 
         return view;
     }
@@ -217,7 +233,6 @@ public class StudentProfileFragment extends Fragment {
                 .collection("data").document(student.getFileNumber() + "").update(
 
                 "name", nm.getText().toString(),
-                "username", un.getText().toString(),
                 "email", em.getText().toString()
         );
 
@@ -234,7 +249,7 @@ public class StudentProfileFragment extends Fragment {
     void refresh(){
         fnb.setText(student.getFileNumber() +"");
         nm.setText(student.getName());
-        un.setText(student.getUsername());
+    //    un.setText(student.getUsername());
         em.setText(student.getEmail());
         nameTv.setText(student.getName());
         sb.setVisibility(View.GONE);
@@ -246,18 +261,20 @@ public class StudentProfileFragment extends Fragment {
 
 
         nm.setInputType(InputType.TYPE_NULL);
-        un.setInputType(InputType.TYPE_NULL);
+   //     un.setInputType(InputType.TYPE_NULL);
         em.setInputType(InputType.TYPE_NULL);
 
         nm.setFocusable(false);
-        un.setCursorVisible(false);
-        un.setFocusable(false);
-        un.setCursorVisible(false);
+    //    un.setCursorVisible(false);
+    //    un.setFocusable(false);
+     //   un.setCursorVisible(false);
         em.setFocusable(false);
         em.setCursorVisible(false);
 
 
     }
+
+
 
     public  boolean isValidEmail(CharSequence target) {
         return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
