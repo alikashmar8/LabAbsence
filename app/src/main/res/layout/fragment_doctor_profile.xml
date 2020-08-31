@@ -267,7 +267,7 @@
         android:id="@+id/rellay1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/grad"
+        android:background="#FFFFFF"
         android:paddingBottom="20dp">
 
         <RelativeLayout
@@ -305,7 +305,7 @@
             android:layout_marginBottom="25dp"
             android:fontFamily="sans-serif-light"
             android:text="Name"
-            android:textColor="@color/white"
+            android:textColor="@color/colorPrimary"
             android:textSize="32sp" />
 
 
@@ -323,7 +323,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/linlay1"
-        android:background="@color/white">
+        android:background="@drawable/grad">
 
 
         <LinearLayout
@@ -335,7 +335,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="30dp"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -347,7 +347,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:text="Username"
-                    android:textColor="#474545"
+                    android:textColor="#FFFCFC"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
@@ -359,8 +359,8 @@
                     android:ems="10"
                     android:focusable="false"
                     android:inputType="textPersonName"
-
-                    />
+                    app:backgroundTint="#FFFFFF"
+                    android:textColor="#FFFFFF" />
 
 
             </LinearLayout>
@@ -402,7 +402,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:text="Name"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="#FFFFFF"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
@@ -413,7 +413,9 @@
                     android:cursorVisible="false"
                     android:ems="10"
                     android:focusable="false"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    app:backgroundTint="#FFFFFF"
+                    android:textColor="#FFFFFF" />
 
 
             </LinearLayout>
@@ -429,7 +431,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:text="Email"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="#FFFFFF"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
@@ -440,7 +442,9 @@
                     android:cursorVisible="false"
                     android:ems="10"
                     android:focusable="false"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    app:backgroundTint="#FFFFFF"
+                    android:textColor="#FFFFFF" />
 
             </LinearLayout>
 
@@ -458,7 +462,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
-                    android:background="@drawable/custom_button_6"
+                    android:background="@drawable/custom_button_4"
                     android:text="Edit"
                     android:textColor="#FFFFFF" />
 
@@ -468,7 +472,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
-                    android:background="@drawable/custom_button_6"
+                    android:background="@drawable/custom_button_4"
                     android:text="Change Password"
                     android:textColor="#FFFFFF" />
 
@@ -514,7 +518,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="30dp"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
 
 
             <EditText
@@ -524,7 +528,11 @@
                 android:layout_marginTop="10dp"
                 android:ems="10"
                 android:hint="Current Password:"
-                android:inputType="textPersonName|textPassword" />
+                android:inputType="textPersonName|textPassword"
+
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF"
+                app:backgroundTint="#FFFFFF" />
 
             <EditText
                 android:id="@+id/newPasswordDr"
@@ -533,7 +541,12 @@
                 android:layout_marginTop="10dp"
                 android:ems="10"
                 android:hint="New Password:"
-                android:inputType="textPersonName|textPassword" />
+
+                android:inputType="textPersonName|textPassword"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF"
+                android:textColorLink="#FFFFFF"
+                app:backgroundTint="#FFFFFF" />
 
             <EditText
                 android:id="@+id/newPasswordConfirmDr"
@@ -542,9 +555,15 @@
                 android:layout_marginTop="10dp"
                 android:ems="10"
                 android:hint=" Confirm New Password:"
-                android:inputType="textPersonName|textPassword" />
 
-        <LinearLayout
+                android:inputType="textPersonName|textPassword"
+                android:textColor="#FFFFFF"
+                android:textColorHighlight="#FFFFFF"
+                android:textColorHint="#FFFFFF"
+                android:textColorLink="#FFFFFF"
+                app:backgroundTint="#FFFFFF" />
+
+            <LinearLayout
             android:id="@+id/layCS"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -553,26 +572,26 @@
             android:layout_centerInParent="true"
             android:visibility="visible">
 
-            <Button
-                android:id="@+id/cancelStEdit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/custom_button_6"
-                android:text="Cancel"
-                android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/cancelStEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_button_3"
+                    android:text="Cancel"
+                    android:textColor="#FFFFFF" />
 
-            <Button
-                android:id="@+id/submit2Dr"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/custom_button"
-                android:text="Submit"
-                android:textColor="#FFFFFF" />
-        </LinearLayout>
+                <Button
+                    android:id="@+id/submit2Dr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_button"
+                    android:text="Submit"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
 
         </LinearLayout>
 
