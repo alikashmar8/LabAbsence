@@ -322,6 +322,8 @@
                 android:layout_marginBottom="20dp"
                 />
 
+
+
             <ProgressBar
                 android:id="@+id/creatingProgressBar"
                 style="?android:attr/progressBarStyleLarge"
@@ -332,10 +334,18 @@
                 android:visibility="gone" />
 
 
+            <TextView
+                android:id="@+id/textAddLabError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:textColor="#ff0000"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+
         </LinearLayout>
-
-
-
 
 
 

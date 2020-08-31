@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -31,6 +32,7 @@ public class AddLab extends AppCompatActivity implements DatePickerDialog.OnDate
     String date = "";
     String time = "";
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    TextView textAddLabError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +72,39 @@ public class AddLab extends AppCompatActivity implements DatePickerDialog.OnDate
                 timePicker.show(getSupportFragmentManager(), "time picker");
             }
         });
+
+        textAddLabError=findViewById(R.id.textAddLabError);
         createLab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                textAddLabError.setVisibility(View.GONE);
+                int flag=0;
+                String s="Please Pick up a ";
+                if (date.equals("") ){
+                   // Toast.makeText(AddLab.this,"Please Choose a Date!",Toast.LENGTH_SHORT).show();
+                    s+="date";
+                    flag=1;
+                }
+                if (time.equals("")){
+                    if (flag==1){
+                        s+=" and time!.";
+                    }
+                    else{
+                        s+="time!.";
+                        flag=1;
+                    }
+                }
+                else
+                    s+="!.";
+
+                if (flag==1){
+                    progressBar.setVisibility(View.GONE);
+                    textAddLabError.setVisibility(View.VISIBLE);
+                    textAddLabError.setText(s);
+                    return;
+                }
+
                 progressBar.setVisibility(View.VISIBLE);
                 Lab lab = new Lab(courseSpinner.getSelectedItem().toString(), date, time, DoctorMain.doctor.getFileNumber());
                 db.collection("labs").add(lab).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
