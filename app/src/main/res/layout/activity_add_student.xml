@@ -6,7 +6,7 @@
     tools:context=".DoctorLabsFragment"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:background="@drawable/grdnt">
+    android:background="@drawable/grad">
 
     <LinearLayout
         android:layout_width="wrap_content"

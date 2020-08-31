@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".StudentHomeFragment"
     android:id="@+id/studentHomeFrag"
-    android:background="@drawable/grdnt"
+    android:background="@drawable/grad"
     android:orientation="vertical">
 
     <TextView

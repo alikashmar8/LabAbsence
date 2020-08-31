@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -71,6 +72,9 @@ public class StudentHomeFragment extends Fragment {
                         }
                     }
                     a.notifyDataSetChanged();
+                    DividerItemDecoration dividerItemDecoration=new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL);
+                    dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.recycler_view_divider));
+                    rv.addItemDecoration(dividerItemDecoration);
                     rv.setAdapter(a);
                 }
             }
