@@ -34,7 +34,7 @@
                 android:background="@drawable/circle"
                 android:padding="3dp"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/img" />
+                app:srcCompat="@drawable/img_2" />
 
         </RelativeLayout>
 
@@ -160,9 +160,7 @@
                     android:id="@+id/studentProfilename"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:cursorVisible="false"
                     android:ems="10"
-                    android:focusable="false"
                     android:inputType="textPersonName"
                     android:textColor="#FFFFFF"
                     app:backgroundTint="#FFFFFF" />
@@ -189,9 +187,7 @@
                     android:id="@+id/studentProfileEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:cursorVisible="false"
                     android:ems="10"
-                    android:focusable="false"
                     android:inputType="textPersonName"
                     android:textColor="#FFFFFF"
                     android:textColorHighlight="#FFFFFF"
@@ -214,7 +210,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/custom_button_4"
-                    android:text="Edit"
+                    android:text="Save Changes"
                     android:textColor="#FFFFFF" />
 
                 <Button

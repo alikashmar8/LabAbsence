@@ -1,14 +1,8 @@
 package com.example.lababsencesystem;
 
-import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +11,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,10 +26,10 @@ public class DoctorProfileFragment extends Fragment {
 
     Doctor doctor = DoctorMain.doctor;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    EditText nm,un,em,fnb,oldPassword,newPassword,newPasswordConfirm;
+    EditText nm, un, em, fnb, oldPassword, newPassword, newPasswordConfirm;
     TextView nameTv;
-    Button ed, changePassword, sb, sb2, cancelPasswordChange,cancelStEdit;
-    LinearLayout linearEC,linearLayoutC,la;
+    Button ed, changePassword, sb, sb2, cancelPasswordChange, cancelStEdit;
+    LinearLayout linearEC, linearLayoutC, la;
 
 
     public DoctorProfileFragment() {
@@ -51,23 +47,23 @@ public class DoctorProfileFragment extends Fragment {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        fnb=view.findViewById(R.id.FNEDDR);
-        nm=view.findViewById(R.id.doctorProfilename);
-    //    un=view.findViewById(R.id.doctorProfileUsername);
-        em=view.findViewById(R.id.doctorProfileEmail);
-        nameTv=view.findViewById(R.id.nameTvDr);
-        oldPassword=view.findViewById(R.id.oldPasswordDr);
-        newPassword=view.findViewById(R.id.newPasswordDr);
-        newPasswordConfirm=view.findViewById(R.id.newPasswordConfirmDr);
+        fnb = view.findViewById(R.id.FNEDDR);
+        nm = view.findViewById(R.id.doctorProfilename);
+        //    un=view.findViewById(R.id.doctorProfileUsername);
+        em = view.findViewById(R.id.doctorProfileEmail);
+        nameTv = view.findViewById(R.id.nameTvDr);
+        oldPassword = view.findViewById(R.id.oldPasswordDr);
+        newPassword = view.findViewById(R.id.newPasswordDr);
+        newPasswordConfirm = view.findViewById(R.id.newPasswordConfirmDr);
 
         ed = view.findViewById(R.id.editDoctorProfile);
         changePassword = view.findViewById(R.id.changePasswordDr);
-        sb=view.findViewById(R.id.submitProfileDr);
-        linearEC=view.findViewById(R.id.layECDr);
-        linearLayoutC=view.findViewById(R.id.laCDr);
-        la=view.findViewById(R.id.laDr);
-        sb2=view.findViewById(R.id.submit2Dr);
-        cancelStEdit=view.findViewById(R.id.cancelStEdit);
+        sb = view.findViewById(R.id.submitProfileDr);
+        linearEC = view.findViewById(R.id.layECDr);
+        linearLayoutC = view.findViewById(R.id.laCDr);
+        la = view.findViewById(R.id.laDr);
+        sb2 = view.findViewById(R.id.submit2Dr);
+        cancelStEdit = view.findViewById(R.id.cancelStEdit);
 
         refresh();
 
@@ -94,7 +90,7 @@ public class DoctorProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 int flag = 0;
-                if (!isValidEmail(em.getText().toString())){
+                if (!isValidEmail(em.getText().toString())) {
                     em.setError("Invalid email format");
                     flag = 1;
                 }
@@ -115,6 +111,7 @@ public class DoctorProfileFragment extends Fragment {
                     DoctorMain.doctor.setEmail(em.getText().toString());
                     DoctorMain.doctor.setName(nm.getText().toString());
                     //DoctorMain.doctor.setUsername(un.getText().toString());
+                    firebaseUser.updateEmail(em.getText().toString());
                     edit();
                     refresh();
                 }
@@ -140,16 +137,13 @@ public class DoctorProfileFragment extends Fragment {
             public void onClick(View v) {
                 int flag = 0;
 
-                if (!oldPassword.getText().toString().equals(doctor.getPassword())) {
+                if (!oldPassword.getText().toString().equals(doctor.getPassword()) || oldPassword.getText().length() < 6) {
                     oldPassword.setError("Incorrect Password");
                     flag = 1;
                 }
                 if (!newPassword.getText().toString().equals(newPasswordConfirm.getText().toString())) {
-                    Toast.makeText(getActivity(), "new Password and Confirm new Password fields are different", Toast.LENGTH_LONG).show();
-                    flag = 1;
-                }
-                if (oldPassword.getText().length() < 6) {
-                    oldPassword.setError("Minimum password length must be 6");
+                    newPassword.setError("New password and confirm new password fields are different");
+                    newPasswordConfirm.setError("New password and confirm new password fields are different");
                     flag = 1;
                 }
                 if (newPassword.getText().length() < 6) {
@@ -161,15 +155,15 @@ public class DoctorProfileFragment extends Fragment {
                     flag = 1;
                 }
                 if (oldPassword.getText().toString().equals("") || oldPassword.getText().length() < 6) {
-                    oldPassword.setError("please enter your password");
+                    oldPassword.setError("Please enter your password");
                     flag = 1;
                 }
                 if (newPassword.getText().toString().equals("")) {
-                    newPassword.setError("please enter your password");
+                    newPassword.setError("Please enter a new password");
                     flag = 1;
                 }
                 if (newPasswordConfirm.getText().toString().equals("")) {
-                    newPasswordConfirm.setError("please enter your password");
+                    newPasswordConfirm.setError("Please confirm your password");
                     flag = 1;
                 }
                 if (flag == 0) {
@@ -198,29 +192,23 @@ public class DoctorProfileFragment extends Fragment {
     }
 
     void edit() {
-
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-
         db.collection("users").document("doctors")
                 .collection("data").document(doctor.getFileNumber() + "").update(
-
                 "name", nm.getText().toString(),
                 "email", em.getText().toString()
         );
 
     }
 
-    void change(){
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    void change() {
         db.collection("users").document("doctors")
                 .collection("data").document(doctor.getFileNumber() + "").update(
                 "password", newPassword.getText().toString()
         );
     }
 
-    void refresh(){
-        fnb.setText(doctor.getFileNumber() +"");
+    void refresh() {
+        fnb.setText(doctor.getFileNumber() + "");
         nm.setText(doctor.getName());
 //        un.setText(doctor.getUsername());
         em.setText(doctor.getEmail());
@@ -236,15 +224,15 @@ public class DoctorProfileFragment extends Fragment {
 //        un.setInputType(InputType.TYPE_NULL);
         em.setInputType(InputType.TYPE_NULL);
 
-        nm.setFocusable(false);
-   //     un.setCursorVisible(false);
-   //     un.setFocusable(false);
-    //    un.setCursorVisible(false);
-        em.setFocusable(false);
-        em.setCursorVisible(false);
+//        nm.setFocusable(false);
+        //     un.setCursorVisible(false);
+        //     un.setFocusable(false);
+        //    un.setCursorVisible(false);
+//        em.setFocusable(false);
+//        em.setCursorVisible(false);
     }
 
-    public  boolean isValidEmail(CharSequence target) {
+    public boolean isValidEmail(CharSequence target) {
         return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 }

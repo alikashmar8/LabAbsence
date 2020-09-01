@@ -1,5 +1,6 @@
 package com.example.lababsencesystem;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -66,19 +66,23 @@ public class StudentLabAdapter extends RecyclerView.Adapter<StudentLabAdapter.St
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
+                            Log.d("att", "attended");
+                            holder.missed.setVisibility(View.GONE);
                             holder.attended.setVisibility(View.VISIBLE);
                             //                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                         } else {
-//                        Log.d(TAG, "No such document");
+                            Log.d("att", "missed");
+                            holder.attended.setVisibility(View.GONE);
                             holder.missed.setVisibility(View.VISIBLE);
                         }
                     } else {
-//                    Log.d(TAG, "get failed with ", task.getException());
+                        Log.d("att", "get failed with ", task.getException());
                     }
                 }
             });
         }
     }
+
     @Override
     public int getItemCount() {
         return labs.size();
@@ -92,7 +96,6 @@ public class StudentLabAdapter extends RecyclerView.Adapter<StudentLabAdapter.St
         Button labEdit;
         TextView attended;
         TextView missed;
-
 
 
         StudentLabViewHolder(View itemView) {

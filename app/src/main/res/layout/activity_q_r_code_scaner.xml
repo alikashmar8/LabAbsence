@@ -21,6 +21,16 @@
         android:layout_alignParentBottom="true"
         android:gravity="center">
 
+        <TextView
+            android:id="@+id/QrErrorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Error"
+            android:textColor="#FF0000"
+            android:textSize="20dp"
+            android:visibility="gone" />
+
         <ProgressBar
             android:id="@+id/attendanceProgressBar"
             style="?android:attr/progressBarStyleLarge"
