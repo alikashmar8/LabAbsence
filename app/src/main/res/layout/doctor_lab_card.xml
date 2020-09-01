@@ -61,6 +61,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Attended"
+            android:textColor="#2bd900"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/loadingAttendance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Loading..."
             android:visibility="gone" />
 
         <TextView
@@ -68,6 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Missed"
+            android:textColor="#d90000"
             android:visibility="gone" />
     </LinearLayout>
 
