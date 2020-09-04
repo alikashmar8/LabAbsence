@@ -54,7 +54,7 @@ public class AddLab extends AppCompatActivity implements DatePickerDialog.OnDate
 
             }
         });
-        final ProgressBar progressBar = findViewById(R.id.creatingProgressBar);
+        final ProgressBar progressBar = findViewById(R.id.createLabProgressBar);
         Button button = findViewById(R.id.chooseDate);
         Button createLab = findViewById(R.id.createLab);
         button.setOnClickListener(new View.OnClickListener() {
@@ -77,9 +77,17 @@ public class AddLab extends AppCompatActivity implements DatePickerDialog.OnDate
         createLab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                createLab.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
                 textAddLabError.setVisibility(View.GONE);
                 int flag=0;
+                if (coursesCode.size() == 0) {
+                    progressBar.setVisibility(View.GONE);
+                    textAddLabError.setText("You cannot add any lab ! \n You don't teach any course");
+                    textAddLabError.setVisibility(View.VISIBLE);
+                    createLab.setVisibility(View.VISIBLE);
+                    return;
+                }
                 String s="Please Pick up a ";
                 if (date.equals("") ){
                    // Toast.makeText(AddLab.this,"Please Choose a Date!",Toast.LENGTH_SHORT).show();
@@ -88,10 +96,10 @@ public class AddLab extends AppCompatActivity implements DatePickerDialog.OnDate
                 }
                 if (time.equals("")){
                     if (flag==1){
-                        s+=" and time!.";
+                        s += " and time !";
                     }
                     else{
-                        s+="time!.";
+                        s += "time !";
                         flag=1;
                     }
                 }
@@ -100,12 +108,12 @@ public class AddLab extends AppCompatActivity implements DatePickerDialog.OnDate
 
                 if (flag==1){
                     progressBar.setVisibility(View.GONE);
-                    textAddLabError.setVisibility(View.VISIBLE);
                     textAddLabError.setText(s);
+                    textAddLabError.setVisibility(View.VISIBLE);
+                    createLab.setVisibility(View.VISIBLE);
                     return;
                 }
 
-                progressBar.setVisibility(View.VISIBLE);
                 Lab lab = new Lab(courseSpinner.getSelectedItem().toString(), date, time, DoctorMain.doctor.getFileNumber());
                 db.collection("labs").add(lab).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override

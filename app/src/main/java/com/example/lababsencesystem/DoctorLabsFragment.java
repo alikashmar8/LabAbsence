@@ -52,7 +52,6 @@ public class DoctorLabsFragment extends Fragment {
         addLab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Toast.makeText(getContext(),"pressed",Toast.LENGTH_LONG).show();
                 startActivity(new Intent((getActivity()),AddLab.class));
 
             }

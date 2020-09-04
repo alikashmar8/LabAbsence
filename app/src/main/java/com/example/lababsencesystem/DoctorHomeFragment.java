@@ -54,15 +54,11 @@ public class DoctorHomeFragment extends Fragment {
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String todayDate = sdf.format(new Date());
-//        helloDr.setText(todayDate);
-        Date date = new Date();
-        Timestamp timestamp = new Timestamp(date);
 
         db.collection("labs").whereEqualTo("date",todayDate).whereEqualTo("doctor",doctor.getFileNumber()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
-                    int count = 0;
                     for (DocumentSnapshot document : task.getResult()) {
                         Lab lab = document.toObject(Lab.class);
                         lab.setId(document.getId());

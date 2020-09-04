@@ -12,8 +12,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -42,7 +45,6 @@ public class DoctorProfileFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_doctor_profile, container, false);
-
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
@@ -102,18 +104,21 @@ public class DoctorProfileFragment extends Fragment {
                     em.setError("please enter your email");
                     flag = 1;
                 }
-        /*        if (un.getText().toString().equals("")) {
-                    un.setError("please enter your username");
-                    flag = 1;
-                }
-        */
                 if (flag == 0) {
                     DoctorMain.doctor.setEmail(em.getText().toString());
                     DoctorMain.doctor.setName(nm.getText().toString());
                     //DoctorMain.doctor.setUsername(un.getText().toString());
-                    firebaseUser.updateEmail(em.getText().toString());
-                    edit();
-                    refresh();
+                    firebaseUser.updateEmail(em.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                edit();
+                            } else {
+                                Toast.makeText(getActivity(), "Error updating profile !", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+//                    edit();
                 }
 
             }
@@ -168,10 +173,19 @@ public class DoctorProfileFragment extends Fragment {
                 }
                 if (flag == 0) {
                     DoctorMain.doctor.setPassword(newPassword.getText().toString());
-                    firebaseUser.updatePassword(newPassword.getText().toString());
-                    change();
-                    Toast.makeText(getActivity(), "Your Password is Changed", Toast.LENGTH_SHORT).show();
-                    refresh();
+                    firebaseUser.updatePassword(newPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                change();
+                                refresh();
+                            } else {
+                                Toast.makeText(getActivity(), "Error cannot change your password !", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+
                 }
             }
         });
@@ -196,7 +210,18 @@ public class DoctorProfileFragment extends Fragment {
                 .collection("data").document(doctor.getFileNumber() + "").update(
                 "name", nm.getText().toString(),
                 "email", em.getText().toString()
-        );
+        ).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    refresh();
+                    Toast.makeText(getActivity(), "Profile Updated !", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getActivity(), "Error updating profile !", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
 
     }
 
@@ -204,7 +229,17 @@ public class DoctorProfileFragment extends Fragment {
         db.collection("users").document("doctors")
                 .collection("data").document(doctor.getFileNumber() + "").update(
                 "password", newPassword.getText().toString()
-        );
+        ).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    refresh();
+                    Toast.makeText(getActivity(), "Your password is changed successfully !", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "Error changing your password !", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     void refresh() {
@@ -220,9 +255,9 @@ public class DoctorProfileFragment extends Fragment {
         linearLayoutC.setVisibility(View.GONE);
         la.setVisibility(View.VISIBLE);
 
-        nm.setInputType(InputType.TYPE_NULL);
+//        nm.setInputType(InputType.TYPE_NULL);
 //        un.setInputType(InputType.TYPE_NULL);
-        em.setInputType(InputType.TYPE_NULL);
+//        em.setInputType(InputType.TYPE_NULL);
 
 //        nm.setFocusable(false);
         //     un.setCursorVisible(false);

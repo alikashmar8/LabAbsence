@@ -94,13 +94,13 @@ public class LabControl extends AppCompatActivity {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (showHideQR.isChecked()) {
-                        qrContainer.setVisibility(View.VISIBLE);
                         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
                         try {
                             BitMatrix bitMatrix = multiFormatWriter.encode(lab.getId(), BarcodeFormat.QR_CODE, 200, 200);
                             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
                             Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
                             qrContainer.setImageBitmap(bitmap);
+                            qrContainer.setVisibility(View.VISIBLE);
 //                        showHideQR.setText("Hide Attendance QR");
                         } catch (WriterException e) {
                             e.printStackTrace();

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -44,6 +45,7 @@ public class StudentLabAdapter extends RecyclerView.Adapter<StudentLabAdapter.St
         holder.labDate.setText("Date: " + labs.get(i).date.toString());
         holder.labTime.setText("Time: " + labs.get(i).getTime());
         holder.labEdit.setVisibility(View.GONE);
+        holder.labDelete.setVisibility(View.GONE);
 
         final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String todayDate = sdf.format(new Date());
@@ -99,6 +101,7 @@ public class StudentLabAdapter extends RecyclerView.Adapter<StudentLabAdapter.St
         TextView attended;
         TextView missed;
         TextView loadingAttendance;
+        ImageView labDelete;
 
 
         StudentLabViewHolder(View itemView) {
@@ -110,6 +113,8 @@ public class StudentLabAdapter extends RecyclerView.Adapter<StudentLabAdapter.St
             attended = itemView.findViewById(R.id.labAttended);
             missed = itemView.findViewById(R.id.labMissed);
             loadingAttendance = itemView.findViewById(R.id.loadingAttendance);
+            labDelete = itemView.findViewById(R.id.deleteLab);
+
 
         }
     }

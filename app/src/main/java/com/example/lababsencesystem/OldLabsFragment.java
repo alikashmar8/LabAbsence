@@ -88,7 +88,6 @@ public class OldLabsFragment extends Fragment {
                         if (labs.size() > 0) {
                             Collections.sort(labs, new Comparator<Lab>() {
                                 SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
-
                                 @Override
                                 public int compare(Lab lhs, Lab rhs) {
                                     try {
@@ -101,6 +100,7 @@ public class OldLabsFragment extends Fragment {
                             rv.setVisibility(View.VISIBLE);
                             text.setVisibility(View.GONE);
                             RecyclerView.Adapter a = new DoctorLabAdapter(labs);
+                            a.notifyDataSetChanged();
                             rv.setAdapter(a);
                         } else {
                             rv.setVisibility(View.GONE);
@@ -132,7 +132,6 @@ public class OldLabsFragment extends Fragment {
                             if (labs.size() > 0) {
                                 Collections.sort(labs, new Comparator<Lab>() {
                                     SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
-
                                     @Override
                                     public int compare(Lab lhs, Lab rhs) {
                                         try {
@@ -145,6 +144,7 @@ public class OldLabsFragment extends Fragment {
                                 rv.setVisibility(View.VISIBLE);
                                 text.setVisibility(View.GONE);
                                 RecyclerView.Adapter a = new StudentLabAdapter(labs);
+                                a.notifyDataSetChanged();
                                 rv.setAdapter(a);
                             } else {
                                 rv.setVisibility(View.GONE);

@@ -71,6 +71,7 @@ public class TodayLabsFragment extends Fragment {
                             rv.setVisibility(View.VISIBLE);
                             text.setVisibility(View.GONE);
                             RecyclerView.Adapter a = new DoctorLabAdapter(labs);
+                            a.notifyDataSetChanged();
                             rv.setAdapter(a);
                         } else {
                             rv.setVisibility(View.GONE);
@@ -96,6 +97,7 @@ public class TodayLabsFragment extends Fragment {
                                 rv.setVisibility(View.VISIBLE);
                                 text.setVisibility(View.GONE);
                                 RecyclerView.Adapter a = new StudentLabAdapter(labs);
+                                a.notifyDataSetChanged();
                                 rv.setAdapter(a);
                             } else {
                                 rv.setVisibility(View.GONE);

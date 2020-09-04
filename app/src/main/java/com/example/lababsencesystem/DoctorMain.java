@@ -1,20 +1,18 @@
 package com.example.lababsencesystem;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toolbar;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,16 +25,16 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class DoctorMain extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class DoctorMain extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public static ArrayList<Course> courses = new ArrayList<>();
+    public static Doctor doctor = null;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     TextView doctorWelcome;
-    public static Doctor doctor = null;
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
     NavigationView navigationView;
-    TextView headerName,headerEmail;
+    TextView headerName, headerEmail;
 
 
     @Override
@@ -46,10 +44,6 @@ public class DoctorMain extends AppCompatActivity implements NavigationView.OnNa
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-
-//        doctorWelcome = findViewById(R.id.doctorWelcome);
-
-//        headerEmail.setText("ashdbj");
 
         drawerLayout = findViewById(R.id.doctorDrawer);
         navigationView = findViewById(R.id.navigationMenuDoctor);
@@ -63,8 +57,6 @@ public class DoctorMain extends AppCompatActivity implements NavigationView.OnNa
         View headView = navigationView.getHeaderView(0);
         headerName = headView.findViewById(R.id.headerName);
         headerEmail = headView.findViewById(R.id.headerEmail);
-
-
 
 
         if (doctor == null) {
@@ -96,8 +88,8 @@ public class DoctorMain extends AppCompatActivity implements NavigationView.OnNa
                 }
 
             });
-        }else{
-            Log.d("TAG", "doctor else "+ doctor);
+        } else {
+            Log.d("TAG", "doctor else " + doctor);
             headerEmail.setText(doctor.getEmail());
             headerName.setText(doctor.getName());
             loadCourses(doctor);
@@ -122,14 +114,16 @@ public class DoctorMain extends AppCompatActivity implements NavigationView.OnNa
             }
         });
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(actionBarDrawerToggle.onOptionsItemSelected(item)) return true;
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)) return true;
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        int logout =0;
+        int logout = 0;
         Fragment selectedFragment = null;
         drawerLayout.closeDrawer(GravityCompat.START);
         switch (menuItem.getItemId()) {
@@ -146,16 +140,16 @@ public class DoctorMain extends AppCompatActivity implements NavigationView.OnNa
                 selectedFragment = new DoctorProfileFragment();
                 break;
             case R.id.menuDoctorLogout:
-                logout =1;
+                logout = 1;
                 FirebaseAuth.getInstance().signOut();
-                doctor=null;
+                doctor = null;
                 Intent i = new Intent(this, MainActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
                 finish();
                 break;
         }
-        if (logout==0)
+        if (logout == 0)
             getSupportFragmentManager().beginTransaction().replace(R.id.doctor_fragment_container, selectedFragment).commit();
         return true;
     }
