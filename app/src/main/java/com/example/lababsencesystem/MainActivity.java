@@ -154,6 +154,14 @@ public class MainActivity extends AppCompatActivity {
                                 login.setVisibility(View.VISIBLE);
 
                             } else {
+                                if (username.getText().toString().equals("admin") && password.getText().toString().equals("admin1")) {
+                                    Intent i = new Intent(MainActivity.this, AdminMain.class);
+                                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(i);
+                                    finish();
+                                }
+                                else {
+
                                 db.collection("users").document("students")
                                         .collection("data")
                                         .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -245,13 +253,17 @@ public class MainActivity extends AppCompatActivity {
                                                                         }
                                                                     });
                                                                 }
+
                                                             }
+
                                                             if (found == 0) {
                                                                 loginError.setText("Error User not found");
                                                                 loginError.setVisibility(View.VISIBLE);
                                                                 spinner.setVisibility(View.GONE);
                                                                 login.setVisibility(View.VISIBLE);
                                                             }
+
+
                                                         } else {
                                                             Log.d("TAG", "Error getting documents: ", task.getException());
                                                         }
@@ -264,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                     }
                                 });
-
+                            }
 
                             }
                         }
