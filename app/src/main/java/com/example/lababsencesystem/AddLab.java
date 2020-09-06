@@ -46,7 +46,7 @@ public class AddLab extends AppCompatActivity implements DatePickerDialog.OnDate
         courseSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                ((TextView) parentView.getChildAt(0)).setTextColor(Color.BLACK);
+                ((TextView) parentView.getChildAt(0)).setTextColor(Color.WHITE);
             }
 
             @Override
