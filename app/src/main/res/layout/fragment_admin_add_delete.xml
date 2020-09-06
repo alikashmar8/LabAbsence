@@ -100,6 +100,7 @@
 
 
             <LinearLayout
+                android:id="@+id/linearLayoutAddManualAdmin"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -124,12 +125,10 @@
                         android:id="@+id/FileNumberAdd"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:cursorVisible="false"
                         android:ems="10"
-                        android:focusable="false"
-                        android:inputType="textPersonName"
+                        android:inputType="number"
                         android:textColor="#FFFFFF"
-                        app:backgroundTint="#FFFFFF" />
+                        app:backgroundTint="#FFFFFF"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -150,9 +149,7 @@
                         android:id="@+id/nameAdd"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:cursorVisible="false"
                         android:ems="10"
-                        android:focusable="false"
                         android:inputType="textPersonName"
                         android:textColor="#FFFFFF"
                         app:backgroundTint="#FFFFFF" />
@@ -176,9 +173,7 @@
                         android:id="@+id/emailAdd"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:cursorVisible="false"
                         android:ems="10"
-                        android:focusable="false"
                         android:inputType="textPersonName"
                         android:textColor="#FFFFFF"
                         app:backgroundTint="#FFFFFF" />
@@ -198,11 +193,11 @@
                         android:textSize="13sp"
                         android:textStyle="bold" />
                     <Spinner
-                        android:id="@+id/courseSpinner"
+                        android:id="@+id/courseSpinnerAdmin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:popupBackground="#FFFFFF" />
+                        android:popupBackground="@drawable/grad" />
 
                 </LinearLayout>
 
@@ -282,35 +277,10 @@
                     android:id="@+id/linearLayoutSearchAdmin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="visible">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:padding="5dp"
-                        android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:text="FileNumber"
-                            android:textColor="#FFFFFF"
-                            android:textSize="13sp"
-                            android:textStyle="bold" />
-                        <EditText
-                            android:id="@+id/FileNumberSearch"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:cursorVisible="false"
-                            android:ems="10"
-                            android:focusable="false"
-                            android:inputType="textPersonName"
-                            android:textColor="#FFFFFF"
-                            app:backgroundTint="#FFFFFF" />
-
-                    </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
