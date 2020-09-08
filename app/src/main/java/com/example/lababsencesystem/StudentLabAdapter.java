@@ -85,6 +85,26 @@ public class StudentLabAdapter extends RecyclerView.Adapter<StudentLabAdapter.St
                 }
             });
         }
+        if (today.compareTo(labDate) == 0) {//today lab
+            holder.attended.setVisibility(View.GONE);
+            holder.missed.setVisibility(View.GONE);
+            holder.loadingAttendance.setVisibility(View.VISIBLE);
+            db.collection("labs").document(labs.get(i).getId()).collection("attendance").document(StudentMain.student.getFileNumber() + "").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            holder.loadingAttendance.setVisibility(View.GONE);
+                            holder.missed.setVisibility(View.GONE);
+                            holder.attended.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        Log.d("att", "get failed with ", task.getException());
+                    }
+                }
+            });
+        }
     }
 
     @Override
