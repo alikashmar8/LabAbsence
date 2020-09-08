@@ -237,6 +237,7 @@ public class AdminAssignCourseFragment extends Fragment {
                                 addCourseErrorTextView.setVisibility(View.VISIBLE);
                                 addCourseErrorTextView.setText("Course Already Exists!");
                                 return;
+
                             }
                             else{
                                     Course course=new Course(name,s,Integer.parseInt(credit),0);
