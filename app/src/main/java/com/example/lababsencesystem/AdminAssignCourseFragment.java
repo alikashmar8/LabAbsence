@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,6 +38,10 @@ public class AdminAssignCourseFragment extends Fragment {
     Button assignCourseSubmit;
     Spinner spinnerForDoctor,spinnerForCourse;
     LinearLayout assignLayout;
+
+    EditText addCourseCodeEditText,addCourseCreditsEditText,addCourseNameEditText,addCourseDoctorEditText;
+    TextView addCourseErrorTextView;
+    Button addCourseCodeSubmit;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -63,6 +68,13 @@ public class AdminAssignCourseFragment extends Fragment {
         spinnerForCourse=view.findViewById(R.id.spinnerForCourse);
         spinnerForDoctor=view.findViewById(R.id.spinnerForDoctor);
         assignLayout=view.findViewById(R.id.assignLayout);
+
+        addCourseCodeEditText=view.findViewById(R.id.addCourseCodeEditText);
+        addCourseCreditsEditText=view.findViewById(R.id.addCourseCreditsEditText);
+        addCourseNameEditText=view.findViewById(R.id.addCourseNameEditText);
+        addCourseCodeSubmit=view.findViewById(R.id.addCourseCodeSubmit);
+        addCourseDoctorEditText=view.findViewById(R.id.addCourseDoctorEditText);
+        addCourseErrorTextView=view.findViewById(R.id.addCourseErrorTextView);
 
         doctors.clear();
         courses.clear();
@@ -129,8 +141,6 @@ public class AdminAssignCourseFragment extends Fragment {
         });
 
 
-
-
         assignCourseSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,10 +168,78 @@ public class AdminAssignCourseFragment extends Fragment {
                             assignCourseSubmit.setEnabled(true);
                     }
                 });
-
-
             }
         });
+
+        addCourseErrorTextView.setVisibility(View.GONE);
+        addCourseCodeSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String name=addCourseNameEditText.getText().toString();
+                String code=addCourseCodeEditText.getText().toString();
+                String credit=addCourseCreditsEditText.getText().toString();
+                String dr=addCourseDoctorEditText.getText().toString();
+
+                int flag = 0;
+                if (code.equals("")) {
+                    addCourseCodeEditText.setError("Code is Required");
+                    flag = 1;
+                }
+                if (name.equals("")) {
+                    addCourseNameEditText.setError("Name is Required");
+                    flag = 1;
+                }
+                if (credit.equals("")) {
+                    addCourseCreditsEditText.setError("Credits is Required");
+                    flag = 1;
+                }
+                if (dr.equals("")) {
+                    addCourseDoctorEditText.setError("Doctor is Required");
+                    flag = 1;
+                }
+                if (flag == 1)
+                    return;
+                String s=code.toLowerCase();
+                db.collection("courses").document(s).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (task.getResult().exists()) {
+                             //   Toast.makeText(getActivity(),"Course Already Exists!",Toast.LENGTH_SHORT).show();
+                                addCourseErrorTextView.setVisibility(View.VISIBLE);
+                                addCourseErrorTextView.setText("Course Already Exists!");
+                            }
+                            else{
+                                db.collection("users").document("doctors").collection("data").document(dr+"").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            if (task.getResult().exists()) {
+                                                Course course=new Course(name,s,Integer.parseInt(credit),Integer.parseInt(dr));
+                                                db.collection("courses").document(s).set(course);
+                                                Toast.makeText(getActivity(),"Added",Toast.LENGTH_SHORT).show();
+                                                addCourseCreditsEditText.setText("");
+                                                addCourseCodeEditText.setText("");
+                                                addCourseDoctorEditText.setText("");
+                                                addCourseNameEditText.setText("");
+                                                addCourseErrorTextView.setVisibility(View.GONE);
+                                            }
+                                            else {
+                                               // Toast.makeText(getActivity(),"Doctor Doesn't Exists!",Toast.LENGTH_SHORT).show();
+                                                addCourseErrorTextView.setVisibility(View.VISIBLE);
+                                                addCourseErrorTextView.setText("Doctor Doesn't Exists!");
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
+            }
+        });
+
 
         return  view;
     }
