@@ -114,6 +114,7 @@ public class DoctorLabAdapter extends RecyclerView.Adapter<StudentLabAdapter.Stu
         Button labEdit;
         TextView attended;
         TextView missed;
+        Button labAttendance;
         ImageView labDelete;
 
         DoctorLabViewHolder(View itemView) {
