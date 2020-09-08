@@ -57,6 +57,13 @@ public class MainActivity extends AppCompatActivity {
         final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
         if (firebaseUser != null) {
+            if (firebaseUser.getEmail().equals("admin@admin.com")) {
+                Intent i = new Intent(getApplicationContext(), AdminMain.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                finish();
+                return;
+            }
             db.collection("users").document("doctors")
                     .collection("data")
                     .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -155,10 +162,42 @@ public class MainActivity extends AppCompatActivity {
 
                             } else {
                                 if (username.getText().toString().equals("admin") && password.getText().toString().equals("admin1")) {
-                                    Intent i = new Intent(MainActivity.this, AdminMain.class);
-                                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    startActivity(i);
-                                    finish();
+                                    firebaseAuth.signInWithEmailAndPassword("admin@admin.com", 666666 + "").addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                            if (task.isSuccessful()) {
+//
+                                                if (rememberMe.isChecked()) {
+                                                    editor.putBoolean("rememberMe", true);
+                                                    editor.putString("email", e);
+                                                    editor.putString("password", p);
+                                                    editor.commit();
+                                                } else {
+                                                    editor.putBoolean("rememberMe", false);
+                                                    editor.putString("email", "");
+                                                    editor.putString("password", "");
+                                                    editor.commit();
+                                                }
+                                                Intent i = new Intent(MainActivity.this, AdminMain.class);
+                                                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                startActivity(i);
+                                                finish();
+                                            }
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                                                spinner.setVisibility(View.GONE);
+                                                login.setVisibility(View.VISIBLE);
+                                                loginError.setText("Error Password Incorrect");
+                                                loginError.setVisibility(View.VISIBLE);
+                                            }
+
+                                        }
+                                    });
+
+
                                 }
                                 else {
 
