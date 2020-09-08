@@ -43,14 +43,20 @@ public class AdminAssignCourseFragment extends Fragment {
     TextView addCourseErrorTextView;
     Button addCourseCodeSubmit;
 
+    Button deleteCourseCodeSubmit;
+    Spinner spinnerForCourseDelete;
+
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     ArrayList<String> courses = new ArrayList<>();
     ArrayList<String> doctors = new ArrayList<>();
+    ArrayList<String> c = new ArrayList<>();
 
+    ArrayAdapter<String> adapter;
     ArrayAdapter<String> adapterCourse;
+    ArrayAdapter<String> adapterDelete;
 
-    String name="";
+    String nameD="";
     int idDr=0;
 
     public AdminAssignCourseFragment() {
@@ -73,11 +79,15 @@ public class AdminAssignCourseFragment extends Fragment {
         addCourseCreditsEditText=view.findViewById(R.id.addCourseCreditsEditText);
         addCourseNameEditText=view.findViewById(R.id.addCourseNameEditText);
         addCourseCodeSubmit=view.findViewById(R.id.addCourseCodeSubmit);
-        addCourseDoctorEditText=view.findViewById(R.id.addCourseDoctorEditText);
+       // addCourseDoctorEditText=view.findViewById(R.id.addCourseDoctorEditText);
         addCourseErrorTextView=view.findViewById(R.id.addCourseErrorTextView);
+
+        spinnerForCourseDelete=view.findViewById(R.id.spinnerForCourseDelete);
+        deleteCourseCodeSubmit=view.findViewById(R.id.deleteCourseCodeSubmit);
 
         doctors.clear();
         courses.clear();
+        c.clear();
 
         assignCourseSubmit.setEnabled(false);
 
@@ -89,7 +99,7 @@ public class AdminAssignCourseFragment extends Fragment {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         doctors.add(document.getString("name"));
                     }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_style,doctors);
+                    adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_style,doctors);
                     spinnerForDoctor.setAdapter(adapter);
                 }
             }
@@ -114,22 +124,36 @@ public class AdminAssignCourseFragment extends Fragment {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.isSuccessful()) {
-                                    if (task.getResult().exists()){
-                                        name = task.getResult().getString("name");
-                                        if (!name.equals(selectedItem) && !name.equals("")){
+                                    if (task.getResult().exists()) {
+                                        nameD = task.getResult().getString("name");
+                                        if (!nameD.equals(selectedItem) && !nameD.equals("")) {
                                             courses.add(document.getId());
                                         }
                                     }
-                                }
-                                adapterCourse = new ArrayAdapter<String>(getActivity(), R.layout.spinner_style,courses);
-                                spinnerForCourse.setAdapter(adapterCourse);
-                                if(courses.size()>0) {
-                                    assignCourseSubmit.setEnabled(true);
+                                    db.collection("courses").whereEqualTo("doctor", 0).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                if (task.getResult().size() > 0)
+                                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                                        if (!courses.contains(document.getId()))
+                                                            courses.add(document.getId());
+                                                        else
+                                                            break;
+                                                    }
+
+                                                adapterCourse = new ArrayAdapter<String>(getActivity(), R.layout.spinner_style, courses);
+                                                spinnerForCourse.setAdapter(adapterCourse);
+                                                if (courses.size() > 0) {
+                                                    assignCourseSubmit.setEnabled(true);
+                                                }
+                                            }
+                                        }
+                                    });
                                 }
                             }
                         });
                     }
-
                 }
             }
         });
@@ -164,6 +188,9 @@ public class AdminAssignCourseFragment extends Fragment {
                         Toast.makeText(getActivity(),"Added",Toast.LENGTH_SHORT).show();
                         adapterCourse.remove((String)spinnerForCourse.getSelectedItem());
                         adapterCourse.notifyDataSetChanged();
+
+
+
                         if (courses.size()>0)
                             assignCourseSubmit.setEnabled(true);
                     }
@@ -179,7 +206,7 @@ public class AdminAssignCourseFragment extends Fragment {
                 String name=addCourseNameEditText.getText().toString();
                 String code=addCourseCodeEditText.getText().toString();
                 String credit=addCourseCreditsEditText.getText().toString();
-                String dr=addCourseDoctorEditText.getText().toString();
+              //  String dr=addCourseDoctorEditText.getText().toString();
 
                 int flag = 0;
                 if (code.equals("")) {
@@ -194,10 +221,10 @@ public class AdminAssignCourseFragment extends Fragment {
                     addCourseCreditsEditText.setError("Credits is Required");
                     flag = 1;
                 }
-                if (dr.equals("")) {
-                    addCourseDoctorEditText.setError("Doctor is Required");
-                    flag = 1;
-                }
+            //    if (dr.equals("")) {
+           //         addCourseDoctorEditText.setError("Doctor is Required");
+           //         flag = 1;
+            //    }
                 if (flag == 1)
                     return;
                 String s=code.toLowerCase();
@@ -209,34 +236,57 @@ public class AdminAssignCourseFragment extends Fragment {
                              //   Toast.makeText(getActivity(),"Course Already Exists!",Toast.LENGTH_SHORT).show();
                                 addCourseErrorTextView.setVisibility(View.VISIBLE);
                                 addCourseErrorTextView.setText("Course Already Exists!");
+                                return;
                             }
                             else{
-                                db.collection("users").document("doctors").collection("data").document(dr+"").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            if (task.getResult().exists()) {
-                                                Course course=new Course(name,s,Integer.parseInt(credit),Integer.parseInt(dr));
-                                                db.collection("courses").document(s).set(course);
-                                                Toast.makeText(getActivity(),"Added",Toast.LENGTH_SHORT).show();
-                                                addCourseCreditsEditText.setText("");
-                                                addCourseCodeEditText.setText("");
-                                                addCourseDoctorEditText.setText("");
-                                                addCourseNameEditText.setText("");
-                                                addCourseErrorTextView.setVisibility(View.GONE);
-                                            }
-                                            else {
-                                               // Toast.makeText(getActivity(),"Doctor Doesn't Exists!",Toast.LENGTH_SHORT).show();
-                                                addCourseErrorTextView.setVisibility(View.VISIBLE);
-                                                addCourseErrorTextView.setText("Doctor Doesn't Exists!");
-                                            }
-                                        }
-                                    }
-                                });
-                            }
+                                    Course course=new Course(name,s,Integer.parseInt(credit),0);
+                                    db.collection("courses").document(s).set(course);
+                                    Toast.makeText(getActivity(),"Added",Toast.LENGTH_SHORT).show();
+                                    addCourseCreditsEditText.setText("");
+                                    addCourseCodeEditText.setText("");
+                                    addCourseNameEditText.setText("");
+                                    addCourseErrorTextView.setVisibility(View.GONE);
+
+                                    adapterDelete.add(s);
+                                    adapterDelete.notifyDataSetChanged();
+
+                                    adapterCourse.add(s);
+                                    adapterCourse.notifyDataSetChanged();
+
+                                }
                         }
                     }
                 });
+            }
+        });
+
+        db.collection("courses").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    c.clear();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        c.add(document.getId());
+                    }
+                    adapterDelete = new ArrayAdapter<String>(getActivity(), R.layout.spinner_style,c);
+                    spinnerForCourseDelete.setAdapter(adapterDelete);
+                }
+            }
+        });
+
+        deleteCourseCodeSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String selectedItem = spinnerForCourseDelete.getSelectedItem().toString();
+                if (!selectedItem.equals("")){
+                    db.collection("courses").document(selectedItem).delete();
+                    Toast.makeText(getActivity(),"Deleted",Toast.LENGTH_SHORT).show();
+                    adapterDelete.remove(selectedItem);
+                    adapterDelete.notifyDataSetChanged();
+
+                    adapterCourse.remove(selectedItem);
+                    adapterCourse.notifyDataSetChanged();
+                }
             }
         });
 
