@@ -40,6 +40,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.Cell;
@@ -81,6 +83,8 @@ public class AdminAddDeleteFragment extends Fragment {
     ProgressBar prbarAdmin;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     ArrayList<String> coursesCodeAdmin = new ArrayList<>();
+    int exists=0;
+
 
     Intent myFileIntent;
     private String fileNumber = "";
@@ -271,7 +275,7 @@ public class AdminAddDeleteFragment extends Fragment {
         addManualSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                exists=0;
                 String name = nameAddEditText.getText().toString();
                 String fileNb = FileNumberAddEditText.getText().toString();
                 String email = emailAddEditText.getText().toString();
@@ -297,18 +301,50 @@ public class AdminAddDeleteFragment extends Fragment {
                 if (flag == 1)
                     return;
 
-                //      Log.d("asssa",name+" ,"+email+" ,"+fileNb+" , "+text);
-                if (text.equals("student")) {
-                    Log.d("asssa", name + " ," + email + " ," + fileNb + " , " + text);
-                    Student st = new Student(name, email, fileNb, "666666", Integer.parseInt(fileNb), text);
-                    db.collection("users").document("students").collection("data").document(fileNb).set(st);
-                } else {
-                    //          Log.d("asssa",name+" ,"+email+" ,"+fileNb+" , "+text);
-                    Doctor st = new Doctor(name, email, fileNb, "666666", Integer.parseInt(fileNb), text);
-                    db.collection("users").document("doctors").collection("data").document(fileNb).set(st);
-                }
-                Toast.makeText(getActivity(), "Added", Toast.LENGTH_SHORT).show();
-                linearLayoutAddManualAdmin.setVisibility(View.GONE);
+                db.collection("users").document("students").collection("data").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()  {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if (fileNb.equals(document.getId())) {
+                                    exists = 1;
+                                    Toast.makeText(getActivity(), "FileNumber Exists", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                            }
+                                db.collection("users").document("doctors").collection("data").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            if (exists == 0) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    if (fileNb.equals(document.getId())) {
+                                                        exists = 1;
+                                                        Toast.makeText(getActivity(), "FileNumber Exists", Toast.LENGTH_SHORT).show();
+                                                        return;
+                                                    }
+                                                }
+                                                if(exists==0) {
+                                                    //      Log.d("asssa",name+" ,"+email+" ,"+fileNb+" , "+text);
+                                                    if (text.equals("student")) {
+                                                        //   Log.d("asssa", name + " ," + email + " ," + fileNb + " , " + text);
+                                                        Student st = new Student(name, email, fileNb, "666666", Integer.parseInt(fileNb), text);
+                                                        db.collection("users").document("students").collection("data").document(fileNb).set(st);
+                                                    } else {
+                                                        //          Log.d("asssa",name+" ,"+email+" ,"+fileNb+" , "+text);
+                                                        Doctor st = new Doctor(name, email, fileNb, "666666", Integer.parseInt(fileNb), text);
+                                                        db.collection("users").document("doctors").collection("data").document(fileNb).set(st);
+                                                    }
+                                                    Toast.makeText(getActivity(), "Added", Toast.LENGTH_SHORT).show();
+                                                    linearLayoutAddManualAdmin.setVisibility(View.GONE);
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+                        }
+                    }
+                });
 
             }
         });
