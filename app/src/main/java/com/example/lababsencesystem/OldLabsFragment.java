@@ -119,6 +119,8 @@ public class OldLabsFragment extends Fragment {
                             for (DocumentSnapshot document : task.getResult()) {
                                 Lab lab = document.toObject(Lab.class);
                                 lab.setId(document.getId());
+                                Log.d("labadapterrr", lab.getId() + "\n");
+
                                 Date labDate = null;
                                 try {
                                     labDate = sdf.parse(lab.getDate());

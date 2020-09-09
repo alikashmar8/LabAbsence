@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -125,6 +126,8 @@ public class UpcomingLabsFragment extends Fragment {
                             for (DocumentSnapshot document : task.getResult()) {
                                 Lab lab = document.toObject(Lab.class);
                                 lab.setId(document.getId());
+                                Log.d("labadapterrr", lab.getId() + "\n");
+
                                 Date labDate = null;
                                 try {
                                     labDate = sdf.parse(lab.getDate());

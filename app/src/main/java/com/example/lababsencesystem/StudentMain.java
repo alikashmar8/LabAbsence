@@ -129,7 +129,7 @@ public class StudentMain extends AppCompatActivity implements NavigationView.OnN
 //                        if (doc.get("fileNumber").toString().equals(student.getFileNumber())) {
                         courses.add(course);
                         coursesCode.add(course.getCode());
-                        StudentHomeFragment.a.notifyDataSetChanged();
+//                        StudentHomeFragment.a.notifyDataSetChanged();
 //                        }
 //                    }
                     }

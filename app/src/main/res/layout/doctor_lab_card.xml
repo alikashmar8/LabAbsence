@@ -74,14 +74,14 @@
                 android:text="Details"
                 android:textColor="#FFFFFF" />
 
-            <Button
-                android:id="@+id/doctorLabAttendance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/custom_button_4"
-                android:padding="3dp"
-                android:text="Attendance"
-                android:textColor="#ffffff" />
+            <!--            <Button-->
+            <!--                android:id="@+id/doctorLabAttendanceButton"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:background="@drawable/custom_button_4"-->
+            <!--                android:padding="3dp"-->
+            <!--                android:text="Attendance"-->
+            <!--                android:textColor="#ffffff" />-->
 
         </LinearLayout>
 

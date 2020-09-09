@@ -30,7 +30,6 @@ import java.util.Date;
  */
 public class StudentHomeFragment extends Fragment {
     static ArrayList<Lab> labs = new ArrayList<>();
-    static RecyclerView.Adapter a = new StudentLabAdapter(labs);
     Student student = StudentMain.student;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     ArrayList<String> coursesCode = StudentMain.coursesCode;
@@ -55,6 +54,7 @@ public class StudentHomeFragment extends Fragment {
         RecyclerView.LayoutManager lm = new LinearLayoutManager(getContext());
         rv.setLayoutManager(lm);
 
+
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String todayDate = sdf.format(new Date());
 //        helloDr.setText(todayDate);
@@ -68,9 +68,13 @@ public class StudentHomeFragment extends Fragment {
                     for (DocumentSnapshot document : task.getResult()) {
                         if (coursesCode.contains(document.get("course").toString())) {
                             Lab lab = document.toObject(Lab.class);
+                            lab.setId(document.getId());
                             labs.add(lab);
+
                         }
                     }
+                    RecyclerView.Adapter a = new StudentLabAdapter(labs);
+
                     a.notifyDataSetChanged();
                     DividerItemDecoration dividerItemDecoration=new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL);
                     dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.recycler_view_divider));

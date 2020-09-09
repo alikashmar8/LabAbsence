@@ -114,7 +114,7 @@ public class DoctorLabAdapter extends RecyclerView.Adapter<StudentLabAdapter.Stu
         Button labEdit;
         TextView attended;
         TextView missed;
-        Button labAttendance;
+        //        Button labAttendance;
         ImageView labDelete;
 
         DoctorLabViewHolder(View itemView) {
@@ -126,6 +126,7 @@ public class DoctorLabAdapter extends RecyclerView.Adapter<StudentLabAdapter.Stu
             attended = itemView.findViewById(R.id.labAttended);
             missed = itemView.findViewById(R.id.labMissed);
             labDelete = itemView.findViewById(R.id.deleteLab);
+//            labAttendance = itemView.findViewById(R.id.doctorLabAttendanceButton);
 
 
 
