@@ -46,7 +46,7 @@ public class StudentLabAdapter extends RecyclerView.Adapter<StudentLabAdapter.St
         holder.labTime.setText("Time: " + labs.get(i).getTime());
         holder.labEdit.setVisibility(View.GONE);
         holder.labDelete.setVisibility(View.GONE);
-//        holder.labAttendance.setVisibility(View.GONE);
+        holder.labAttendance.setVisibility(View.GONE);
 
         final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String todayDate = sdf.format(new Date());
@@ -98,26 +98,6 @@ public class StudentLabAdapter extends RecyclerView.Adapter<StudentLabAdapter.St
                 }
             });
         }
-//        if (today.compareTo(labDate) == 0) {//today lab
-//            holder.attended.setVisibility(View.GONE);
-//            holder.missed.setVisibility(View.GONE);
-//            holder.loadingAttendance.setVisibility(View.VISIBLE);
-//            db.collection("labs").document(labs.get(i).getId()).collection("attendance").document(StudentMain.student.getFileNumber() + "").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                @Override
-//                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                    if (task.isSuccessful()) {
-//                        DocumentSnapshot document = task.getResult();
-//                        if (document.exists()) {
-//                            holder.loadingAttendance.setVisibility(View.GONE);
-//                            holder.missed.setVisibility(View.GONE);
-//                            holder.attended.setVisibility(View.VISIBLE);
-//                        }
-//                    } else {
-//                        Log.d("att", "get failed with ", task.getException());
-//                    }
-//                }
-//            });
-//        }
     }
 
     @Override
@@ -135,7 +115,7 @@ public class StudentLabAdapter extends RecyclerView.Adapter<StudentLabAdapter.St
         TextView missed;
         TextView loadingAttendance;
         ImageView labDelete;
-//        Button labAttendance;
+        Button labAttendance;
 
 
         StudentLabViewHolder(View itemView) {
@@ -148,7 +128,7 @@ public class StudentLabAdapter extends RecyclerView.Adapter<StudentLabAdapter.St
             missed = itemView.findViewById(R.id.labMissed);
             loadingAttendance = itemView.findViewById(R.id.loadingAttendance);
             labDelete = itemView.findViewById(R.id.deleteLab);
-//            labDelete = itemView.findViewById(R.id.doctorLabAttendanceButton);
+            labAttendance = itemView.findViewById(R.id.doctorLabAttendanceButton);
 
 
         }

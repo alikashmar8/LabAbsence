@@ -21,11 +21,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static android.widget.LinearLayout.HORIZONTAL;
 
-public class DoctorLabAdapter extends RecyclerView.Adapter<StudentLabAdapter.StudentLabViewHolder> {
+public class DoctorLabAdapter extends RecyclerView.Adapter<DoctorLabAdapter.DoctorLabViewHolder> {
     ArrayList<Lab> labs;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     Context context;
@@ -37,15 +40,15 @@ public class DoctorLabAdapter extends RecyclerView.Adapter<StudentLabAdapter.Stu
 
     @NonNull
     @Override
-    public StudentLabAdapter.StudentLabViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+    public DoctorLabViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.doctor_lab_card, viewGroup, false);
-        StudentLabAdapter.StudentLabViewHolder dcvh = new StudentLabAdapter.StudentLabViewHolder(v);
+        DoctorLabViewHolder dcvh = new DoctorLabViewHolder(v);
         context = viewGroup.getContext();
         return dcvh;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final StudentLabAdapter.StudentLabViewHolder holder, final int i) {
+    public void onBindViewHolder(@NonNull final DoctorLabViewHolder holder, final int i) {
         holder.labCourse.setText("Course: "+ labs.get(i).getCourse());
 //        holder.labDoctor.setText("Title: "+ labs.get(i).doctor);
         holder.labDate.setText("Date: "+ labs.get(i).date.toString());
@@ -99,6 +102,34 @@ public class DoctorLabAdapter extends RecyclerView.Adapter<StudentLabAdapter.Stu
             }
         });
 
+        final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String todayDate = sdf.format(new Date());
+        Date today = null;
+        try {
+            today = sdf.parse(todayDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Date labDate = null;
+        try {
+            labDate = sdf.parse(labs.get(i).getDate());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if (today.compareTo(labDate) < 0) { // upcoming labs
+            holder.labAttendance.setVisibility(View.GONE);
+        }
+
+        holder.labAttendance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(holder.itemView.getContext(), LabAttendance.class);
+                intent.putExtra("lab", labs.get(i));
+                holder.itemView.getContext().startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -114,7 +145,7 @@ public class DoctorLabAdapter extends RecyclerView.Adapter<StudentLabAdapter.Stu
         Button labEdit;
         TextView attended;
         TextView missed;
-        //        Button labAttendance;
+        Button labAttendance;
         ImageView labDelete;
 
         DoctorLabViewHolder(View itemView) {
@@ -126,7 +157,7 @@ public class DoctorLabAdapter extends RecyclerView.Adapter<StudentLabAdapter.Stu
             attended = itemView.findViewById(R.id.labAttended);
             missed = itemView.findViewById(R.id.labMissed);
             labDelete = itemView.findViewById(R.id.deleteLab);
-//            labAttendance = itemView.findViewById(R.id.doctorLabAttendanceButton);
+            labAttendance = itemView.findViewById(R.id.doctorLabAttendanceButton);
 
 
 

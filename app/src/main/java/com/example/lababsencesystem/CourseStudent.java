@@ -30,9 +30,6 @@ public class CourseStudent {
 
     @Override
     public String toString() {
-        return "CourseStudent{" +
-                "name='" + name + '\'' +
-                ", fileNumber=" + fileNumber +
-                '}';
+        return fileNumber + " - " + name;
     }
 }
