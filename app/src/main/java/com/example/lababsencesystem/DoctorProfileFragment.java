@@ -114,7 +114,7 @@ public class DoctorProfileFragment extends Fragment {
                             if (task.isSuccessful()) {
                                 edit();
                             } else {
-                                Toast.makeText(getActivity(), "Error updating profile !", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), "Email Already Exists !", Toast.LENGTH_LONG).show();
                             }
                         }
                     });

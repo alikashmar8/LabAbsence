@@ -12,8 +12,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -106,10 +109,16 @@ public class StudentProfileFragment extends Fragment {
                     StudentMain.student.setEmail(em.getText().toString());
                     StudentMain.student.setName(nm.getText().toString());
                     //            StudentMain.student.setUsername(un.getText().toString());
-                    firebaseUser.updateEmail(em.getText().toString());
-
-                    edit();
-                    refresh();
+                    firebaseUser.updateEmail(em.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                edit();
+                            } else {
+                                Toast.makeText(getContext(), "Email Already Exists !", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
                 }
 
             }
@@ -198,6 +207,7 @@ public class StudentProfileFragment extends Fragment {
                 "name", nm.getText().toString(),
                 "email", em.getText().toString()
         );
+        refresh();
     }
 
     void change() {

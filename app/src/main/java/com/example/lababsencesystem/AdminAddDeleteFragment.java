@@ -2,7 +2,6 @@ package com.example.lababsencesystem;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.MediaRouteButton;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -36,8 +35,10 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.chip.Chip;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -58,10 +59,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.Queue;
 
-import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 import static com.google.zxing.integration.android.IntentIntegrator.REQUEST_CODE;
 
@@ -77,13 +75,15 @@ public class AdminAddDeleteFragment extends Fragment {
     Spinner courseSpinnerAdmin;
 
     EditText enterIdAdmin, NameSearch, typeSearch;
-    Button searchAdmin, cancelSearch, submitSearch, chooseExcel;
+    Button searchAdmin, cancelSearch, submitSearch, chooseExcel, submitExcel;
     LinearLayout linearLayoutSearchAdmin;
     TextView erorrAdmin;
     ProgressBar prbarAdmin;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseAuth firebaseAuth;
+
     ArrayList<String> coursesCodeAdmin = new ArrayList<>();
-    int exists=0;
+    int exists = 0;
 
 
     Intent myFileIntent;
@@ -172,10 +172,6 @@ public class AdminAddDeleteFragment extends Fragment {
         return null;
     }
 
-    public boolean isValidEmail(CharSequence target) {
-        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
-    }
-
     public static String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
 
         Cursor cursor = null;
@@ -213,6 +209,10 @@ public class AdminAddDeleteFragment extends Fragment {
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
     }
 
+    public boolean isValidEmail(CharSequence target) {
+        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -229,7 +229,7 @@ public class AdminAddDeleteFragment extends Fragment {
         nameAddEditText = view.findViewById(R.id.nameAdd);
         loadingExcel = view.findViewById(R.id.excelLoading);
         excelResult = view.findViewById(R.id.excelTextResult);
-
+        submitExcel = view.findViewById(R.id.submitAdminExcel);
         typeSearch = view.findViewById(R.id.typeSearch);
         NameSearch = view.findViewById(R.id.NameSearch);
         enterIdAdmin = view.findViewById(R.id.enterIdAdmin);
@@ -251,6 +251,8 @@ public class AdminAddDeleteFragment extends Fragment {
         coursesCodeAdmin.clear();
         coursesCodeAdmin.add("student");
         coursesCodeAdmin.add("doctor");
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_style, coursesCodeAdmin);
         courseSpinnerAdmin.setAdapter(adapter);
@@ -275,7 +277,7 @@ public class AdminAddDeleteFragment extends Fragment {
         addManualSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                exists=0;
+                exists = 0;
                 String name = nameAddEditText.getText().toString();
                 String fileNb = FileNumberAddEditText.getText().toString();
                 String email = emailAddEditText.getText().toString();
@@ -301,39 +303,81 @@ public class AdminAddDeleteFragment extends Fragment {
                 if (flag == 1)
                     return;
 
-                db.collection("users").document("students").collection("data").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()  {
+                //check if file number already exists in students
+                db.collection("users").document("students").collection("data").document(fileNb).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                if (fileNb.equals(document.getId())) {
-                                    exists = 1;
-                                    Toast.makeText(getActivity(), "FileNumber Exists", Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.getResult().exists()) {
+                            exists = 1;
+                            Toast.makeText(getActivity(), "FileNumber Exists", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                });
+
+                //check if file number already exists in doctors
+                if (exists != 1) {
+                    db.collection("users").document("doctors").collection("data").document(fileNb).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.getResult().exists()) {
+                                exists = 1;
+                                Toast.makeText(getActivity(), "FileNumber Exists", Toast.LENGTH_SHORT).show();
+                                return;
                             }
+                        }
+                    });
+                }
+
+                //check if email already exists
+                if (exists != 1) {
+                    db.collection("users").document("students").collection("data").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Student student = document.toObject(Student.class);
+                                    if (email.equals(student.getEmail())) {
+                                        exists = 1;
+                                        Toast.makeText(getActivity(), "Email Already Exists", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+                                }
                                 db.collection("users").document("doctors").collection("data").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                         if (task.isSuccessful()) {
                                             if (exists == 0) {
                                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                                    if (fileNb.equals(document.getId())) {
+                                                    Doctor doctor = document.toObject(Doctor.class);
+                                                    if (email.equals(doctor.getEmail())) {
                                                         exists = 1;
-                                                        Toast.makeText(getActivity(), "FileNumber Exists", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(getActivity(), "Email Already Exists", Toast.LENGTH_SHORT).show();
                                                         return;
                                                     }
                                                 }
-                                                if(exists==0) {
+                                                if (exists == 0) {
                                                     //      Log.d("asssa",name+" ,"+email+" ,"+fileNb+" , "+text);
                                                     if (text.equals("student")) {
                                                         //   Log.d("asssa", name + " ," + email + " ," + fileNb + " , " + text);
-                                                        Student st = new Student(name, email, fileNb, "666666", Integer.parseInt(fileNb), text);
-                                                        db.collection("users").document("students").collection("data").document(fileNb).set(st);
+                                                        firebaseAuth.createUserWithEmailAndPassword(email, "666666").addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                                                Student st = new Student(name, email, fileNb, "666666", Integer.parseInt(fileNb), text);
+                                                                db.collection("users").document("students").collection("data").document(fileNb).set(st);
+                                                            }
+                                                        });
+
                                                     } else {
                                                         //          Log.d("asssa",name+" ,"+email+" ,"+fileNb+" , "+text);
-                                                        Doctor st = new Doctor(name, email, fileNb, "666666", Integer.parseInt(fileNb), text);
-                                                        db.collection("users").document("doctors").collection("data").document(fileNb).set(st);
+                                                        firebaseAuth.createUserWithEmailAndPassword(email, "666666").addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                                                Doctor st = new Doctor(name, email, fileNb, "666666", Integer.parseInt(fileNb), text);
+                                                                db.collection("users").document("doctors").collection("data").document(fileNb).set(st);
+                                                            }
+                                                        });
+
                                                     }
                                                     Toast.makeText(getActivity(), "Added", Toast.LENGTH_SHORT).show();
                                                     linearLayoutAddManualAdmin.setVisibility(View.GONE);
@@ -342,9 +386,11 @@ public class AdminAddDeleteFragment extends Fragment {
                                         }
                                     }
                                 });
+                            }
                         }
-                    }
-                });
+                    });
+                }
+
 
             }
         });
@@ -434,6 +480,43 @@ public class AdminAddDeleteFragment extends Fragment {
                 }
             }
         });
+
+        submitExcel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseExcel.setVisibility(View.GONE);
+//                excelResult.setText(" Students to add = " + notRegisteredStudents.size() + "\n Students already exists = " + registeredStudents.size() + "\n If you would like to proceed please submit");
+                excelResult.setVisibility(View.GONE);
+                submitExcel.setVisibility(View.GONE);
+                loadingExcel.setVisibility(View.VISIBLE);
+                ArrayList<Student> studentsToAdd = new ArrayList<>();
+                ArrayList<Student> unAddableStudents = new ArrayList<>();
+                for (int i = 0; i < notRegisteredStudents.size(); i++) {
+                    int finalI = i;
+                    int finalI1 = i;
+                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(notRegisteredStudents.get(i).getEmail(), "666666").addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            db.collection("users").document("students").collection("data").document(notRegisteredStudents.get(finalI).getFileNumber() + "").set(notRegisteredStudents.get(finalI));
+                            if (finalI1 == notRegisteredStudents.size() - 1) {
+                                loadingExcel.setVisibility(View.GONE);
+                                chooseExcel.setVisibility(View.VISIBLE);
+                                excelResult.setText("Added !");
+                                excelResult.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            if (finalI1 == notRegisteredStudents.size() - 1) {
+                                loadingExcel.setVisibility(View.GONE);
+                                chooseExcel.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
+                }
+            }
+        });
         return view;
     }
 
@@ -462,7 +545,6 @@ public class AdminAddDeleteFragment extends Fragment {
 
                         File inputFile = new File(path);
 
-
                         if (ContextCompat.checkSelfPermission(getActivity(),
                                 Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
@@ -479,7 +561,7 @@ public class AdminAddDeleteFragment extends Fragment {
                                     Row row = sheet.getRow(r);
                                     int columnsCount = row.getPhysicalNumberOfCells();
                                     //inner loop, loops through columns
-                                    if (columnsCount > 3) {
+                                    if (columnsCount != 3) {
                                         Toast.makeText(getActivity(), "invalid format", Toast.LENGTH_SHORT).show();
                                         flag = 1;
                                         break;
@@ -498,7 +580,9 @@ public class AdminAddDeleteFragment extends Fragment {
 
                                         int fn = (int) Double.parseDouble(fileNumber);
 
-                                        Student cs = new Student(name, email, fileNumber, 666666 + "", fn, "student");
+                                        Log.d("excelll", "file number = " + fileNumber);
+                                        Log.d("excelll", "fn = " + fn);
+                                        Student cs = new Student(name, email, fn + "", 666666 + "", fn, "student");
                                         excelStudents.add(cs);
 
                                     }
@@ -532,10 +616,12 @@ public class AdminAddDeleteFragment extends Fragment {
 //        }
     }
 
+
     private void AddStudents(int i) {
         Log.d("excel", "add students reached");
         if (excelStudents.size() > 0) {
             final int finalI = i;
+            int finalI1 = i;
             db.collection("users").document("students").collection("data").document(excelStudents.get(i).getFileNumber() + "").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -543,14 +629,28 @@ public class AdminAddDeleteFragment extends Fragment {
                         if (task.getResult().exists()) {
                             //student is found in db
                             //error already registered
-                            registeredStudents.add(excelStudents.get(i));
-                            excelStudents.remove(i);
-                            AddStudents(i);
+                            registeredStudents.add(excelStudents.get(finalI1));
+                            excelStudents.remove(finalI1);
+                            AddStudents(finalI1);
                         } else {
                             //student not registered in db
-                            notRegisteredStudents.add(excelStudents.get(finalI));
-                            excelStudents.remove(finalI);
-                            AddStudents(i);
+                            //check if email found
+                            db.collection("users").document("students").collection("data").whereEqualTo("email", excelStudents.get(i).getEmail()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    //no same email found
+                                    if (task.getResult().isEmpty()) {
+                                        notRegisteredStudents.add(excelStudents.get(finalI));
+                                        excelStudents.remove(finalI);
+                                        AddStudents(finalI1);
+                                    } else { //same email found
+                                        registeredStudents.add(excelStudents.get(finalI1));
+                                        excelStudents.remove(finalI1);
+                                        AddStudents(finalI1);
+                                    }
+                                }
+                            });
+
 
                         }
                     }
@@ -558,12 +658,26 @@ public class AdminAddDeleteFragment extends Fragment {
             });
 
         } else {
+//                db.collection("users").document("data").collection("students").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        for(DocumentSnapshot document : task.getResult()){
+//                            Student student = document.toObject(Student.class);
+//                            for(int x = 0; x< notRegisteredStudents.size(); x++){
+//                                if(notRegisteredStudents.get(x).getFileNumber() == student.getFileNumber() || notRegisteredStudents.get(x).getEmail().equals(student.getEmail())){
+//                                    registeredStudents.add(notRegisteredStudents.get(x));
+//                                    notRegisteredStudents.remove(x);
+//                                    break;
+//                                }
+//                            }
+//                        }
             loadingExcel.setVisibility(View.GONE);
             chooseExcel.setVisibility(View.VISIBLE);
             excelResult.setText(" Students to add = " + notRegisteredStudents.size() + "\n Students already exists = " + registeredStudents.size() + "\n If you would like to proceed please submit");
             excelResult.setVisibility(View.VISIBLE);
-//            submit.setVisibility(View.VISIBLE);
-
+            submitExcel.setVisibility(View.VISIBLE);
+//                    }
+//                });
         }
     }
 

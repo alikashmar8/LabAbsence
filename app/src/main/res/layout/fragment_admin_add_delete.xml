@@ -51,11 +51,24 @@
                     android:textSize="14sp"
                     android:visibility="visible" />
 
+                <Button
+                    android:id="@+id/submitAdminExcel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/custom_button"
+                    android:text="Submit"
+                    android:textColor="#FFFFFF"
+                    android:visibility="gone" />
+
+
                 <TextView
                     android:id="@+id/excelTextResult"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="7dp"
+                    android:textColor="#ffffff"
                     android:visibility="gone" />
 
                 <ProgressBar
